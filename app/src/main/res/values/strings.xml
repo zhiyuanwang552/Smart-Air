@@ -9,9 +9,13 @@
     <string name="scroller">Scroller</string>
     <string name="spinner">Spinner</string>
     <string name="manage_items">Manage Items</string>
-    <string name="enter_email">Enter Email</string>
-    <string name="enter_password">Enter Password</string>
+    <string name="enter_email">Email</string>
+    <string name="enter_password">Password</string>
     <string name="login">Login</string>
+    <string name="child_sign_in">Child Sign In</string>
+    <string name="parent_sign_in">Parent Sign In</string>
+    <string name="child_sign_up">Child Sign Up</string>
+    <string name="parent_sign_up">Parent Sign Up</string>
 
     <string-array name="categories_array">
         <item>Books</item>
