@@ -4,16 +4,60 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="delete_item">Delete Item</string>
     <string name="add_item">Add Item</string>
-    <string name="back">Back</string>
     <string name="recyclerview">RecyclerView</string>
     <string name="scroller">Scroller</string>
     <string name="spinner">Spinner</string>
     <string name="manage_items">Manage Items</string>
+    <string name="add_child">Add Child</string>
+    <string name="remove_child">Remove Child</string>
 
     <string-array name="categories_array">
         <item>Books</item>
         <item>Movies</item>
     </string-array>
 
+    <!-- For activity_manage_providers -->
+    <string name="manage_invite_codes">Manage Invite Codes</string>
+
+    <!-- For fragment_provider -->
+    <string name="manage_permissions">Manage Permissions</string>
+
+    <!-- For fragment_manage_invite_codes -->
+    <string name="generate_invite">Generate New Invite Code</string>
+
+    <!-- For fragment_invite_code -->
+    <string name="invite_link">Invite Link/Code</string>
+    <string name="copy">Copy to Clipboard</string>
+    <string name="revoke">Revoke</string>
+
+    <!-- For activity_provider_permissions.xml -->
+    <string name="provider_permissions">Provider Permissions</string>
+    <string name="rescue_logs">Rescue logs</string>
+    <string name="controller_adherence">Controller adherence</string>
+    <string name="symptoms">Symptoms</string>
+    <string name="triggers">Triggers</string>
+    <string name="peak_flow">Peak-flow (PEF)</string>
+    <string name="triage_incidents">Triage incidents</string>
+    <string name="summary_charts">Summary charts</string>
+
+    <!-- For fragment_provider_permissions -->
+    <string name="delete_provider">Delete Provider</string>
+
+    <!-- For fragment_manage_schedule -->
+    <string name="manage_medicine_schedule">Manage Medicine Schedule</string>
+    <string name="manage_schedule">Manage Schedule</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+
+    <!-- General buttons -->
+    <string name="next">Next</string>
+    <string name="save">Save</string>
+    <string name="returnK">Return</string>
+    <string name="back">Back</string>
 
 </resources>
