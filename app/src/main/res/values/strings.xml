@@ -9,6 +9,11 @@
     <string name="scroller">Scroller</string>
     <string name="spinner">Spinner</string>
     <string name="manage_items">Manage Items</string>
+    <string name="medical_record_title">Medical Log</string>
+    <string name="medicine_inventory_title">Inventory</string>
+    <string name="technical_support_title">Tech Help</string>
+    <string name="profile_title">Profile</string>
+    <string name="dashboard_title">Dashboard</string>
 
     <string-array name="categories_array">
         <item>Books</item>

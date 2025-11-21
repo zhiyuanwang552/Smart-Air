@@ -16,9 +16,6 @@
             android:name=".MedicalLogActivity"
             android:exported="false" />
         <activity
-            android:name=".R3MenuFragment"
-            android:exported="false" />
-        <activity
             android:name=".ItemAdapater"
             android:exported="false" />
         <activity
