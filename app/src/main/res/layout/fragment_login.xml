@@ -6,91 +6,62 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:contentDescription="@null"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/login_bg" />
-
-    <ImageView
         android:id="@+id/imageView3"
         android:layout_width="45dp"
         android:layout_height="34dp"
         android:contentDescription="@null"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextTextPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.202"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editTextTextPassword"
+        app:layout_constraintBottom_toBottomOf="@+id/LoginPassword"
+        app:layout_constraintStart_toStartOf="@+id/LoginPassword"
+        app:layout_constraintTop_toBottomOf="@+id/LoginEmailAddress"
         app:layout_constraintVertical_bias="0.476"
         app:srcCompat="@drawable/login_password_icon" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress2"
+        android:id="@+id/LoginEmailAddress"
         android:layout_width="268dp"
         android:layout_height="55dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/enter_email"
         android:inputType="textEmailAddress"
         android:paddingStart="50dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.436" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="181dp"
-        android:layout_height="181dp"
-        android:contentDescription="@null"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/smart_air_logo" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/LoginPassword"
         android:layout_width="268dp"
         android:layout_height="55dp"
-        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="@string/enter_password"
         android:inputType="textPassword"
         android:paddingStart="50dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress2" />
+        app:layout_constraintTop_toBottomOf="@+id/LoginEmailAddress" />
 
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="45dp"
         android:layout_height="34dp"
         android:contentDescription="@null"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextTextEmailAddress2"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintHorizontal_bias="0.202"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/editTextTextEmailAddress2"
-        app:layout_constraintVertical_bias="0.523"
+        app:layout_constraintBottom_toBottomOf="@+id/LoginEmailAddress"
+        app:layout_constraintStart_toStartOf="@+id/LoginEmailAddress"
+        app:layout_constraintTop_toTopOf="@+id/LoginEmailAddress"
         app:srcCompat="@drawable/email_login_icon" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/LoginButton"
         android:layout_width="271dp"
         android:layout_height="39dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@null"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword"
+        app:layout_constraintTop_toBottomOf="@+id/LoginPassword"
         app:srcCompat="@drawable/login_icon" />
 
     <RadioGroup
@@ -100,7 +71,7 @@
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.265"
+        app:layout_constraintHorizontal_bias="0.277"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageButton3">
 
@@ -116,8 +87,14 @@
             android:id="@+id/radioButton2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@string/parent_sign_in"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/provider_sign_in"
             android:textSize="18sp" />
 
     </RadioGroup>
@@ -126,20 +103,34 @@
         android:id="@+id/imageView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextEmailAddress2"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.311"
         app:srcCompat="@drawable/sign_in_logo" />
+
+    <ImageButton
+        android:id="@+id/SignUpButton"
+        android:layout_width="271dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="12dp"
+        android:contentDescription="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LoginButton"
+        app:srcCompat="@drawable/sign_up_icon" />
 
     <ImageButton
         android:id="@+id/imageButton3"
         android:layout_width="271dp"
         android:layout_height="39dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton"
-        app:srcCompat="@drawable/sign_up_icon" />
+        app:layout_constraintTop_toBottomOf="@+id/SignUpButton"
+        app:srcCompat="@drawable/password_recover_icon" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
