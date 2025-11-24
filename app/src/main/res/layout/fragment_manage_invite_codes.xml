@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/returnButton"
         android:layout_width="110dp"
         android:layout_height="48dp"
         android:layout_marginStart="40dp"
@@ -30,7 +30,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/generateInviteButton"
         android:layout_width="200dp"
         android:layout_height="48dp"
         android:layout_marginEnd="40dp"
