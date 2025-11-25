@@ -12,17 +12,17 @@
         android:title="@string/medical_record_title" />
 
     <item
-        android:id="@+id/medicine_inventory"
+        android:id="@+id/navigation_medicine_inventory"
         android:icon="@drawable/outline_box_24"
         android:title="@string/medicine_inventory_title" />
 
     <item
-        android:id="@+id/technical_guide"
+        android:id="@+id/navigation_technical_guide"
         android:icon="@drawable/outline_cast_for_education_24"
         android:title="@string/technical_support_title" />
 
     <item
-        android:id="@+id/dashboard"
+        android:id="@+id/navigation_dashboard"
         android:icon="@drawable/outline_dashboard_24"
         android:title="@string/dashboard_title" />
 

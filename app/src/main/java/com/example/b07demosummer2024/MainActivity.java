@@ -3,6 +3,7 @@ package com.example.b07demosummer2024;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -14,6 +15,8 @@ import android.widget.Button;
 import android.view.View;
 import android.content.Intent;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -29,6 +32,42 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
         DatabaseReference myRef = db.getReference("testDemo");
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull android.view.MenuItem item) {
+                Fragment selectedFragment = null;
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.navigation_profile)
+                {
+                    selectedFragment = new HomeFragment();
+                }
+                else if (itemId == R.id.navigation_record)
+                {
+                    selectedFragment = new MedicalLogMenuFragment();
+                }
+                else if (itemId == R.id.navigation_dashboard)
+                {
+                    selectedFragment = new DeleteItemFragment();
+                }
+                else if (itemId == R.id.navigation_medicine_inventory)
+                {
+                    selectedFragment = new HomeFragment();
+                }
+                else if (itemId == R.id.navigation_technical_guide)
+                {
+                    selectedFragment = new AddItemFragment();
+                }
+                    // If a fragment was selected, load it
+                if (selectedFragment != null) {
+                    loadFragment(selectedFragment);
+                    return true;
+                }
+
+                return false;
+            }
+        });
 //        myRef.setValue("B07 Demo!");
         myRef.child("movies").setValue("B07 Demo!");
 

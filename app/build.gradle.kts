@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.example.b07demosummer2024"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.b07demosummer2024"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -39,7 +39,6 @@ dependencies {
     implementation(libs.fragment)
     implementation(libs.recyclerview)
     implementation(libs.cardview)
-    implementation(libs.cardview.v7)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

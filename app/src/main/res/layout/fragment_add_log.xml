@@ -5,8 +5,7 @@
     android:id="@+id/add_medical_log"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="24dp"
-    tools:context="sb">
+    android:padding="24dp">
 
     <TextView
         android:id="@+id/textView5"

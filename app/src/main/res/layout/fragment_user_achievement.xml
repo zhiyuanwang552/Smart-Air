@@ -28,31 +28,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PlannedControllerDaysLabel" />
 
-    <CheckBox
-        android:id="@+id/ApplyTechnique"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="I have applied some techniques to prevent asthma"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
-
-    <CheckBox
-        android:id="@+id/NoSymptombutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="I have no symptom today"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ApplyTechnique" />
-
-    <CheckBox
-        android:id="@+id/UseControllerbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="I have used planned controller"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NoSymptombutton" />
-
     <TextView
         android:id="@+id/tvPlannedControllerDaysValue"
         android:layout_width="0dp"
@@ -82,7 +57,7 @@
         android:id="@+id/MyAchievementLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="48dp"
         android:text="My Achievement"
         android:textSize="24sp"
         android:textStyle="bold|italic"
@@ -146,7 +121,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/high-quality_technique_sessions"
+        android:id="@+id/high_quality_technique_sessions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -161,29 +136,15 @@
             android:id="@+id/imageView6"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            app:srcCompat="@drawable/Techniques" />
+            app:srcCompat="@drawable/techniques" />
 
         <TextView
             android:id="@+id/textView13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="10 high-quality technique sessions"
+            android:text="10-high quality technique sessions"
             android:textStyle="bold" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Daily Checks"
-        android:textAllCaps="true"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/high-quality_technique_sessions" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
