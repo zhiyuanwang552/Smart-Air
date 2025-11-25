@@ -21,7 +21,20 @@
     <string name="new_password">New Password</string>
     <string name="confirm_password">Confirm Password"</string>
     <string name="verification_code">Verification Code</string>
+    <string name="password_security_requirements">*Password is not secure!\n
+        *A password must have\n
+        \t\t\t\t- Lowercase Character\n
+        \t\t\t\t- Uppercase Character\n
+        \t\t\t\t- Numeric Character\n
+        \t\t\t\t- Non-alphanumeric Character\n
+        \t\t\t\t- Minimum of 6 characters\n
+        \t\t\t\t- Maximum of 30 characters\n
+    </string>
 
+    <string name="email_already_in_use">Email is already in use!\nPlease visit the login page.</string>
+    <string name="incorrect_email_or_password">Incorrect email or password!</string>
+    <string name="verification_sent">Verification Code Sent!</string>
+    <string name="incorrect_verification">Incorrect Verification Code!</string>
     <string-array name="categories_array">
         <item>Books</item>
         <item>Movies</item>
