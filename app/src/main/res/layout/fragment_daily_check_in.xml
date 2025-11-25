@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewR5Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:text="Daily asthma check-in: 📝 😁😊😐😔🤒"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:paddingBottom="12dp" />
+
+        <!-- Symptoms -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="What where your symptoms today?"
+            android:textStyle="bold" />
+
+        <CheckBox
+            android:id="@+id/checkBoxNightWaking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Night waking" />
+
+        <CheckBox
+            android:id="@+id/checkBoxActivityLimits"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Activity limits" />
+
+        <CheckBox
+            android:id="@+id/checkBoxCoughWheeze"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cough / wheeze" />
+
+        <CheckBox
+            android:id="@+id/checkBoxNone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="None" />
+
+        <!-- Triggers -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:text="What were the symptom triggers? (select all that apply)"
+            android:textStyle="bold" />
+
+        <CheckBox
+            android:id="@+id/checkBoxTriggerExercise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Exercise" />
+
+        <CheckBox
+            android:id="@+id/checkBoxTriggerColdAir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cold air" />
+
+        <CheckBox
+            android:id="@+id/checkBoxTriggerDustPets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dust / pets" />
+
+        <CheckBox
+            android:id="@+id/checkBoxTriggerSmoke"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Smoke" />
+
+        <CheckBox
+            android:id="@+id/checkBoxTriggerIllness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Illness" />
+
+        <CheckBox
+            android:id="@+id/checkBoxTriggerOdors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Perfume / cleaners / strong odors" />
+
+        <!-- Author -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:text="Who is filling this in?"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/radioButtonChild"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Child" />
+
+            <RadioButton
+                android:id="@+id/radioButtonParent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Parent" />
+        </RadioGroup>
+
+        <!-- Optional note -->
+        <EditText
+            android:id="@+id/editTextNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Optional note (e.g. what was happening today?)"
+            android:inputType="textMultiLine"
+            android:minLines="2"
+            android:gravity="top"
+            android:layout_marginTop="12dp" />
+
+        <Button
+            android:id="@+id/buttonSaveCheckIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save daily check-in"
+            android:layout_marginTop="24dp" />
+
+    </LinearLayout>
+</ScrollView>
