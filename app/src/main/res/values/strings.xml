@@ -35,6 +35,7 @@
     <string name="incorrect_email_or_password">Incorrect email or password!</string>
     <string name="verification_sent">Verification Code Sent!</string>
     <string name="incorrect_verification">Incorrect Verification Code!</string>
+    <string name="reenter_password">Re-enter Password</string>
     <string-array name="categories_array">
         <item>Books</item>
         <item>Movies</item>
