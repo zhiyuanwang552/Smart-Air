@@ -47,8 +47,6 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) { loadFragment(new ManageItemsFragment());}
         });
 
-
-
         return view;
     }
 

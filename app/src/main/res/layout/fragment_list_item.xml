@@ -5,8 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".MedicalLogActivity">
+    android:fitsSystemWindows="true">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/medical_log_recyclerview"
@@ -22,7 +21,7 @@
         tools:listitem="@layout/medical_log_item" />
 
     <Button
-        android:id="@+id/Exit_button"
+        android:id="@+id/exit_button"
         style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
