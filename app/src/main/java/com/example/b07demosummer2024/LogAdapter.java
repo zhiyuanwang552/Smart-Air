@@ -9,82 +9,91 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.time.format.DateTimeFormatter;
 
-public class LogAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
-    private List<Item> itemList;
+
+public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private List<GeneralLog> logList;
     private final int MEDICAL_LOG_VIEW_TYPE = 0;
-    private final int INVENTORY_LOG_VIEW_TYPE = 1;
-    private final int INCIDENT_LOG_VIEW_TYPE = 2;
-    public LogAdapter(List<Item> itemList) {
-        this.itemList = itemList;
+    private final int INCIDENT_LOG_VIEW_TYPE = 1;
+    public LogAdapter(List<GeneralLog> logList) {
+        this.logList = logList;
     }
 
 
     @Override
     public int getItemViewType(int position)
     {
-        if (position == MEDICAL_LOG_VIEW_TYPE)
-        {
-            return MEDICAL_LOG_VIEW_TYPE;
-        }
-        else if (position == INVENTORY_LOG_VIEW_TYPE)
-        {
-            return INVENTORY_LOG_VIEW_TYPE;
-        }
-        else return INCIDENT_LOG_VIEW_TYPE;
+        return logList.get(position).getLogType();
     }
 
     @NonNull
     @Override
-    public ItemAdapter.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view;
         if (viewType == MEDICAL_LOG_VIEW_TYPE)
         {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.medical_log_item, parent, false);
-            return new ItemAdapter.ItemViewHolder(view);
-        }
-        else if (viewType == INVENTORY_LOG_VIEW_TYPE)
-        {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.inventory_log_item, parent, false);
+            return new LogAdapter.MedicalLogViewHolder(view);
         }
         else if (viewType == INCIDENT_LOG_VIEW_TYPE)
         {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
+            return new LogAdapter.MedicalLogViewHolder(view);
+        }
+        else
+        {
+            throw new IllegalArgumentException("Invalid view type");
         }
 
-        return new ItemAdapter.ItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemAdapter.ItemViewHolder holder, int position) {
-        Item item = itemList.get(position);
-        holder.textViewTitle.setText(item.getTitle());
-        holder.textViewAuthor.setText(item.getAuthor());
-        holder.textViewGenre.setText(item.getGenre());
-        holder.textViewDescription.setText(item.getDescription());
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        GeneralLog log = logList.get(position);
+        if (holder.getItemViewType() == MEDICAL_LOG_VIEW_TYPE)
+        {
+            MedicalLogViewHolder medicalLogHolder = (MedicalLogViewHolder) holder;
+            MedicalLog currentMedicallog = (MedicalLog)log;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String formattedDate = (currentMedicallog.getLogDate()).format(formatter);
+            String reflectionInfo = "Reflection after treatment: feeling " + currentMedicallog.getReflection();
+            String currentMedId = "" + currentMedicallog.getLogId();
+            String puffsUsed = "" + currentMedicallog.getPuff();
+
+            medicalLogHolder.textViewDate.setText(formattedDate);
+            medicalLogHolder.textViewMedId.setText(currentMedId);
+            medicalLogHolder.textViewReflection.setText(reflectionInfo);
+            medicalLogHolder.textViewSymptoms.setText(log.getDescriptions());
+        }
+        else if (holder.getItemViewType() == INCIDENT_LOG_VIEW_TYPE)
+        {
+        }
+
     }
 
     @Override
     public int getItemCount() {
-        return itemList.size();
+        return logList.size();
     }
 
     public static class MedicalLogViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewTitle, textViewAuthor, textViewGenre, textViewDescription;
+        TextView textViewDate, textViewMedId, textViewReflection, textViewNumberPuffs, textViewSymptoms;
 
         public MedicalLogViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewTitle = itemView.findViewById(R.id.textViewTitle);
-            textViewAuthor = itemView.findViewById(R.id.textViewAuthor);
-            textViewGenre = itemView.findViewById(R.id.textViewGenre);
-            textViewDescription = itemView.findViewById(R.id.textViewDescription);
+            textViewDate = itemView.findViewById(R.id.textViewDate);
+            textViewMedId = itemView.findViewById(R.id.textViewMedId);
+            textViewReflection = itemView.findViewById(R.id.textViewReflection);
+            textViewNumberPuffs = itemView.findViewById(R.id.textViewNumberPuffs);
+            textViewSymptoms = itemView.findViewById(R.id.textViewSymptoms);
         }
     }
 
-    public static class InventoryLogViewHolder extends RecyclerView.ViewHolder {
+    public static class IncidentLogViewHolder extends RecyclerView.ViewHolder {
         TextView textViewTitle, textViewAuthor, textViewGenre, textViewDescription;
 
-        public InventoryLogViewHolder(@NonNull View itemView) {
+        public IncidentLogViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
             textViewAuthor = itemView.findViewById(R.id.textViewAuthor);

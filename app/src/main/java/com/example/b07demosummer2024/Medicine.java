@@ -1,22 +1,22 @@
 package com.example.b07demosummer2024;
 
 import androidx.annotation.Nullable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 
 public class Medicine {
-    private final int MedicineId;
-    private final LocalDateTime expireDate;
-    private final LocalDateTime purchaseDate;
+    private final int medicineId;
+    private final LocalDate expireDate;
+    private final LocalDate purchaseDate;
     private final int medicineType;
     private int remainingPuffs;
     private final double price;
 
     private final String brandName;
 
-    Medicine (int medicineId, LocalDateTime expireDate, LocalDateTime purchaseDate, int medicineType, int remainingPuffs, double price, @Nullable String brandName) {
+    Medicine (int medicineId, LocalDate expireDate, LocalDate purchaseDate, int medicineType, int remainingPuffs, double price, @Nullable String brandName) {
 
-        this.MedicineId = medicineId;
+        this.medicineId = medicineId;
         this.expireDate = expireDate;
         this.purchaseDate = purchaseDate;
         this.medicineType = medicineType;
@@ -25,11 +25,11 @@ public class Medicine {
         this.brandName = brandName;
     }
 
-    public LocalDateTime getExpireDate() {
+    public LocalDate getExpireDate() {
         return expireDate;
     }
 
-    public LocalDateTime getPurchaseDate() {
+    public LocalDate getPurchaseDate() {
         return purchaseDate;
     }
 
@@ -45,6 +45,11 @@ public class Medicine {
     }
     public String getBrandName() {
         return brandName;
+    }
+
+    public int getMedicineId()
+    {
+        return medicineId;
     }
 
     public void setRemainingPuffs(int remainingPuffs) {

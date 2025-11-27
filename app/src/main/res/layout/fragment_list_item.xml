@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/medical_log_recyclerview"
+        android:id="@+id/log_recyclerview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="4dp"
@@ -25,7 +25,7 @@
         style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:text="Exit"
         android:textColor="#214EC1"

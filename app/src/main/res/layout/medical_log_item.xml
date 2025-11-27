@@ -26,7 +26,7 @@
             tools:text="Nov 22, 2025" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textViewMedId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -34,7 +34,7 @@
             tools:text="Medicine ID" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textViewReflection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -42,7 +42,7 @@
             tools:text="Reflection" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/textViewNumberPuffs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -59,7 +59,7 @@
             tools:text="Slight headache and a stuffy nose." />
 
         <Button
-            android:id="@+id/button7"
+            android:id="@+id/buttonDeleteLog"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
