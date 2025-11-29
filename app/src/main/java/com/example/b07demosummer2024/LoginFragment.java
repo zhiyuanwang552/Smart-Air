@@ -8,17 +8,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements LoginContract.Viewer {
+    ScreenPresenter presenter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+
+        presenter = new ScreenPresenter(new Model());
+        presenter.setViewer(this);
+
 
         //attach the buttons of the fragments to variables
         ImageButton buttonLogin = view.findViewById(R.id.LoginButton);
@@ -35,9 +41,9 @@ public class LoginFragment extends Fragment {
                 String Username = UserEmail.getText().toString();
                 String password = UserPassword.getText().toString();
                 int SelectedUserType = SignInPerson.getCheckedRadioButtonId();
-                System.out.println("Username: " + Username);
-                System.out.println("Password: " + password);
-                //TODO: adding check for valid password and username
+                if(presenter.login(Username, password, SelectedUserType, R.id.radioButton, R.id.radioButton2, R.id.radioButton3)){
+                    loginSuccess("Parent");
+                }
             }
         });
 
@@ -55,6 +61,14 @@ public class LoginFragment extends Fragment {
             }
         });
         return view;
+    }
+    @Override
+    public void showErrorMessage(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void loginSuccess(String LoginType) {
+        //Todo add in transition from login activity to main activity
     }
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
