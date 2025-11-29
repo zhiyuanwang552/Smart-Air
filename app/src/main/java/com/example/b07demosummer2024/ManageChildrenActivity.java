@@ -8,18 +8,18 @@ public class ManageChildrenActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manage_providers);
+        setContentView(R.layout.activity_manage_children);
         if(savedInstanceState == null){
-            loadFragment(new ManageProvidersFragment());
+            loadFragment(new ManageChildrenFragment());
         }
     }
 
     private void loadFragment(Fragment fragment){
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, fragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        }
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 
 }
 

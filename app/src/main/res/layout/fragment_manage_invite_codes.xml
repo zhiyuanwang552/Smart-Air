@@ -5,52 +5,132 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View
-        android:id="@+id/view1"
-        android:layout_width="413dp"
-        android:layout_height="92dp"
-        android:background="@drawable/square_bg"
+    <LinearLayout
+        android:id="@+id/headerBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/grey"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/returnButton"
-        android:layout_width="110dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="21dp"
-        android:backgroundTint="@color/white"
-        android:text="@string/returnK"
-        android:textColor="@color/black"
-        app:cornerRadius="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/view1"
-        app:layout_constraintStart_toStartOf="@+id/view1"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        <Button
+            android:id="@+id/returnButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:text="@string/returnK"
+            android:textColor="@color/black"
+            app:cornerRadius="4dp" />
 
-    <Button
-        android:id="@+id/generateInviteButton"
-        android:layout_width="200dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="21dp"
-        android:backgroundTint="@color/white"
-        android:text="@string/generate_invite"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        app:cornerRadius="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/view1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        <Space
+            android:layout_width="12dp"
+            android:layout_height="wrap_content" />
 
-    <View
-        android:id="@+id/view2"
-        android:layout_width="411dp"
-        android:layout_height="822dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        <Button
+            android:id="@+id/generateInviteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:text="@string/generate_invite"
+            android:textColor="@color/black"
+            app:cornerRadius="4dp" />
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/formCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:visibility="invisible"
+        app:cardBackgroundColor="@color/grey"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view1" />
+        app:layout_constraintTop_toBottomOf="@+id/headerBar">
+
+        <LinearLayout
+            android:id="@+id/contentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/inviteCodeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text=""
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"/>
+
+            <TextView
+                android:id="@+id/expiryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="&quot;time left&quot;" />
+
+            <LinearLayout
+                android:id="@+id/accountTypeSelector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Space
+                    android:layout_width="12dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/copyButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/white"
+                    android:text="copy to clipboard"
+                    android:textColor="@color/black"
+                    app:cornerRadius="4dp" />
+
+                <Space
+                    android:layout_width="12dp"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/revokeButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/white"
+                    android:text="revoke"
+                    android:textColor="@color/black"
+                    app:cornerRadius="4dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,13 +16,13 @@
         android:padding="12dp">
 
         <TextView
-            android:id="@+id/providerNameText"
+            android:id="@+id/childNameText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Name"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/notes"
+            app:layout_constraintEnd_toStartOf="@id/childNotesText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,25 +30,25 @@
             android:id="@+id/childDobText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="2/13/2002"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@id/providerNameText"
-            app:layout_constraintTop_toBottomOf="@id/providerNameText" />
+            app:layout_constraintStart_toStartOf="@id/childNameText"
+            app:layout_constraintTop_toBottomOf="@id/childNameText" />
 
         <Button
-            android:id="@+id/managePermissionsButton"
+            android:id="@+id/manageProvidersButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:backgroundTint="@color/white"
-            android:text="@string/manage_permissions"
+            android:text="@string/manage_providers"
             android:textColor="@color/black"
             app:cornerRadius="4dp"
             app:layout_constraintStart_toStartOf="@id/childDobText"
             app:layout_constraintTop_toBottomOf="@id/childDobText" />
 
         <TextView
-            android:id="@+id/notes"
+            android:id="@+id/childNotesText"
             android:layout_width="192dp"
             android:layout_height="98dp"
             android:paddingStart="12dp"
@@ -56,8 +56,8 @@
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/providerNameText"
-            app:layout_constraintTop_toTopOf="@id/providerNameText"
+            app:layout_constraintStart_toEndOf="@id/childNameText"
+            app:layout_constraintTop_toTopOf="@id/childNameText"
             app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

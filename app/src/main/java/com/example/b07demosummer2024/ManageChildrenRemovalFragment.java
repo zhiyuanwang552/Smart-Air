@@ -1,6 +1,7 @@
 package com.example.b07demosummer2024;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +21,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ManageChildrenRemovalFragment extends Fragment {
     private Spinner childSpinner;
     private Button removalButton;
     private Button returnButton;
-
+    private List<String> childNameList;
     private FirebaseDatabase db;
-    private DatabaseReference itemsRef;
+    private DatabaseReference childRef;
 
     @Nullable
     @Override
@@ -36,19 +40,26 @@ public class ManageChildrenRemovalFragment extends Fragment {
         childSpinner = view.findViewById(R.id.childSpinner);
         returnButton = view.findViewById(R.id.returnButton);
         removalButton = view.findViewById(R.id.confirmRemovalButton);
+        childNameList = new ArrayList<>();
 
-        db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
+        db = FirebaseDatabase.getInstance("https://smart-air-8a892-default-rtdb.firebaseio.com/");
+
+        childNameList.clear();
+        childNameList = fetchChildrenNamesFromDatabase("childProfile");
+        childNameList = fetchChildrenNamesFromDatabase("childAccount");
+        childNameList.add("Select Child Name");
 
         // Set up the spinner with categories
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.categories_array, android.R.layout.simple_spinner_item);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, childNameList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         childSpinner.setAdapter(adapter);
 
         removalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteChildProfile();
+                deleteChildProfile("childProfile");
+                deleteChildProfile("childAccount");
             }
         });
 
@@ -62,30 +73,48 @@ public class ManageChildrenRemovalFragment extends Fragment {
         return view;
     }
 
-    private void deleteChildProfile() {
-        String category = childSpinner.getSelectedItem().toString().toLowerCase();
-
-        itemsRef = db.getReference("categories/" + category);
-        itemsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    private List<String> fetchChildrenNamesFromDatabase(String childType) { //get list of string attached to identifiers
+        childRef = db.getReference("parents/genericParent/" + childType);
+        childRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                boolean itemFound = false;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Item item = snapshot.getValue(Item.class);
-                    if (item != null) { //&& item.getTitle().equalsIgnoreCase(title)) {
+                    String childName = snapshot.getValue(String.class);
+                    childNameList.add(childName);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle possible errors
+            }
+        });
+
+        return childNameList;
+    }
+
+    private void deleteChildProfile(String childType) { //look for identifier, then delete corresponding address
+        String childName = childSpinner.getSelectedItem().toString().toLowerCase();
+
+        childRef = db.getReference("parents/genericParent/" + childType);
+        childRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String name = snapshot.getValue(String.class);
+                    String identifier = snapshot.getRef().getKey();
+                    if (name != null && name.equalsIgnoreCase(childName)) {
+                        db.getReference("children/" + identifier).removeValue();
                         snapshot.getRef().removeValue().addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                Toast.makeText(getContext(), "Item deleted", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Child removed", Toast.LENGTH_SHORT).show();
+                                getParentFragmentManager().popBackStack();
                             } else {
-                                Toast.makeText(getContext(), "Failed to delete item", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Failed to remove child", Toast.LENGTH_SHORT).show();
                             }
                         });
-                        itemFound = true;
                         break;
                     }
-                }
-                if (!itemFound) {
-                    Toast.makeText(getContext(), "Item not found", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -96,12 +125,5 @@ public class ManageChildrenRemovalFragment extends Fragment {
         });
 
 
-    }
-
-    private void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 }

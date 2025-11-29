@@ -72,9 +72,9 @@ public class AddItemFragment extends Fragment {
 
         itemsRef.child(id).setValue(item).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Toast.makeText(getContext(), "Item added", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Item added", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getContext(), "Failed to add item", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Failed to add item", Toast.LENGTH_SHORT).show();
             }
         });
     }

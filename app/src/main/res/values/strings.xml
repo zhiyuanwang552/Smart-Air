@@ -8,13 +8,36 @@
     <string name="scroller">Scroller</string>
     <string name="spinner">Spinner</string>
     <string name="manage_items">Manage Items</string>
-    <string name="add_child">Add Child</string>
-    <string name="remove_child">Remove Child</string>
 
     <string-array name="categories_array">
         <item>Books</item>
         <item>Movies</item>
     </string-array>
+
+    <!-- For all of dylan files -->
+    <string name="add_child">Add Child</string>
+    <string name="remove_child">Remove Child</string>
+    <string name="add_a_child">Add a Child</string>
+    <string name="child_name">Child Name</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="month">Month</string>
+    <string name="day">Day</string>
+    <string name="year">Year</string>
+    <string name="additional_notes">Additional Notes</string>
+    <string name="account_type">Account Type</string>
+    <string name="child_profile">Child Profile</string>
+    <string name="child_account">Child Account</string>
+    <string name="username">Username</string>
+    <string name="password_warning">Password (Case Sensitive!)</string>
+    <string name="reconfirm_password">Reconfirm Password</string>
+    <string name="create_account">Create Account</string>
+
+    <string name="remove_a_child">Remove a Child</string>
+    <string name="child_selected">Child Selected</string>
+    <string name="confirm_removal">Confirm Removal</string>
+    <string name="manage_providers">Manage Providers</string>
+    <string name="provider_name">Provider Name</string>
+    <string name="remaining_time">Time Left</string>
 
     <!-- For activity_manage_providers -->
     <string name="manage_invite_codes">Manage Invite Codes</string>

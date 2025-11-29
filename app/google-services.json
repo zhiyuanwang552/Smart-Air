@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "103450168850",
-    "project_id": "b07-demo-summer-2024",
-    "storage_bucket": "b07-demo-summer-2024.appspot.com"
+    "project_number": "84605756492",
+    "firebase_url": "https://smart-air-8a892-default-rtdb.firebaseio.com/",
+    "project_id": "fart-air",
+    "storage_bucket": "fart-air.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:103450168850:android:18be49669e0000df0552cb",
+        "mobilesdk_app_id": "1:84605756492:android:5ba5dbc47e19c62e1280e9",
         "android_client_info": {
           "package_name": "com.example.b07demosummer2024"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCNPIMxlsDkuYk5s1-Uycc9s8Hqz2YKIDs"
+          "current_key": "AIzaSyC32suQLc2t-YkbPi4DyyHHy3O1k1c9O_E"
         }
       ],
       "services": {

@@ -38,16 +38,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="Provider Permissions"
+                    android:text="@string/provider_permissions"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <!-- Provider Name -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Provider Name" />
+                    android:text="@string/provider_name" />
 
                 <TextView
                     android:id="@+id/textView4"
@@ -63,12 +62,11 @@
                     android:gravity="center"
                     android:orientation="horizontal"/>
 
-                <!-- Additional Notes -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Additional Notes" />
+                    android:text="@string/additional_notes" />
 
                 <EditText
                     android:id="@+id/notesInput"
@@ -82,47 +80,47 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Manage Permissions" />
+                    android:text="@string/manage_permissions" />
 
                 <!-- Toggle Buttons -->
                 <Switch
-                    android:id="@+id/switch8"
+                    android:id="@+id/rescueLogSwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/rescue_logs" />
 
                 <Switch
-                    android:id="@+id/switch9"
+                    android:id="@+id/controllerAdherenceSwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/controller_adherence" />
 
                 <Switch
-                    android:id="@+id/switch11"
+                    android:id="@+id/symptomsSwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/symptoms" />
 
                 <Switch
-                    android:id="@+id/switch12"
+                    android:id="@+id/triggersSwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/triggers" />
 
                 <Switch
-                    android:id="@+id/switch13"
+                    android:id="@+id/peakFlowSwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/peak_flow" />
 
                 <Switch
-                    android:id="@+id/switch14"
+                    android:id="@+id/triageSwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/triage_incidents" />
 
                 <Switch
-                    android:id="@+id/switch15"
+                    android:id="@+id/summarySwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/summary_charts" />
@@ -146,7 +144,7 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/button16"
+                    android:id="@+id/deleteProviderButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
@@ -171,19 +169,6 @@
                         android:textColor="@color/black"
                         app:cornerRadius="4dp" />
 
-                    <Space
-                        android:layout_width="12dp"
-                        android:layout_height="wrap_content" />
-
-                    <Button
-                        android:id="@+id/createButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/white"
-                        android:text="@string/save"
-                        android:textColor="@color/black"
-                        app:cornerRadius="4dp" />
                 </LinearLayout>
 
             </LinearLayout>
