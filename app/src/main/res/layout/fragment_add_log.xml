@@ -1,249 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 根布局: 填满全屏, 设置半透明背景, 拦截点击事件 -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/add_medical_log"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="24dp">
+    android:layout_height="match_parent"
+    android:background="#99000000"
+    android:clickable="true"
+    android:focusable="true"
+    tools:context=".AddNewLogFragment">
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/medicine_id"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/puffs_input" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/medical_id_input"
+    <!-- 使用 CardView 来包裹你的表单内容，使其居中显示并有卡片样式 -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mcAddNewLog"
         android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="-8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toTopOf="@+id/textView5">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="ID"
-            android:minWidth="150dp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/dialogTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/add_new_medical_log"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/importanceLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/select_reflection_type"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dialogTitle" />
-
-    <RadioGroup
-        android:id="@+id/radioGroupImportance"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/importanceLabel">
-
-        <RadioButton
-            android:id="@+id/radioButtonLow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:minHeight="40dp"
-            android:text="@string/reflection_type_better"
-            android:textStyle="bold"
-            app:buttonTint="@color/black" />
-
-        <RadioButton
-            android:id="@+id/radioButtonMedium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:checked="true"
-            android:minHeight="40dp"
-            android:text="@string/reflection_type_same"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:buttonTint="@color/black" />
-
-        <RadioButton
-            android:id="@+id/radioButtonHigh"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:minHeight="40dp"
-            android:text="@string/reflection_type_worse"
-            android:textStyle="bold"
-            app:buttonTint="@color/black" />
-
-
-    </RadioGroup>
-
-
-    <Button
-        android:id="@+id/buttonSave"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:backgroundTint="#FFFFFF"
-        android:text="@string/save"
-        android:textColor="#2A82C8"
-        android:textColorLink="#1B4495"
-        android:textStyle="bold"
-        app:iconTint="#FAF5F5"
+        android:layout_marginEnd="32dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/buttonCancel"
-        app:layout_constraintTop_toTopOf="@id/buttonCancel"
-        app:strokeColor="#0B0B0B"
-        app:strokeWidth="1dp" />
-
-    <Button
-        android:id="@+id/buttonCancel"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/cancel"
-        android:textColor="#D11D1D"
-        android:textColorHint="#E41B1B"
-        android:textColorLink="#21F2E5E5"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@id/buttonSave"
-        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintWidth_max="400dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/description_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/write_something_here"
-            android:inputType="text|textMultiLine"
-            android:minWidth="300dp"
-            android:singleLine="false"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/add_sypmtom_description_title"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/medical_id_input" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/select_medicine_type_title"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupImportance" />
-
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7">
-
-        <RadioButton
-            android:id="@+id/radioButton4"
+        <!-- 内容容器，设置内边距 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/add_medical_log_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:minHeight="45dp"
-            android:text="@string/controller"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:buttonTint="@color/black" />
+            android:padding="24dp">
 
-        <RadioButton
-            android:id="@+id/radioButton3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:checked="true"
-            android:minHeight="45dp"
-            android:text="@string/rescue"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:buttonTint="@color/black" />
-    </RadioGroup>
+            <!-- 标题 -->
+            <TextView
+                android:id="@+id/dialogTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_new_medical_log"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/number_of_puffs_title"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+            <!-- 反思类型 Spinner -->
+            <TextView
+                android:id="@+id/reflectionTypeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:labelFor="@+id/spinnerReflectionType"
+                android:text="@string/select_reflection_type"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dialogTitle" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/puffs_input"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="-8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toTopOf="@+id/textView8">
+            <Spinner
+                android:id="@+id/spinnerReflectionType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:minHeight="48dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/reflectionTypeLabel" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="0"
-            android:inputType="number|numberSigned"
-            android:maxLength="2"
-            android:minWidth="150dp"
-            android:minHeight="35dp" />
+            <!-- 药物ID Spinner -->
+            <TextView
+                android:id="@+id/medicineIdLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:labelFor="@+id/spinnerMedicineId"
+                android:text="@string/medicine_id"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerReflectionType" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <Spinner
+                android:id="@+id/spinnerMedicineId"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:minHeight="48dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/medicineIdLabel" />
+
+
+            <!-- 用量 -->
+            <TextView
+                android:id="@+id/puffsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center_vertical"
+                android:text="@string/number_of_puffs_title"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/puffs_input_layout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerMedicineId" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/puffs_input_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBaseline_toBaselineOf="@id/puffsLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/puffsLabel"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerMedicineId">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPuffsInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:digits="0123456789"
+                    android:hint="1"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <!-- 症状描述 -->
+            <TextView
+                android:id="@+id/descriptionLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/add_sypmtom_description_title"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/puffs_input_layout" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/description_input_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/descriptionLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDescriptionInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:hint="@string/write_something_here"
+                    android:inputType="textMultiLine"
+                    android:minLines="3"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- 按钮组 -->
+            <Button
+                android:id="@+id/buttonCancel"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="#00FFFFFF"
+                android:text="@string/cancel"
+                android:textColor="#F44336"
+                app:cornerRadius="20dp"
+                app:layout_constraintEnd_toStartOf="@+id/buttonSave"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description_input_layout"
+                app:strokeColor="@color/black" />
+
+            <Button
+                android:id="@+id/buttonSave"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="#00FFFFFF"
+                android:text="@string/save"
+                android:textColor="#2196F3"
+                app:cornerRadius="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/buttonCancel"
+                app:layout_constraintTop_toTopOf="@id/buttonCancel"
+                app:strokeColor="@color/black"
+                app:strokeWidth="1dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

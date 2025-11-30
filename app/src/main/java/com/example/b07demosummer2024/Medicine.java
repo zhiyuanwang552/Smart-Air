@@ -5,16 +5,16 @@ import java.time.LocalDate;
 
 
 public class Medicine {
-    private final int medicineId;
-    private final LocalDate expireDate;
-    private final LocalDate purchaseDate;
-    private final int medicineType;
+    private int medicineId;
+    private long expireDate;
+    private long purchaseDate;
+    private String medicineType;
     private int remainingPuffs;
-    private final double price;
+    private double price;
 
-    private final String brandName;
+    private String brandName;
 
-    Medicine (int medicineId, LocalDate expireDate, LocalDate purchaseDate, int medicineType, int remainingPuffs, double price, @Nullable String brandName) {
+    Medicine (int medicineId, long expireDate, long purchaseDate, String medicineType, int remainingPuffs, double price, @Nullable String brandName) {
 
         this.medicineId = medicineId;
         this.expireDate = expireDate;
@@ -25,34 +25,61 @@ public class Medicine {
         this.brandName = brandName;
     }
 
-    public LocalDate getExpireDate() {
+    public long getExpireDate() {
         return expireDate;
     }
 
-    public LocalDate getPurchaseDate() {
+    public void setExpireDate(long expireDate)
+    {
+        this.expireDate = expireDate;
+    }
+
+    public long getPurchaseDate() {
         return purchaseDate;
     }
 
+    public void setPurchaseDate(long purchaseDate)
+    {
+        this.purchaseDate = purchaseDate;
+    }
     public double getPrice() {
         return price;
     }
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
-    public int getMedicineType() {
+    public String getMedicineType() {
         return medicineType;
     }
+
+    public void setMedicineType(String medicineType)
+    {
+        this.medicineType = medicineType;
+    }
+
     public int getRemainingPuffs(){
         return remainingPuffs;
+    }
+
+    public void setRemainingPuffs(int remainingPuffs) {
+        this.remainingPuffs = remainingPuffs;
     }
     public String getBrandName() {
         return brandName;
     }
 
+    public void setBrandName(String brandName)
+    {
+        this.brandName = brandName;
+    }
     public int getMedicineId()
     {
         return medicineId;
     }
 
-    public void setRemainingPuffs(int remainingPuffs) {
-        this.remainingPuffs = remainingPuffs;
+    public void setMedicineId(int medicineId)
+    {
+        this.medicineId = medicineId;
     }
 }

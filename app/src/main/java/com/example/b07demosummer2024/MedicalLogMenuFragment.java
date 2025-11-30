@@ -43,6 +43,7 @@ public class MedicalLogMenuFragment extends Fragment {
         return view;
     }
 
+
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);

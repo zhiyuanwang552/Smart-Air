@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:text="Medicine ID:"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -43,6 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textSize="22sp"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_medicine_id_label"
             app:layout_constraintStart_toEndOf="@id/tv_medicine_id_label"
             tools:text="RX12345" />

@@ -1,21 +1,38 @@
 package com.example.b07demosummer2024;
 
-import java.time.LocalDateTime;
-
 public class MedicalLog extends GeneralLog{
 
-    private final Medicine linkedMedicine;
+    private String linkedMedicineId;
 
-    private final int reflection;
-    private final int puffsUsed;
+    private String reflection;
+    private int puffsUsed;
 
-    public MedicalLog(int logId, int logType, LocalDateTime logDate, String descriptions,
-                      Medicine linkedMedicine, int reflection, int puffsUsed)
+    private String userName;
+
+    private String linkedMedicineType;
+
+    public MedicalLog(){}
+
+    public MedicalLog(String logId, int logType, long logDate, String descriptions,
+                      String linkedMedicineId, String reflection, int puffsUsed, String userName,
+                      String linkedMedicineType)
     {
         super(logId, logType, logDate, descriptions);
-        this.linkedMedicine = linkedMedicine;
+        this.linkedMedicineId = linkedMedicineId;
         this.reflection = reflection;
         this.puffsUsed =puffsUsed;
+        this.userName = userName;
+        this.linkedMedicineType = linkedMedicineType;
+    }
+
+    public String getUserName()
+    {
+        return userName;
+    }
+
+    public void setUserName(String userName)
+    {
+        this.userName = userName;
     }
 
     public int getPuff()
@@ -23,42 +40,38 @@ public class MedicalLog extends GeneralLog{
         return puffsUsed;
     }
 
+    public void setPuff(int puffsUsed)
+    {
+        this.puffsUsed = puffsUsed;
+    }
+
     public String getReflection()
     {
-        if (reflection == 0)
-        {
-            return "Better";
-        } else if (reflection == 1)
-        {
-            return "Same";
-        }
-        else {
-            return "Worse";
-        }
-
+        return reflection;
     }
 
-    public Medicine getLinkedMedicine()
+    public void setReflection(String reflection)
     {
-        return linkedMedicine;
+        this.reflection = reflection;
     }
 
-    public int getLinkedMedicineType()
+    public String getLinkedMedicineId()
     {
-        if (linkedMedicine != null)
-        {
-            return linkedMedicine.getMedicineType();
-        }
-        return -1;
+        return linkedMedicineId;
     }
 
-    public int getLinkedMedicineId()
+    public void setLinkedMedicineId(String linkedMedicineId)
     {
-        if (linkedMedicine != null)
-        {
-            return linkedMedicine.getMedicineId();
-        }
-        return -1;
+        this.linkedMedicineId = linkedMedicineId;
+    }
+    public String getLinkedMedicineType()
+    {
+        return linkedMedicineType;
+    }
+
+    public void setLinkedMedicineType(String linkedMedicineType)
+    {
+        this.linkedMedicineType = linkedMedicineType;
     }
 
 

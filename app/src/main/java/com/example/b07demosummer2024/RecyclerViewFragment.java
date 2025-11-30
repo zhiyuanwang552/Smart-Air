@@ -65,6 +65,8 @@ public class RecyclerViewFragment extends Fragment {
         return view;
     }
 
+
+
     private void fetchItemsFromDatabase(String category) {
         itemsRef = db.getReference("categories/" + category);
         itemsRef.addValueEventListener(new ValueEventListener() {

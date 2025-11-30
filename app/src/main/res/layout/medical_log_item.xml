@@ -11,64 +11,151 @@
     app:strokeColor="#121212"
     app:strokeWidth="2dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
         android:padding="16dp">
+
+        <!-- Date -->
+        <TextView
+            android:id="@+id/textViewDateLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date:"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textViewDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textSize="24sp"
+            android:textSize="22sp"
+            app:layout_constraintStart_toEndOf="@id/textViewDateLabel"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Nov 22, 2025" />
+
+        <!-- User -->
+        <TextView
+            android:id="@+id/textViewUserLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Used by:"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewDateLabel" />
+
+        <TextView
+            android:id="@+id/textViewUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/textViewUserLabel"
+            app:layout_constraintStart_toEndOf="@id/textViewUserLabel"
+            app:layout_constraintTop_toTopOf="@id/textViewUserLabel"
+            tools:text="John Doe" />
+
+        <!-- Medicine ID -->
+        <TextView
+            android:id="@+id/textViewMedIdLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Medicine ID:"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewUserLabel" />
 
         <TextView
             android:id="@+id/textViewMedId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/textViewMedIdLabel"
+            app:layout_constraintStart_toEndOf="@id/textViewMedIdLabel"
+            app:layout_constraintTop_toTopOf="@id/textViewMedIdLabel"
+            tools:text="12345" />
+
+        <!-- Reflection -->
+        <TextView
+            android:id="@+id/textViewReflectionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textSize="16sp"
-            tools:text="Medicine ID" />
+            android:text="Reflection:"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewMedIdLabel" />
 
         <TextView
             android:id="@+id/textViewReflection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/textViewReflectionLabel"
+            app:layout_constraintStart_toEndOf="@id/textViewReflectionLabel"
+            app:layout_constraintTop_toTopOf="@id/textViewReflectionLabel"
+            tools:text="Feeling better" />
+
+        <!-- Number of Puffs -->
+        <TextView
+            android:id="@+id/textViewNumberPuffsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textSize="16sp"
-            tools:text="Reflection" />
+            android:text="Puffs used:"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewReflectionLabel" />
 
         <TextView
             android:id="@+id/textViewNumberPuffs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textSize="16sp"
-            tools:text="Number of Puffs" />
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/textViewNumberPuffsLabel"
+            app:layout_constraintStart_toEndOf="@id/textViewNumberPuffsLabel"
+            app:layout_constraintTop_toTopOf="@id/textViewNumberPuffsLabel"
+            tools:text="2" />
 
+        <!-- Symptoms -->
         <TextView
-            android:id="@+id/textViewSymptoms"
+            android:id="@+id/textViewSymptomsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            android:textSize="14sp"
+            android:text="Symptoms:"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewNumberPuffsLabel" />
+
+        <TextView
+            android:id="@+id/textViewSymptoms"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewSymptomsLabel"
             tools:text="Slight headache and a stuffy nose." />
 
+        <!-- Delete Button -->
         <Button
             android:id="@+id/buttonDeleteLog"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
             android:text="@string/delete_item"
             android:textColor="#DE1010"
             android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:strokeWidth="0dp" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>
+
+
