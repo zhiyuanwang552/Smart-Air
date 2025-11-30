@@ -6,26 +6,11 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_add_medicine"
-        style="@style/Widget.Material3.Button.OutlinedButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Add New Medicine"
-        android:textColor="@color/black"
-        app:iconGravity="textStart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_controller_medicine"
-        app:strokeWidth="2dp" />
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_rescue_medicine"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="64dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +20,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5">
 
             <TextView
                 android:id="@+id/tv_rescue_title"
@@ -58,7 +46,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_rescue_title" />
 
             <TextView
-                android:id="@+id/tv_rescue_inventory_value"
+                android:id="@+id/tvRescueValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -79,7 +67,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_rescue_inventory_label" />
 
             <TextView
-                android:id="@+id/tv_rescue_purchase_date_value"
+                android:id="@+id/tvRescueLastPurchase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -99,7 +87,7 @@
                 tools:text="For quick relief of asthma symptoms." />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_rescue_detail"
+                android:id="@+id/btCheckRescue"
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -151,7 +139,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_controller_title" />
 
             <TextView
-                android:id="@+id/tv_controller_inventory_value"
+                android:id="@+id/tvControllerValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -172,7 +160,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_controller_inventory_label" />
 
             <TextView
-                android:id="@+id/tv_controller_purchase_date_value"
+                android:id="@+id/tvControllerLastPurchase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -194,7 +182,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_controller_purchase_date_label" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_controller_detail"
+                android:id="@+id/btCheckController"
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

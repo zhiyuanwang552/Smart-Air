@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class LogRecyclerViewFragment extends Fragment implements LogAdapter.OnLogDeleteListener
@@ -76,7 +77,7 @@ public class LogRecyclerViewFragment extends Fragment implements LogAdapter.OnLo
 
 
         //db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
-        this.fetchSpinnerOptionFromDatabase();
+        //this.fetchSpinnerOptionFromDatabase();
         this.fetchLogsFromDatabase();
         return view;
     }
@@ -142,12 +143,15 @@ public class LogRecyclerViewFragment extends Fragment implements LogAdapter.OnLo
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
+                HashSet<String> childNameSet = new HashSet<>();
                 logList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     MedicalLog log = snapshot.getValue(MedicalLog.class);
                     logList.add(log);
+                    childNameSet.add(log.getUserName());
                 }
 
+                updateUserNameSpinner(new ArrayList<>(childNameSet));
                 filterLogs();
             }
 
@@ -159,31 +163,31 @@ public class LogRecyclerViewFragment extends Fragment implements LogAdapter.OnLo
 
     }
 
-    private void fetchSpinnerOptionFromDatabase()
-    {
-        if (accountType.equals("child")) return;
-        dbRef = db.getReference("parentAccount").child(getArguments().getString("userId"))
-                .child("linkedChild");
-        dbRef.addValueEventListener(new ValueEventListener(){
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
-                List<String> newNameList = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String childName = snapshot.getKey();
-                    newNameList.add(childName);
-                }
-
-                updateUserNameSpinner(newNameList);
-                filterLogs();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle possible errors
-            }
-        });
-    }
+//    private void fetchSpinnerOptionFromDatabase()
+//    {
+//        if (accountType.equals("child")) return;
+//        dbRef = db.getReference("parentAccount").child(getArguments().getString("userId"))
+//                .child("linkedChild");
+//        dbRef.addValueEventListener(new ValueEventListener(){
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+//            {
+//                List<String> newNameList = new ArrayList<>();
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    String childName = snapshot.getKey();
+//                    newNameList.add(childName);
+//                }
+//
+//                updateUserNameSpinner(newNameList);
+//                filterLogs();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                // Handle possible errors
+//            }
+//        });
+//    }
 
     private void updateUserNameSpinner(List<String> newUsers)
     {
