@@ -2,7 +2,7 @@ package com.example.b07demosummer2024;
 
 public class ScreenPresenter implements LoginContract.Presenter {
     private LoginContract.Viewer viewer;
-    private Model model;
+    private final Model model;
 
     public ScreenPresenter(Model model){
         this.model = model;
@@ -13,62 +13,104 @@ public class ScreenPresenter implements LoginContract.Presenter {
     }
 
     @Override
-    public boolean login(String username, String password, int selectedID, int parent, int child, int provider){
+    public void login(String username, String password, int selectedID, int parent,
+                      int child, int provider, Communication callback){
         if(username.isEmpty() || password.isEmpty()){
-            viewer.showErrorMessage("Username and password cannot be empty");
-            return false;
+            callback.onFalse("Username and password cannot be empty");
+            return;
         }
+        String userType;
         if(selectedID == parent){
-            if(!model.login("parent",username, password)) {
-                viewer.showErrorMessage("Incorrect email or password. Make Sure the login type is correct");
-                return false;
-            }
+            userType = "parents";
+        }else if(selectedID == child){
+            userType = "children";
+        }else{
+            userType = "providers";
         }
-        else if(selectedID == child){
-            if(!model.login("child",username, password)) {
-                viewer.showErrorMessage("Incorrect email or password. Make Sure the login type is correct");
-                return false;
+
+        model.login(username, password, new UserLoginCallBack() {
+            @Override
+            public void onSuccess() {
+
+                if(selectedID == parent){
+                    callback.onTrue("parents");
+                }else if(selectedID == child){
+                    callback.onTrue("children");
+                }else if(selectedID == provider){
+                    callback.onTrue("providers");
+                }
             }
-        }
-        else if(selectedID == provider){
-            if(!model.login("provider",username, password)) {
-                viewer.showErrorMessage("Incorrect email or password. Make Sure the login type is correct");
-                return false;
+            @Override
+            public void onError(String msg) {
+                callback.onFalse(msg);
             }
-        }
-        return true;
+        });
     }
     @Override
-    public boolean VerifySignupCredentials(String username, String password, String reenterpassword, int selectedUser, int parent, int provider) {
+    public boolean FirstTimeLogIn() {
+        return model.CheckFirstTime();
+    }
+    @Override
+    public void VerifySignupCredentialsCreate(String username, String password,
+                                              String reenterpassword, int selectedUser, int parent, int provider, Communication callback) {
         if(username.isEmpty() || password.isEmpty()){
-            viewer.showErrorMessage("Username and password cannot be empty");
-            return false;
+            viewer.showMessage("Username and password cannot be empty");
+            return;
         }
-        if(!password.equals(reenterpassword)){
-            viewer.showErrorMessage("Passwords do not match");
-            return false;
-        }else if (model.userExists(username,selectedUser,parent,provider)) {
-            viewer.showErrorMessage("Username already exists");
-            return false;
-        }else if(model.securePassword(password)){
-            viewer.showErrorMessage("*Password is not secure!\n\n" +
+        if(!password.equals(reenterpassword)) {
+            viewer.showMessage("Passwords do not match");
+            return;
+        }
+        if(!model.securePassword(password)){
+            viewer.showMessage("*Password is not secure!\n\n" +
                     "        *A password must have\n\n" +
                     "        \t\t\t\t- Lowercase Character\n\n" +
                     "        \t\t\t\t- Uppercase Character\n\n" +
                     "        \t\t\t\t- Numeric Character\n\n" +
-                    "        \t\t\t\t- Non-alphanumeric Character\n\n" +
+                    "        \t\t\t\t- Special Character\n\n" +
                     "        \t\t\t\t- Minimum of 6 characters\n\n" +
                     "        \t\t\t\t- Maximum of 30 characters\n");
-            return false;
+            return;
         }
-        return true;
-    }
+        String userType;
+        if(selectedUser == parent){
+            userType = "parents";
+        }else{
+            userType = "providers";
+        }
 
-    @Override
-    public boolean verification(String code) {
-        return false;
-    }
+        model.addUserToDatabase(username,userType,password, new Communication(){
+            @Override
+            public void onTrue(String message) {
+                viewer.showMessage(message);
+                callback.onTrue(message);
+            }
+            @Override
+            public void onFalse(String message) {
+                viewer.showMessage(message);
+                callback.onFalse(message);
+            }
+        });
 
+//                model.sendVerificationCodeCreate(username,password);
+
+    }
     @Override
-    public void resetPassword(String email) {}
+    public void resetPassword(String email, Communication callback) {
+        if(email.isEmpty()){
+            callback.onFalse("Email cannot be empty");
+            return;
+        }
+        model.ResetPassword(email,new Communication(){
+            @Override
+            public void onTrue(String message) {
+                callback.onTrue(message);
+            }
+            @Override
+            public void onFalse(String message) {
+                callback.onFalse(message);
+            }
+        });
+
+    }
 }

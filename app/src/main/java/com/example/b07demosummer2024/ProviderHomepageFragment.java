@@ -1,4 +1,6 @@
 package com.example.b07demosummer2024;
 
-public class ProviderHomepageFragment {
+import androidx.fragment.app.Fragment;
+
+public class ProviderHomepageFragment extends Fragment {
 }

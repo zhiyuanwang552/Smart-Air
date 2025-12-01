@@ -46,30 +46,25 @@ public class SignUpFragment extends Fragment implements LoginContract.Viewer{
                 String ReenterPassword = ReenterPasswordEditText.getText().toString();
                 String UserType;
                 int SelectedUserType = UserTypeRadioGroup.getCheckedRadioButtonId();
-                if(SelectedUserType == R.id.radioButton) {
-                    UserType = "Parent";
-                }else UserType = "Provider";
-                if(presenter.VerifySignupCredentials(Email,Password,ReenterPassword,SelectedUserType,R.id.radioButton,R.id.radioButton2)){
-                    SignUpVerificationFragment fragment = SignUpVerificationFragment.newInstance(Email,Password,UserType);
-                    if (getActivity() != null){
-                        getActivity().getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.login_fragment_container, fragment)
-                                .addToBackStack(null)
-                                .commit();
-                    }
-                }
+                presenter.VerifySignupCredentialsCreate(Email,Password,ReenterPassword,
+                        SelectedUserType,R.id.radioButton,R.id.radioButton2,new Communication(){
+                            @Override
+                            public void onTrue(String message) {
+                                loadFragment(new SuccessfulActionFragment());
+                            }
+                            @Override
+                            public void onFalse(String message){}
+
+                        });
             }
         });
         return view;
     }
 
-    public void loginSuccess(String LoginType) {
-
-    }
-
-    @Override public void showErrorMessage(String message) {
+    @Override public void showMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
+
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.login_fragment_container, fragment);

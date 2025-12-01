@@ -45,7 +45,7 @@ public class NewPasswordFragment extends Fragment implements LoginContract.Viewe
 
         return view;
     }
-    @Override public void showErrorMessage(String message) {
+    @Override public void showMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
     private void loadFragment(Fragment fragment) {

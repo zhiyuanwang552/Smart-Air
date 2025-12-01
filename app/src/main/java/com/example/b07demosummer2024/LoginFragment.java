@@ -41,9 +41,18 @@ public class LoginFragment extends Fragment implements LoginContract.Viewer {
                 String Username = UserEmail.getText().toString();
                 String password = UserPassword.getText().toString();
                 int SelectedUserType = SignInPerson.getCheckedRadioButtonId();
-                if(presenter.login(Username, password, SelectedUserType, R.id.radioButton, R.id.radioButton2, R.id.radioButton3)){
-                    loginSuccess("Parent");
-                }
+                presenter.login(Username, password, SelectedUserType, R.id.radioButton,
+                        R.id.radioButton2, R.id.radioButton3, new Communication(){
+                            @Override
+                            public void onTrue(String userType){
+                                showMessage("Login Successful as " + userType);
+                                loginSuccess(userType);
+                            }
+                            @Override
+                            public void onFalse(String msg){
+                                showMessage(msg);
+                            }
+                        });
             }
         });
 
@@ -63,12 +72,34 @@ public class LoginFragment extends Fragment implements LoginContract.Viewer {
         return view;
     }
     @Override
-    public void showErrorMessage(String message) {
+    public void showMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     public void loginSuccess(String LoginType) {
         //Todo add in transition from login activity to main activity
+        if(LoginType.equals("parents")){
+            if(presenter.FirstTimeLogIn()){
+                System.out.println("Parent Onboarding");
+                loadFragment(new ParentOnboardingFragment());
+            }else{
+                loadFragment(new ParentHomepageFragment());
+            }
+        }else if (LoginType.equals("children")){
+            if(presenter.FirstTimeLogIn()){
+                System.out.println("Children Onboarding");
+                loadFragment(new ChildOnboardingFragment());
+            }else {
+                loadFragment(new ChildHomepageFragment());
+            }
+        }else if (LoginType.equals("providers")){
+            if(presenter.FirstTimeLogIn()){
+                System.out.println("Provider Onboarding");
+                loadFragment(new ProviderOnboardingFragment());
+            }else {
+                loadFragment(new ProviderHomepageFragment());
+            }
+        }
     }
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
