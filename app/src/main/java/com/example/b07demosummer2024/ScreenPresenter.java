@@ -13,8 +13,8 @@ public class ScreenPresenter implements LoginContract.Presenter {
     }
 
     @Override
-    public void login(String username, String password, int selectedID, int parent,
-                      int child, int provider, Communication callback){
+    public void login(String username, String password, int selectedID, int child,
+                      int parent, int provider, Communication callback){
         if(username.isEmpty() || password.isEmpty()){
             callback.onFalse("Username and password cannot be empty");
             return;
@@ -28,7 +28,7 @@ public class ScreenPresenter implements LoginContract.Presenter {
             userType = "providers";
         }
 
-        model.login(username, password, new UserLoginCallBack() {
+        model.login(userType,username, password, new UserLoginCallBack() {
             @Override
             public void onSuccess() {
 

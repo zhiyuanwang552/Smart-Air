@@ -2,6 +2,7 @@ package com.example.b07demosummer2024;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -15,8 +16,13 @@ public class Model {
 
     private final DatabaseReference childRef = FirebaseDatabase.getInstance().getReference("children");
 
-    public void login(String username, String password,UserLoginCallBack callback){
-        myAuth.signInWithEmailAndPassword(username,password).addOnCompleteListener(task -> {
+    public void login(String userType,String username, String password,UserLoginCallBack callback){
+        String selectUsername = "";
+        if(userType.equals("children"))
+            selectUsername = username + "@gmail.com";
+        else
+            selectUsername = username;
+        myAuth.signInWithEmailAndPassword(selectUsername,password).addOnCompleteListener(task -> {
             if(!task.isSuccessful()){
                 callback.onError("Login failed, make sure the email and password are correct");
                 return;
@@ -26,7 +32,33 @@ public class Model {
                 callback.onError("User is null");
                 return;
             }
-            callback.onSuccess();
+            DatabaseReference userTypeRef = FirebaseDatabase.getInstance().getReference(userType).
+                    child(user.getUid()).child("userType");
+            DatabaseReference userPassRef = FirebaseDatabase.getInstance().getReference(userType).
+                    child(user.getUid()).child("password");
+            userTypeRef.get().addOnCompleteListener(task1 -> {
+                if(!task1.isSuccessful()){
+                    callback.onError("Error getting user type");
+                    return;
+                }
+                String data = task1.getResult().getValue(String.class);
+                if(data != null){
+                    if(data.equals(userType)){
+                        userPassRef.get().addOnCompleteListener(task2 -> {
+                            if(task2.isSuccessful()){
+                                String passData = task2.getResult().getValue(String.class);
+                                if(passData != null && !passData.equals(password)){
+                                    userPassRef.setValue(password);
+                                }
+                            }
+                        });
+                        callback.onSuccess();
+                    }
+                }else{
+                    callback.onError("User type mismatch");
+                    myAuth.signOut();
+                }
+            });
         });
     }
 
@@ -74,6 +106,8 @@ public class Model {
                     Map<String,String> newUserData = new HashMap<>();
                     newUserData.put("uid",uid);
                     newUserData.put("email",username);
+                    newUserData.put("password",password);
+                    newUserData.put("userType",UserType);
                     parentRef.child(uid).setValue(newUserData)
                             .addOnCompleteListener(writeTask -> {
                                 myAuth.signOut();
@@ -86,6 +120,8 @@ public class Model {
                     Map<String,String> newUserData = new HashMap<>();
                     newUserData.put("uid",uid);
                     newUserData.put("email",username);
+                    newUserData.put("password",password);
+                    newUserData.put("userType",UserType);
                     providerRef.child(uid).setValue(newUserData)
                             .addOnCompleteListener(writeTask -> {
                                 myAuth.signOut();
