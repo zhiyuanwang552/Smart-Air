@@ -79,13 +79,6 @@ public class ParentHomeActivity extends Fragment {
 
         reloadPage("blank");
 
-        setPbButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new PbEntryFragment());
-            }
-        });
-
         childSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -165,7 +158,18 @@ public class ParentHomeActivity extends Fragment {
         }
         setZoneDisplay(childId);
         fetchAlertsFromDatabase(childId);
+        setPbButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PbEntryFragment PEF = new PbEntryFragment();
+                Bundle args = new Bundle();
+                args.putString("childId", childId);
+                PEF.setArguments(args);
+                loadFragment(PEF);
+            }
+        });
     }
+
     private void fetchAlertsFromDatabase(String childId) {
         childRef = db.getReference("children/" + childId + "/alertHistory");
         childRef.addValueEventListener(new ValueEventListener() {

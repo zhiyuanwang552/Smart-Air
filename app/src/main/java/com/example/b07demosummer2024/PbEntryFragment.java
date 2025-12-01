@@ -52,7 +52,11 @@ public class PbEntryFragment extends Fragment {
         pbEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logPbEntry(pbEntered);
+                String childId = null;
+                if (getArguments() != null) {
+                    childId = getArguments().getString("childId");
+                }
+                logPbEntry(pbEntered, childId);
                 getParentFragmentManager().popBackStack();
             }
         });
@@ -67,8 +71,8 @@ public class PbEntryFragment extends Fragment {
         return view;
     }
 
-    private void logPbEntry(String pbEntry) {
-        childRef = db.getReference("children/" + "genericChild");
+    private void logPbEntry(String pbEntry, String childId) {
+        childRef = db.getReference("children/" + childId);
         childRef.child("personalBest").setValue(pbEntry);
     }
 }
