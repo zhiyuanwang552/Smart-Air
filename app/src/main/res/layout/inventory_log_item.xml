@@ -15,7 +15,7 @@
 
 
         <Button
-            android:id="@+id/delete_button"
+            android:id="@+id/btDeleteMed"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_medicine_id_value"
+            android:id="@+id/tvMedicineId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -61,7 +61,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_medicine_id_label" />
 
         <TextView
-            android:id="@+id/tv_brand_name_value"
+            android:id="@+id/tvBrandNameValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -82,7 +82,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_brand_name_label" />
 
         <TextView
-            android:id="@+id/tv_puffs_value"
+            android:id="@+id/tvPuffsValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -103,7 +103,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_puffs_label" />
 
         <TextView
-            android:id="@+id/tv_purchase_date_value"
+            android:id="@+id/tvPurchaseDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -124,7 +124,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_purchase_date_label" />
 
         <TextView
-            android:id="@+id/tv_expire_date_value"
+            android:id="@+id/tvExpireDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -145,7 +145,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_expire_date_label" />
 
         <TextView
-            android:id="@+id/tv_cost_value"
+            android:id="@+id/tvCostValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

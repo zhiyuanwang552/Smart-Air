@@ -97,12 +97,12 @@
                 android:gravity="center_vertical"
                 android:text="@string/number_of_puffs_title"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/puffs_input_layout"
+                app:layout_constraintBottom_toBottomOf="@+id/estimatePuffsInLayout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spinnerMedicineId" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/puffs_input_layout"
+                android:id="@+id/estimatePuffsInLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
                 android:text="@string/add_sypmtom_description_title"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/puffs_input_layout" />
+                app:layout_constraintTop_toBottomOf="@+id/estimatePuffsInLayout" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/description_input_layout"
@@ -144,7 +144,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/descriptionLabel">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etDescriptionInput"
+                    android:id="@+id/etBrandNameInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="top"
@@ -156,7 +156,7 @@
 
             <!-- 按钮组 -->
             <Button
-                android:id="@+id/buttonCancel"
+                android:id="@+id/btInventoryCancel"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -166,13 +166,13 @@
                 android:text="@string/cancel"
                 android:textColor="#F44336"
                 app:cornerRadius="20dp"
-                app:layout_constraintEnd_toStartOf="@+id/buttonSave"
+                app:layout_constraintEnd_toStartOf="@+id/btInventorySave"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/description_input_layout"
                 app:strokeColor="@color/black" />
 
             <Button
-                android:id="@+id/buttonSave"
+                android:id="@+id/btInventorySave"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -182,8 +182,8 @@
                 android:textColor="#2196F3"
                 app:cornerRadius="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/buttonCancel"
-                app:layout_constraintTop_toTopOf="@id/buttonCancel"
+                app:layout_constraintStart_toEndOf="@id/btInventoryCancel"
+                app:layout_constraintTop_toTopOf="@id/btInventoryCancel"
                 app:strokeColor="@color/black"
                 app:strokeWidth="1dp" />
 

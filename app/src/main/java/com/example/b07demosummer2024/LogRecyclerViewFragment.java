@@ -49,7 +49,7 @@ public class LogRecyclerViewFragment extends Fragment implements LogAdapter.OnLo
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_list_item, container, false);
+        View view = inflater.inflate(R.layout.fragment_log_recycler_view, container, false);
         accountType = getArguments().getString("accountType");
 
         // Initialize the RecyclerView
@@ -84,12 +84,11 @@ public class LogRecyclerViewFragment extends Fragment implements LogAdapter.OnLo
 
     private void setupSpinners() {
         ArrayAdapter<CharSequence> logTypeAdapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.log_type_array, android.R.layout.simple_spinner_item);
+                R.array.medicine_type_array, android.R.layout.simple_spinner_item);
         logTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spSortLogType.setAdapter(logTypeAdapter);
 
         this.childNameList = new ArrayList<>();
-
         if (accountType.equals("parent")) this.childNameList.add("ALL");
         else this.childNameList.add(getArguments().getString("userName"));    //if it is child, only show his name
 
@@ -135,9 +134,9 @@ public class LogRecyclerViewFragment extends Fragment implements LogAdapter.OnLo
     private void fetchLogsFromDatabase()
     {
         if (accountType.equals("child")) dbRef = db.getReference("parentAccount").
-                child(getArguments().getString("parentUserId")).child("medicalLog");
+                child(getArguments().getString("parentUserId")).child("medicalLogs");
         else dbRef = db.getReference("parentAccount").child(getArguments().getString("UserId"))
-                .child("medicalLog");
+                .child("medicalLogs");
 
         dbRef.addValueEventListener(new ValueEventListener(){
             @Override
@@ -160,10 +159,56 @@ public class LogRecyclerViewFragment extends Fragment implements LogAdapter.OnLo
                 // Handle possible errors
             }
         });
-
     }
 
-//    private void fetchSpinnerOptionFromDatabase()
+    private void updateUserNameSpinner(List<String> newUsers)
+    {
+        if (childNameList != null && userNameAdapter != null)
+        {
+            childNameList.clear();
+            childNameList.add("ALL");
+            childNameList.addAll(newUsers);
+            userNameAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public void onDeleteClick(String logId)
+    {
+        if (logId == null || logId.isEmpty()) {
+            Toast.makeText(getContext(), "Error: Log ID is invalid.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        DatabaseReference logsRef;
+        if (accountType.equals("parent")) logsRef = db.getReference("parentAccount").
+                child(getArguments().getString("userId")).child("medicalLogs");
+        else logsRef = db.getReference("parentAccount").child(getArguments().getString("parentUserId"))
+                .child("medicalLogs");
+
+
+        logsRef.child(logId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // 删除成功后给用户一个提示
+                Toast.makeText(getContext(), "Log deleted successfully.", Toast.LENGTH_SHORT).show();
+                // 注意：由于您使用了 addValueEventListener，当数据库中的数据被删除后，
+                // onDataChange 会自动被触发，从而刷新您的UI。所以这里通常不需要手动从logList中移除项。
+            }
+        }).addOnFailureListener(e -> {
+            // 删除失败时给用户一个提示
+            Toast.makeText(getContext(), "Failed to delete log: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void loadFragment(Fragment fragment)
+    {
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.add(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    //    private void fetchSpinnerOptionFromDatabase()
 //    {
 //        if (accountType.equals("child")) return;
 //        dbRef = db.getReference("parentAccount").child(getArguments().getString("userId"))
@@ -188,52 +233,5 @@ public class LogRecyclerViewFragment extends Fragment implements LogAdapter.OnLo
 //            }
 //        });
 //    }
-
-    private void updateUserNameSpinner(List<String> newUsers)
-    {
-        if (childNameList != null && userNameAdapter != null)
-        {
-            childNameList.clear();
-            childNameList.add("ALL");
-            childNameList.addAll(newUsers);
-            userNameAdapter.notifyDataSetChanged();
-        }
-    }
-
-    public void onDeleteClick(String logId)
-    {
-        if (logId == null || logId.isEmpty()) {
-            Toast.makeText(getContext(), "Error: Log ID is invalid.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        DatabaseReference logsRef;
-        if (accountType.equals("parent")) logsRef = db.getReference("parentAccount").
-                child(getArguments().getString("userId")).child("medicalLog");
-        else logsRef = db.getReference("parentAccount").child(getArguments().getString("parentUserId"))
-                .child("medicalLog");
-
-
-        logsRef.child(logId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                // 删除成功后给用户一个提示
-                Toast.makeText(getContext(), "Log deleted successfully.", Toast.LENGTH_SHORT).show();
-                // 注意：由于您使用了 addValueEventListener，当数据库中的数据被删除后，
-                // onDataChange 会自动被触发，从而刷新您的UI。所以这里通常不需要手动从logList中移除项。
-            }
-        }).addOnFailureListener(e -> {
-            // 删除失败时给用户一个提示
-            Toast.makeText(getContext(), "Failed to delete log: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        });
-    }
-
-    private void loadFragment(Fragment fragment)
-    {
-        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
 
 }

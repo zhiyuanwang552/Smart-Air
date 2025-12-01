@@ -29,7 +29,7 @@ public class AddNewLogFragment extends Fragment
     private Button buttonSave;
     private Button buttonCancel;
     private Spinner spinnerReflectionType;
-    private Spinner spinerMedicineId;
+    private Spinner spinnerMedicineId;
     private TextInputLayout puffsInlayout;
     private TextInputLayout descriptionInlayout;
     private TextInputEditText etPuffsInput;
@@ -47,21 +47,20 @@ public class AddNewLogFragment extends Fragment
 
         View view = inflater.inflate(R.layout.fragment_add_log, container, false);
         accountType = getArguments().getString("accountType");
-        buttonSave = view.findViewById(R.id.buttonSave);
-        buttonCancel = view.findViewById(R.id.buttonCancel);
+        buttonSave = view.findViewById(R.id.btInventorySave);
+        buttonCancel = view.findViewById(R.id.btInventoryCancel);
         spinnerReflectionType = view.findViewById(R.id.spinnerReflectionType);
-        spinerMedicineId = view.findViewById(R.id.spinnerMedicineId);
-        puffsInlayout = view.findViewById(R.id.puffs_input_layout);
+        spinnerMedicineId = view.findViewById(R.id.spinnerMedicineId);
+        puffsInlayout = view.findViewById(R.id.estimatePuffsInLayout);
         descriptionInlayout = view.findViewById(R.id.description_input_layout);
         etPuffsInput = view.findViewById(R.id.etPuffsInput);
-        etDescriptionInput = view.findViewById(R.id.etDescriptionInput);
+        etDescriptionInput = view.findViewById(R.id.etBrandNameInput);
         medicineIdList = new ArrayList<>();
 
         setupSpinners();
         fetchSpinnerOptionFromDatabase();
         setupButtons();
         validateAndSaveLog();
-
 
         return view;
     }
@@ -76,14 +75,14 @@ public class AddNewLogFragment extends Fragment
         medicineIdAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_spinner_item, medicineIdList);
         medicineIdAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinerMedicineId.setAdapter(medicineIdAdapter);
+        spinnerMedicineId.setAdapter(medicineIdAdapter);
     }
 
 
     void fetchSpinnerOptionFromDatabase()
     {
         dbRef = db.getReference("parentAccount").
-                child(getArguments().getString("parentUserId")).child("medicine");
+                child(getArguments().getString("parentUserId")).child("medicines");
         dbRef.addValueEventListener(new ValueEventListener(){
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
@@ -124,7 +123,7 @@ public class AddNewLogFragment extends Fragment
     void validateAndSaveLog()
     {
         String reflectionType = spinnerReflectionType.getSelectedItem().toString();
-        String medicineId = spinerMedicineId.getSelectedItem().toString();
+        String medicineId = spinnerMedicineId.getSelectedItem().toString();
         String puffs = etPuffsInput.getText().toString().trim();
         String description = etDescriptionInput.getText().toString().trim();
 
@@ -151,18 +150,13 @@ public class AddNewLogFragment extends Fragment
                 isValid = false;
             }
         }
-        if (isValid)
-        {
-            addLogToDataBase(puffs, description);
-        }
 
-
-
+        if (isValid) addLogToDataBase(puffs, description);
     }
 
     private void addLogToDataBase(String puffs, String description)
     {
-        String medicineId = spinerMedicineId.getSelectedItem().toString();
+        String medicineId = spinnerMedicineId.getSelectedItem().toString();
 
         MedicineTypeCallback callback = new MedicineTypeCallback()
         {
@@ -188,11 +182,10 @@ public class AddNewLogFragment extends Fragment
                 int puffsValue = Integer.parseInt(puffs);
 
                 DatabaseReference userLogsRef = db.getReference("parentAccount")
-                        .child(parentUserId).child("medicalLog");
+                        .child(parentUserId).child("medicalLogs");
                 String newLogId = userLogsRef.push().getKey();
 
                 long timestamp = System.currentTimeMillis();
-
                 // 现在使用真实的 medicineType
                 MedicalLog newLog = new MedicalLog(newLogId, GeneralLog.MedicalLogType, timestamp, description,
                         medicineId, reflectionType, puffsValue, userName, medicineType);
@@ -213,10 +206,10 @@ public class AddNewLogFragment extends Fragment
         };
 
         // 调用异步方法来获取 medicineType
-        getMedicineTypeUsingId(medicineId, callback);
+        getMedicineTypeUsingId(medicineId, callback, Integer.parseInt(puffs));
     }
 
-    private void getMedicineTypeUsingId(String medicineId, final MedicineTypeCallback callback) {
+    private void getMedicineTypeUsingId(String medicineId, final MedicineTypeCallback callback, int puffsValue) {
         String parentUserId = getArguments().getString("parentUserId");
         if (parentUserId == null || parentUserId.isEmpty() || medicineId == null || medicineId.isEmpty())
         {
@@ -227,7 +220,7 @@ public class AddNewLogFragment extends Fragment
         // 构造指向特定药品信息的绝对路径
         DatabaseReference medicineRef = db.getReference("parentAccount")
                 .child(parentUserId)
-                .child("medicine")
+                .child("medicines")
                 .child(medicineId);
 
         // 使用 addListenerForSingleValueEvent 进行一次性读取
@@ -236,8 +229,11 @@ public class AddNewLogFragment extends Fragment
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     // 假设药品信息下有一个名为 "type" 的字段存储着药品类型
-                    String medicineType = dataSnapshot.child("medicineType").getValue(String.class);
-                    callback.onCallback(medicineType);
+                    Medicine linkedMed = dataSnapshot.getValue(Medicine.class);
+                    int newRemainningPuffs = linkedMed.getRemainingPuffs() - puffsValue;
+                    medicineRef.child("remainingPuffs").setValue(newRemainningPuffs);
+
+                    callback.onCallback(linkedMed.getMedicineType());
                 } else {
                     // 路径不存在
                     callback.onCallback(null);

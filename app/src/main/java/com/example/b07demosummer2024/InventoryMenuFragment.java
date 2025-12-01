@@ -34,6 +34,7 @@ public class InventoryMenuFragment extends Fragment
     private TextView tvRescueLastPurchase;
     private Button btCheckRescue;
     private Button btCheckController;
+    private Button btAddNewMedicine;
     private List<Medicine> medicineList;
     private DatabaseReference dbRef;
     private final FirebaseDatabase db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");;
@@ -42,12 +43,13 @@ public class InventoryMenuFragment extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inventory_menu, container, false);
 
-        tvRescueValue = view.findViewById(R.id.editTextTitle);
-        tvControllerValue = view.findViewById(R.id.editTextAuthor);
-        tvControllerLastPurchase = view.findViewById(R.id.editTextGenre);
-        tvRescueLastPurchase = view.findViewById(R.id.editTextDescription);
+        tvRescueValue = view.findViewById(R.id.tvRescueValue);
+        tvControllerValue = view.findViewById(R.id.tvControllerValue);
+        tvControllerLastPurchase = view.findViewById(R.id.tvControllerLastPurchase);
+        tvRescueLastPurchase = view.findViewById(R.id.tvRescueLastPurchase);
         btCheckRescue = view.findViewById(R.id.btCheckRescue);
         btCheckController = view.findViewById(R.id.btCheckController);
+        btAddNewMedicine = view.findViewById(R.id.btAddNewMedicine);
         medicineList = new ArrayList<>();
 
 
@@ -119,19 +121,43 @@ public class InventoryMenuFragment extends Fragment
         btCheckRescue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new InventoryRecyclerViewFragment());
+                Fragment fragment = new InventoryRecyclerViewFragment();
+                Bundle bundle = getArguments();
+                bundle.putString("requiredMedicineType", "Rescue");
+                fragment.setArguments(bundle);
+                loadFragmentReplace(fragment);
             }
         });
         btCheckController.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new InventoryRecyclerViewFragment());
+                Fragment fragment = new InventoryRecyclerViewFragment();
+                Bundle bundle = getArguments();
+                bundle.putString("requiredMedicineType", "Controller");
+                fragment.setArguments(bundle);
+                loadFragmentReplace(fragment);
             }
         });
-
+        btAddNewMedicine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new InventoryRecyclerViewFragment();
+                Bundle bundle = getArguments();
+                fragment.setArguments(bundle);
+                loadFragmentAdd(fragment);
+            }
+        });;
     }
 
-    private void loadFragment(Fragment fragment)
+    private void loadFragmentReplace(Fragment fragment)
+    {
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    private void loadFragmentAdd(Fragment fragment)
     {
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.add(R.id.fragment_container, fragment);

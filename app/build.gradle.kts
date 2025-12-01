@@ -40,7 +40,6 @@ dependencies {
     implementation(libs.fragment)
     implementation(libs.recyclerview)
     implementation(libs.cardview)
-    implementation(libs.cardview.v7)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

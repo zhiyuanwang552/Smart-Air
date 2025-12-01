@@ -34,7 +34,7 @@
         <item>Books</item>
         <item>Movies</item>
     </string-array>
-    <string-array name="log_type_array">
+    <string-array name="medicine_type_array">
         <item>Controller</item>
         <item>Rescue</item>
     </string-array>
@@ -42,6 +42,12 @@
         <item>Better</item>
         <item>Same</item>
         <item>Worse</item>
+    </string-array>
+    <string-array name="expire_state_array">
+        <item>All</item>
+        <item>Expired</item>
+        <item>Normal</item>
+        <item>Expire Soon</item>
     </string-array>
 
 

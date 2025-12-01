@@ -45,15 +45,15 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if (itemId == R.id.navigation_record)
                 {
-                    selectedFragment = new MedicalLogMenuFragment();
+                    selectedFragment = new LogRecyclerViewFragment();
                 }
                 else if (itemId == R.id.navigation_dashboard)
                 {
-                    selectedFragment = new DeleteItemFragment();
+                    selectedFragment = new InventoryRecyclerViewFragment();
                 }
                 else if (itemId == R.id.navigation_medicine_inventory)
                 {
-                    selectedFragment = new HomeFragment();
+                    selectedFragment = new AddItemFragment();
                 }
                 else if (itemId == R.id.navigation_technical_guide)
                 {

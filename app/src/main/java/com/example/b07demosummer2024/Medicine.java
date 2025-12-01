@@ -1,21 +1,24 @@
 package com.example.b07demosummer2024;
 
 import androidx.annotation.Nullable;
-import java.time.LocalDate;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class Medicine {
-    private int medicineId;
+    private String medicineId;
     private long expireDate;
     private long purchaseDate;
     private String medicineType;
     private int remainingPuffs;
+    private int maxPuffs;
     private double price;
 
     private String brandName;
 
-    Medicine (int medicineId, long expireDate, long purchaseDate, String medicineType, int remainingPuffs, double price, @Nullable String brandName) {
-
+    Medicine (String medicineId, long expireDate, long purchaseDate, String medicineType,
+              int remainingPuffs, int maxPuffs, double price, @Nullable String brandName)
+    {
         this.medicineId = medicineId;
         this.expireDate = expireDate;
         this.purchaseDate = purchaseDate;
@@ -23,6 +26,17 @@ public class Medicine {
         this.remainingPuffs = remainingPuffs;
         this.price = price;
         this.brandName = brandName;
+        this.maxPuffs = maxPuffs;
+    }
+
+    public int getMaxPuffs()
+    {
+        return maxPuffs;
+    }
+
+    public void setMaxPuffs(int maxPuffs)
+    {
+        this.maxPuffs = maxPuffs;
     }
 
     public long getExpireDate() {
@@ -73,13 +87,34 @@ public class Medicine {
     {
         this.brandName = brandName;
     }
-    public int getMedicineId()
+    public String getMedicineId()
     {
         return medicineId;
     }
 
-    public void setMedicineId(int medicineId)
+    public void setMedicineId(String medicineId)
     {
         this.medicineId = medicineId;
+    }
+
+    public String getFormattedDateTime(long timeStamp, String formatString)
+    {
+        Date date = new Date(timeStamp);
+        SimpleDateFormat formatter = new SimpleDateFormat(formatString, Locale.getDefault());
+        return formatter.format(date);
+    }
+
+    public String getExpireState()
+    {
+        if (System.currentTimeMillis() >= expireDate) return "Expired";
+        else
+            if (expireDate - System.currentTimeMillis() < 30 * 24 * 60 * 60 * 1000) return "Soon to Expire";
+            else return "Normal";
+    }
+
+
+    public boolean isLowInventory()
+    {
+        return remainingPuffs <= maxPuffs / 5;
     }
 }
