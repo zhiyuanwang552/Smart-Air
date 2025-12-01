@@ -77,8 +77,6 @@ public class AddNewLogFragment extends Fragment
         medicineIdAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMedicineId.setAdapter(medicineIdAdapter);
     }
-
-
     void fetchSpinnerOptionFromDatabase()
     {
         dbRef = db.getReference("parents").

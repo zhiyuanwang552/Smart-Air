@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 Fragment selectedFragment = null;
                 Bundle bundle = new Bundle();
                 bundle.putString("userType", "parent");
-                bundle.putString("userName", "testParent");
+                bundle.putString("userName", "testUser");
                 bundle.putString("parentUserId", "testParent");
 
                 int itemId = item.getItemId();

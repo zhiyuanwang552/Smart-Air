@@ -82,7 +82,8 @@ public class InventoryRecyclerViewFragment extends Fragment implements DeleteLis
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Medicine med = snapshot.getValue(Medicine.class);
                     medicineList.add(med);
-                    brandNameSet.add(med.getBrandName());
+
+                    if (!med.getBrandName().isEmpty()) {brandNameSet.add(med.getBrandName());}
                 }
 
                 updateBrandNameSpinner(new ArrayList<>(brandNameSet));

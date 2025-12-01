@@ -76,7 +76,6 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.MedicalLogViewHo
             textViewSymptoms = itemView.findViewById(R.id.textViewSymptoms);
             deleteButton = itemView.findViewById(R.id.buttonDeleteLog);
             textViewUsedBy = itemView.findViewById(R.id.textViewUsedBy);
-
         }
     }
 
