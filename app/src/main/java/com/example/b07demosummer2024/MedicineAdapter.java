@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -33,7 +34,9 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MedicineAdapter.MedicineViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MedicineAdapter.MedicineViewHolder holder, int position)
+    {
+        android.content.Context context = holder.itemView.getContext();
         String formattedExpireDate, formattedPurchaseDate, formattedCost,
                 formattedPuffs, currentMedId, formattedBrandName;
 
@@ -41,7 +44,6 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
 
         formattedExpireDate = med.getFormattedDateTime(med.getExpireDate(), "yyyy-MM-dd");
         formattedExpireDate += " (" + med.getExpireState() + ")";
-
         currentMedId = med.getMedicineId();
         formattedPurchaseDate = med.getFormattedDateTime(med.getPurchaseDate(), "yyyy-MM-dd");
 
@@ -57,7 +59,22 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         holder.tvMedicineId.setText(currentMedId);
         holder.tvBrandNameValue.setText(formattedBrandName);
         holder.tvPuffsValue.setText(formattedPuffs);
+        if ("Expired".equals(med.getExpireState()) || "Soon to Expire".equals(med.getExpireState())) {
+            // Get warning red
+            holder.tvExpireDate.setTextColor(ContextCompat.getColor(context, R.color.warning_red));
+        }
+        else {
+            // Reset color
+            holder.tvExpireDate.setTextColor(ContextCompat.getColor(context, R.color.black));
+        }
         holder.tvExpireDate.setText(formattedExpireDate);
+
+        if ("Out of Stack".equals(med.getInventoryState()) || "Low Inventory".equals(med.getInventoryState())) {
+            holder.tvPurchaseDate.setTextColor(ContextCompat.getColor(context, R.color.warning_red));
+        }
+        else {
+            holder.tvPurchaseDate.setTextColor(ContextCompat.getColor(context, R.color.black));
+        }
         holder.tvPurchaseDate.setText(formattedPurchaseDate);
         holder.tvCostValue.setText(formattedCost);
 

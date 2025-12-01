@@ -14,9 +14,9 @@ import java.util.List;
 
 public class LogAdapter extends RecyclerView.Adapter<LogAdapter.MedicalLogViewHolder> {
     private List<MedicalLog> logList;
-    private OnLogDeleteListener deleteListener;
+    private DeleteListener deleteListener;
 
-    public LogAdapter(List<MedicalLog> logList, OnLogDeleteListener listener) {
+    public LogAdapter(List<MedicalLog> logList, DeleteListener listener) {
         this.logList = logList;
         this.deleteListener = listener;
     }
@@ -54,13 +54,6 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.MedicalLogViewHo
                 if (deleteListener != null) deleteListener.onDeleteClick(log.getLogId());
             }
         });
-//        holder.deleteButton.setOnClickListener(v -> {
-//            if (deleteListener != null) {
-//                // 当按钮被点击，调用接口的方法，并传入当前日志的ID
-//                deleteListener.onDeleteClick(log.getLogId());
-//            }
-//        });
-
     }
 
     @Override
@@ -84,9 +77,6 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.MedicalLogViewHo
         }
     }
 
-    public interface OnLogDeleteListener {
-        public void onDeleteClick(String logId); // 点击时将传递logId
-    }
 
 }
 

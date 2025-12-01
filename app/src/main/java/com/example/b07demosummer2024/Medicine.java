@@ -99,6 +99,9 @@ public class Medicine {
 
     public String getFormattedDateTime(long timeStamp, String formatString)
     {
+        if (formatString == null || formatString.isEmpty()) {
+            formatString = "MM/dd/yyyy";
+        }
         Date date = new Date(timeStamp);
         SimpleDateFormat formatter = new SimpleDateFormat(formatString, Locale.getDefault());
         return formatter.format(date);
@@ -112,9 +115,10 @@ public class Medicine {
             else return "Normal";
     }
 
-
-    public boolean isLowInventory()
+    public String getInventoryState()
     {
-        return remainingPuffs <= maxPuffs / 5;
+        if (remainingPuffs <= 0) return "Out of Stack";
+        else if (remainingPuffs <= maxPuffs / 5) return "Low Inventory";
+        else return "Normal";
     }
 }

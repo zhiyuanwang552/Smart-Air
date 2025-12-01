@@ -59,6 +59,7 @@ public class AddNewMedicineFragment extends Fragment {
                 R.array.medicine_type_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spNewMedicineType.setAdapter(adapter);
+        setupButtons();
 
         return view;
     }
@@ -72,6 +73,7 @@ public class AddNewMedicineFragment extends Fragment {
         String shelfLife = etShelfLifeInput.getText().toString().trim();
 
         boolean isValid = true;
+        //if the two mandetory part is empty, show error message
         if (estimatePuffs.isEmpty()) {
             estimatePuffsInlayout.setError("This Selection cannot be empty!");
             isValid = false;
@@ -124,12 +126,14 @@ public class AddNewMedicineFragment extends Fragment {
         if (isValid)
         {
             String parentUserId = getArguments().getString("parentUserId");
-            dbRef = db.getReference("parentAccount").child(parentUserId).child("medicines");
+            dbRef = db.getReference("parents").child(parentUserId).child("medicines");
             String newLogId = dbRef.push().getKey();
             long expireDate = System.currentTimeMillis() + 24 * 60 * 60 * Long.parseLong(shelfLife);
             long purchaseDate = System.currentTimeMillis();
             int estimatePuffsValue = Integer.parseInt(estimatePuffs);
-            double costValue = Double.parseDouble(cost);
+            double costValue;
+            if (cost.isEmpty()) costValue = -1;
+            else costValue = Double.parseDouble(cost);
 
             Medicine newMedicine = new Medicine(newLogId, expireDate, purchaseDate,
                     medicineType, estimatePuffsValue, estimatePuffsValue, costValue, brandName);

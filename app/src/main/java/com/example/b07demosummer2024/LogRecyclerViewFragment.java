@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class LogRecyclerViewFragment extends Fragment implements LogAdapter.OnLogDeleteListener
+public class LogRecyclerViewFragment extends Fragment implements DeleteListener
 {
     private RecyclerView recyclerView;
     private LogAdapter logAdapter;
@@ -39,7 +39,7 @@ public class LogRecyclerViewFragment extends Fragment implements LogAdapter.OnLo
     private List<String> childNameList;
     private String accountType;
     private Button buttonAddLog;
-    private final FirebaseDatabase db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
+    private final FirebaseDatabase db = FirebaseDatabase.getInstance("https://smart-air-8a892-default-rtdb.firebaseio.com/");
     private DatabaseReference dbRef;
 
 
@@ -60,7 +60,7 @@ public class LogRecyclerViewFragment extends Fragment implements LogAdapter.OnLo
         logAdapter = new LogAdapter(logList, this);
         recyclerView.setAdapter(logAdapter);
 
-        // Initialize Firebase
+        // Initialize Spinners
         spSortByName = view.findViewById(R.id.spSortByName);
         spSortLogType = view.findViewById(R.id.spSortLogType);
         setupSpinners();
@@ -70,14 +70,10 @@ public class LogRecyclerViewFragment extends Fragment implements LogAdapter.OnLo
             @Override
             public void onClick(View v)
             {
-                loadFragment(new AddNewLogFragment());
+                loadFragmentAdd(new AddNewLogFragment());
             }
         });
 
-
-
-        //db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
-        //this.fetchSpinnerOptionFromDatabase();
         this.fetchLogsFromDatabase();
         return view;
     }
@@ -133,10 +129,8 @@ public class LogRecyclerViewFragment extends Fragment implements LogAdapter.OnLo
 
     private void fetchLogsFromDatabase()
     {
-        if (accountType.equals("child")) dbRef = db.getReference("parentAccount").
+        dbRef = db.getReference("parentAccount").
                 child(getArguments().getString("parentUserId")).child("medicalLogs");
-        else dbRef = db.getReference("parentAccount").child(getArguments().getString("UserId"))
-                .child("medicalLogs");
 
         dbRef.addValueEventListener(new ValueEventListener(){
             @Override
@@ -200,7 +194,7 @@ public class LogRecyclerViewFragment extends Fragment implements LogAdapter.OnLo
         });
     }
 
-    private void loadFragment(Fragment fragment)
+    private void loadFragmentAdd(Fragment fragment)
     {
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.add(R.id.fragment_container, fragment);

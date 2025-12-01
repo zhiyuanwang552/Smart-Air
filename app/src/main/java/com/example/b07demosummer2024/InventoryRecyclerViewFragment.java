@@ -63,17 +63,14 @@ public class InventoryRecyclerViewFragment extends Fragment implements DeleteLis
             }
         });
         setupSpinners();
-        fetchItemsFromDatabase();
+        fetchMedicinesFromDatabase();
 
         return view;
     }
 
-
-    private void fetchItemsFromDatabase()
+    private void fetchMedicinesFromDatabase()
     {
-        if (accountType.equals("child")) dbRef = db.getReference("parentAccount").
-                child(getArguments().getString("parentUserId")).child("medicines");
-        else dbRef = db.getReference("parentAccount").child(getArguments().getString("UserId"))
+        dbRef = db.getReference("parents").child(getArguments().getString("parentUserId"))
                 .child("medicines");
 
         dbRef.addValueEventListener(new ValueEventListener(){
@@ -141,7 +138,7 @@ public class InventoryRecyclerViewFragment extends Fragment implements DeleteLis
             String currentExpireState = currentMedicine.getExpireState();
             String currentMedicineType = currentMedicine.getMedicineType();
             if (!currentMedicineType.equals(requiredMedicineType)) continue;
-            if (selectedExpireState.equals("All") || selectedBrand.equals(currentBrand))
+            if (selectedBrand.equals("All") || selectedBrand.equals(currentBrand))
             {
                 if (selectedExpireState.equals("All") || currentExpireState.equals(selectedExpireState))
                 {
@@ -172,10 +169,8 @@ public class InventoryRecyclerViewFragment extends Fragment implements DeleteLis
         }
 
         DatabaseReference medRef;
-        if (accountType.equals("parent")) medRef = db.getReference("parentAccount").
-                child(getArguments().getString("userId")).child("medicines");
-        else medRef = db.getReference("parentAccount").child(getArguments().getString("parentUserId"))
-                .child("medicines");
+        medRef = db.getReference("parents").
+                child(getArguments().getString("parentUserId")).child("medicines");
 
 
         medRef.child(medicineId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {

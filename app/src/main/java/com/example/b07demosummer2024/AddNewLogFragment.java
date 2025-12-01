@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +36,7 @@ public class AddNewLogFragment extends Fragment
     private TextInputLayout descriptionInlayout;
     private TextInputEditText etPuffsInput;
     private TextInputEditText etDescriptionInput;
-    private final FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private final FirebaseDatabase db = FirebaseDatabase.getInstance("https://smart-air-8a892-default-rtdb.firebaseio.com/");
     private DatabaseReference dbRef;
     private String accountType;
     private ArrayAdapter<String> medicineIdAdapter;
@@ -60,7 +62,6 @@ public class AddNewLogFragment extends Fragment
         setupSpinners();
         fetchSpinnerOptionFromDatabase();
         setupButtons();
-        validateAndSaveLog();
 
         return view;
     }
@@ -81,7 +82,7 @@ public class AddNewLogFragment extends Fragment
 
     void fetchSpinnerOptionFromDatabase()
     {
-        dbRef = db.getReference("parentAccount").
+        dbRef = db.getReference("parents").
                 child(getArguments().getString("parentUserId")).child("medicines");
         dbRef.addValueEventListener(new ValueEventListener(){
             @Override
@@ -167,7 +168,7 @@ public class AddNewLogFragment extends Fragment
                 if (medicineType == null) {
                     // 如果获取失败，可以给一个默认值或者提示错误
                     Toast.makeText(getContext(), "Could not find medicine type, saving with ID.", Toast.LENGTH_SHORT).show();
-                    medicineType = medicineId; // 使用 medicineId 作为备用值
+                    medicineType = "Controller"; // 使用 Controller 作为备用值
                 }
 
                 // --- 在回调内部继续执行保存操作 ---
@@ -181,7 +182,7 @@ public class AddNewLogFragment extends Fragment
                 }
                 int puffsValue = Integer.parseInt(puffs);
 
-                DatabaseReference userLogsRef = db.getReference("parentAccount")
+                DatabaseReference userLogsRef = db.getReference("parents")
                         .child(parentUserId).child("medicalLogs");
                 String newLogId = userLogsRef.push().getKey();
 
@@ -190,17 +191,26 @@ public class AddNewLogFragment extends Fragment
                 MedicalLog newLog = new MedicalLog(newLogId, GeneralLog.MedicalLogType, timestamp, description,
                         medicineId, reflectionType, puffsValue, userName, medicineType);
 
-                if (newLogId != null) {
+                if (newLogId != null)
+                {
+                    OnSuccessListener successListener = new OnSuccessListener()
+                    {
+                        @Override
+                        public void onSuccess(Object o) {
+                            Toast.makeText(getContext(), "Saving Success!", Toast.LENGTH_SHORT).show();
+                            getParentFragmentManager().popBackStack();
+                        }
+                    };
+                    OnFailureListener failureListener = new OnFailureListener()
+                    {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getContext(), "Save failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    };
                     userLogsRef.child(newLogId).setValue(newLog)
-                            .addOnSuccessListener(aVoid -> {
-                                // 成功
-                                Toast.makeText(getContext(), "Saving Success!", Toast.LENGTH_SHORT).show();
-                                getParentFragmentManager().popBackStack();
-                            })
-                            .addOnFailureListener(e -> {
-                                // 失败
-                                Toast.makeText(getContext(), "Save failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            });
+                            .addOnSuccessListener(successListener)
+                            .addOnFailureListener(failureListener);
                 }
             }
         };
@@ -218,7 +228,7 @@ public class AddNewLogFragment extends Fragment
         }
 
         // 构造指向特定药品信息的绝对路径
-        DatabaseReference medicineRef = db.getReference("parentAccount")
+        DatabaseReference medicineRef = db.getReference("parents")
                 .child(parentUserId)
                 .child("medicines")
                 .child(medicineId);
@@ -228,7 +238,6 @@ public class AddNewLogFragment extends Fragment
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // 假设药品信息下有一个名为 "type" 的字段存储着药品类型
                     Medicine linkedMed = dataSnapshot.getValue(Medicine.class);
                     int newRemainningPuffs = linkedMed.getRemainingPuffs() - puffsValue;
                     medicineRef.child("remainingPuffs").setValue(newRemainningPuffs);
@@ -251,5 +260,4 @@ public class AddNewLogFragment extends Fragment
     public interface MedicineTypeCallback {
         void onCallback(String medicineType);
     }
-
 }

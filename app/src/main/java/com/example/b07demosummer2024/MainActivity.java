@@ -37,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull android.view.MenuItem item) {
                 Fragment selectedFragment = null;
+                Bundle bundle = new Bundle();
+                bundle.putString("accountType", "parent");
+                bundle.putString("userName", "Test");
+                bundle.putString("parentUserId", "10000000");
+
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.navigation_profile)
@@ -62,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     // If a fragment was selected, load it
                 if (selectedFragment != null) {
                     loadFragment(selectedFragment);
+                    selectedFragment.setArguments(bundle);
                     return true;
                 }
 

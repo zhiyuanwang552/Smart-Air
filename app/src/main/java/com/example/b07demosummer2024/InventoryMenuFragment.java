@@ -53,7 +53,7 @@ public class InventoryMenuFragment extends Fragment
         medicineList = new ArrayList<>();
 
 
-        dbRef = db.getReference("parentAccount").child(getArguments().getString("userId")).child("medicine");
+        dbRef = db.getReference("parents").child(getArguments().getString("parentUserId")).child("medicines");
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -70,6 +70,7 @@ public class InventoryMenuFragment extends Fragment
                 // Handle possible errors
             }
         });
+        setupButtons();
         changeText();
 
         return view;
@@ -106,9 +107,12 @@ public class InventoryMenuFragment extends Fragment
             }
         }
 
+        String formattedDateRescue, formattedDateController;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String formattedDateRescue = dateFormat.format(new Date(lastPurchaseRescue));
-        String formattedDateController = dateFormat.format(new Date(lastPurchaseController));
+        if (lastPurchaseRescue == 0) formattedDateRescue = "N/A";
+        else formattedDateRescue = dateFormat.format(new Date(lastPurchaseRescue));
+        if (lastPurchaseController == 0) formattedDateController = "N/A";
+        else formattedDateController = dateFormat.format(new Date(lastPurchaseController));
 
         tvRescueValue.setText(String.valueOf(numOfRescue));
         tvControllerValue.setText(String.valueOf(numController));
@@ -141,7 +145,7 @@ public class InventoryMenuFragment extends Fragment
         btAddNewMedicine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new InventoryRecyclerViewFragment();
+                Fragment fragment = new AddNewMedicineFragment();
                 Bundle bundle = getArguments();
                 fragment.setArguments(bundle);
                 loadFragmentAdd(fragment);
