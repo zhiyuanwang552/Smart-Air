@@ -36,9 +36,46 @@
     <string name="verification_sent">Verification Code Sent!</string>
     <string name="incorrect_verification">Incorrect Verification Code!</string>
     <string name="reenter_password">Re-enter Password</string>
+
+    <string name="medical_record_title">Medical Log</string>
+    <string name="medicine_inventory_title">Inventory</string>
+    <string name="technical_support_title">Tech Help</string>
+    <string name="profile_title">Profile</string>
+    <string name="dashboard_title">Dashboard</string>
+    <string name="add_medical_log_title">+ New Log</string>
+    <string name="reflection_type_better">Better</string>
+    <string name="reflection_type_same">Same</string>
+    <string name="reflection_type_worse">Worse</string>
+    <string name="select_reflection_type">How do you feel now?</string>
+    <string name="add_new_medical_log">Add New Medical Log</string>
+    <string name="medicine_id">Medicine ID:</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="write_something_here">Write something here!</string>
+    <string name="add_sypmtom_description_title">Add Sypmtom Description</string>
+    <string name="select_medicine_type_title">Select Medicine Type</string>
+    <string name="controller">Controller</string>
+    <string name="rescue">Rescue</string>
+    <string name="number_of_puffs_title">Number of puffs:</string>
+
     <string-array name="categories_array">
         <item>Books</item>
         <item>Movies</item>
+    </string-array>
+    <string-array name="medicine_type_array">
+        <item>Controller</item>
+        <item>Rescue</item>
+    </string-array>
+    <string-array name="reflection_type_array">
+        <item>Better</item>
+        <item>Same</item>
+        <item>Worse</item>
+    </string-array>
+    <string-array name="expire_state_array">
+        <item>All</item>
+        <item>Expired</item>
+        <item>Normal</item>
+        <item>Expire Soon</item>
     </string-array>
 
 
