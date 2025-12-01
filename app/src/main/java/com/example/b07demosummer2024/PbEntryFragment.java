@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +34,7 @@ public class PbEntryFragment extends Fragment {
     private Button pbEntryButton;
     private FirebaseDatabase db;
     private DatabaseReference childRef;
+    private final FirebaseAuth myAuth = FirebaseAuth.getInstance();
 
     @Nullable
     @Override
@@ -65,7 +68,7 @@ public class PbEntryFragment extends Fragment {
     }
 
     private void logPbEntry(String pbEntry) {
-        childRef = db.getReference("children/genericChild/");
+        childRef = db.getReference("children/" + "genericChild");
         childRef.child("personalBest").setValue(pbEntry);
     }
 }

@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +35,7 @@ public class PefEntryFragment extends Fragment {
     private Button pefEntryButton;
     private FirebaseDatabase db;
     private DatabaseReference childRef;
+    private final FirebaseAuth myAuth = FirebaseAuth.getInstance();
 
     @Nullable
     @Override
@@ -73,8 +76,10 @@ public class PefEntryFragment extends Fragment {
     }
 
     private void logPefEntry(String pefEntered) {
+        FirebaseUser user = myAuth.getCurrentUser();
+        String childId = user.getUid();
         String currentDate = java.time.LocalDate.now().toString();
-        childRef = db.getReference("children/genericChild/pefHistory/" + currentDate);
+        childRef = db.getReference("children/" + childId + "/pefHistory/" + currentDate);
         childRef.child("pefEntry").setValue(pefEntered);
         childRef.child("pefEntryOptional").setValue("");
         db.getReference("children/personalBest").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -89,14 +94,18 @@ public class PefEntryFragment extends Fragment {
                     personalBest = Integer.parseInt(dataSnapshot.getValue(String.class));
                 }
                 if ((personalBest * 100) / Integer.parseInt(pefEntered) >= 80){
-                    db.getReference("children/genericChild/pefHistory/" + currentDate + "zone").setValue("green");
+                    db.getReference("children/" + childId + "/pefHistory/" + currentDate + "zone").setValue("green");
                 }
                 else if ((personalBest * 100) / Integer.parseInt(pefEntered) >= 50){
-                    db.getReference("children/genericChild/pefHistory/" + currentDate + "zone").setValue("yellow");
+                    db.getReference("children/" + childId + "/pefHistory/" + currentDate + "zone").setValue("yellow");
                 }
                 else {
-                    db.getReference("children/genericChild/pefHistory/" + currentDate + "zone").setValue("red");
+                    db.getReference("children/" + childId + "/pefHistory/" + currentDate + "zone").setValue("red");
+                    long now =  System.currentTimeMillis();
+                    AlertInstance zoneAlert = new AlertInstance(now, "redZone", "moderate");
+                    db.getReference("children/" + childId + "/alertHistory/" + now).setValue(zoneAlert);
                 }
+                db.getReference("children/" + childId + "/pefHistory/" + currentDate + "zonePercentage").setValue((personalBest * 100) / Integer.parseInt(pefEntered));
             }
 
             @Override
@@ -107,8 +116,10 @@ public class PefEntryFragment extends Fragment {
     }
 
     private void logPefEntry(String pefEntered, String pefEnteredOptional) {
+        FirebaseUser user = myAuth.getCurrentUser();
+        String childId = user.getUid();
         String currentDate = java.time.LocalDate.now().toString();
-        childRef = db.getReference("children/genericChild/pefHistory/" + currentDate);
+        childRef = db.getReference("children/" + childId + "/pefHistory/" + currentDate);
         childRef.child("pefEntry").setValue(pefEntered);
         childRef.child("pefEntryOptional").setValue(pefEnteredOptional);
         db.getReference("children/personalBest").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -123,17 +134,18 @@ public class PefEntryFragment extends Fragment {
                     personalBest = Integer.parseInt(dataSnapshot.getValue(String.class));
                 }
                 if ((personalBest * 100) / Integer.parseInt(pefEnteredOptional) >= 80){
-                    db.getReference("children/genericChild/pefHistory/" + currentDate + "zone").setValue("green");
+                    db.getReference("children/" + childId + "/pefHistory/" + currentDate + "zone").setValue("green");
                 }
                 else if ((personalBest * 100) / Integer.parseInt(pefEnteredOptional) >= 50){
-                    db.getReference("children/genericChild/pefHistory/" + currentDate + "zone").setValue("yellow");
+                    db.getReference("children/" + childId + "/pefHistory/" + currentDate + "zone").setValue("yellow");
                 }
                 else {
-                    db.getReference("children/genericChild/pefHistory/" + currentDate + "zone").setValue("red");
+                    db.getReference("children/" + childId + "/pefHistory/" + currentDate + "zone").setValue("red");
                     long now =  System.currentTimeMillis();
                     AlertInstance zoneAlert = new AlertInstance(now, "redZone", "moderate");
-                    db.getReference("children/genericChild/alertHistory/" + now).setValue(zoneAlert);
+                    db.getReference("children/" + childId + "/alertHistory/" + now).setValue(zoneAlert);
                 }
+                db.getReference("children/" + childId + "/pefHistory/" + currentDate + "zonePercentage").setValue((personalBest * 100) / Integer.parseInt(pefEnteredOptional));
             }
 
             @Override

@@ -22,6 +22,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +38,7 @@ public class TriageFragment extends Fragment {
     private DatabaseReference childRef;
     private CountDownTimer countDown;
     private TextView decisionCardText;
+    private final FirebaseAuth myAuth = FirebaseAuth.getInstance();
     private int currentCondition = 0;
     private int flagWeight = 0;
     private int pefWeight = 0;
@@ -45,6 +48,9 @@ public class TriageFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_triage, container, false);
+
+        FirebaseUser user = myAuth.getCurrentUser();
+        String childId = user.getUid();
 
         decisionCardText = view.findViewById(R.id.decisionCardText);
         EditText pefEntry = view.findViewById(R.id.pefEntry);
@@ -64,7 +70,7 @@ public class TriageFragment extends Fragment {
 
         long now =  System.currentTimeMillis();
         AlertInstance triageAlert = new AlertInstance(now, "triageStart", "moderate");
-        db.getReference("children/genericChild/alertHistory/" + now).setValue(triageAlert);
+        db.getReference("children/" + childId + "/alertHistory/" + now).setValue(triageAlert);
 
         countDown = new CountDownTimer(600000, 1000) {  // update every second
             public void onTick(long millisUntilFinished) {
@@ -73,7 +79,7 @@ public class TriageFragment extends Fragment {
             public void onFinish() {
                 long now =  System.currentTimeMillis();
                 AlertInstance triageEscalation = new AlertInstance(now, "triageEscalation", "severe");
-                db.getReference("children/genericChild/alertHistory/" + now).setValue(triageEscalation);
+                db.getReference("children/" + childId + "/alertHistory/" + now).setValue(triageEscalation);
                 goodButton.setBackgroundColor(parseColor("#D7D7D7"));
                 okayButton.setBackgroundColor(parseColor("#D7D7D7"));
                 badButton.setBackgroundColor(parseColor("#E99F9F"));
@@ -102,7 +108,7 @@ public class TriageFragment extends Fragment {
                     }
                     int pefValue = Integer.parseInt(s.toString());
                     String currentDate = java.time.LocalDate.now().toString();
-                    childRef = db.getReference("children/genericChild/pefHistory/" + currentDate);
+                    childRef = db.getReference("children/" + childId + "/pefHistory/" + currentDate);
                     db.getReference("children/personalBest").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -190,7 +196,7 @@ public class TriageFragment extends Fragment {
             public void onClick(View v) {
                 long now =  System.currentTimeMillis();
                 AlertInstance buttonAlert = new AlertInstance(now, "badCondition", "severe");
-                db.getReference("children/genericChild/alertHistory/" + now).setValue(buttonAlert);
+                db.getReference("children/" + childId + "/alertHistory/" + now).setValue(buttonAlert);
                 goodButton.setBackgroundColor(parseColor("#D7D7D7"));
                 okayButton.setBackgroundColor(parseColor("#D7D7D7"));
                 badButton.setBackgroundColor(parseColor("#E99F9F"));
@@ -222,7 +228,7 @@ public class TriageFragment extends Fragment {
                 if (isChecked) {
                     long now = System.currentTimeMillis();
                     AlertInstance flagAlert = new AlertInstance(now, "difficultySpeakingFlag", "severe");
-                    db.getReference("children/genericChild/alertHistory/" + now).setValue(flagAlert);
+                    db.getReference("children/" + childId + "/alertHistory/" + now).setValue(flagAlert);
                     flagWeight = flagWeight + 5;
                     decisionCardLogic();
                 } else {
@@ -239,7 +245,7 @@ public class TriageFragment extends Fragment {
                 if (isChecked) {
                     long now = System.currentTimeMillis();
                     AlertInstance flagAlert = new AlertInstance(now, "difficultyBreathingFlag", "severe");
-                    db.getReference("children/genericChild/alertHistory/" + now).setValue(flagAlert);
+                    db.getReference("children/" + childId + "/alertHistory/" + now).setValue(flagAlert);
                     flagWeight = flagWeight + 4;
                     decisionCardLogic();
                 } else {
@@ -255,7 +261,7 @@ public class TriageFragment extends Fragment {
                 if (isChecked) {
                     long now = System.currentTimeMillis();
                     AlertInstance flagAlert = new AlertInstance(now, "chestIssueFlag", "severe");
-                    db.getReference("children/genericChild/alertHistory/" + now).setValue(flagAlert);
+                    db.getReference("children/" + childId + "/alertHistory/" + now).setValue(flagAlert);
                     flagWeight = flagWeight + 4;
                     decisionCardLogic();
                 } else {
@@ -271,7 +277,7 @@ public class TriageFragment extends Fragment {
                 if (isChecked) {
                     long now = System.currentTimeMillis();
                     AlertInstance flagAlert = new AlertInstance(now, "chestPainFlag", "severe");
-                    db.getReference("children/genericChild/alertHistory/" + now).setValue(flagAlert);
+                    db.getReference("children/" + childId + "/alertHistory/" + now).setValue(flagAlert);
                     flagWeight = flagWeight + 5;
                     decisionCardLogic();
                 } else {
@@ -287,7 +293,7 @@ public class TriageFragment extends Fragment {
                 if (isChecked) {
                     long now = System.currentTimeMillis();
                     AlertInstance flagAlert = new AlertInstance(now, "blueGreyLipsNailsFlag", "severe");
-                    db.getReference("children/genericChild/alertHistory/" + now).setValue(flagAlert);
+                    db.getReference("children/" + childId + "/alertHistory/" + now).setValue(flagAlert);
                     flagWeight = flagWeight + 5;
                     decisionCardLogic();
                 } else {
@@ -329,9 +335,9 @@ public class TriageFragment extends Fragment {
                 String pefEntered = pefEntry.getText().toString().trim();
                 long now =  System.currentTimeMillis();
                 IncidentLogInstance incidentLog = new IncidentLogInstance(now, userResponse, guidanceShown, pefEntered, difficultySpeaking, difficultyBreathing, chestIssue, chestPain, blueSkin);
-                db.getReference("children/genericChild/incidentLogHistory/" + now).setValue(incidentLog);
+                db.getReference("children/" + childId + "/incidentLogHistory/" + now).setValue(incidentLog);
                 AlertInstance triageAlert = new AlertInstance(now, "triageEnd", "moderate");
-                db.getReference("children/genericChild/alertHistory/" + now).setValue(triageAlert);
+                db.getReference("children/" + childId + "/alertHistory/" + now).setValue(triageAlert);
                 countDown.cancel();
                 getParentFragmentManager().popBackStack();
             }
