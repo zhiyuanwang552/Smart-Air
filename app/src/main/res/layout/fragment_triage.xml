@@ -61,7 +61,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/profileButton"
+                        android:id="@+id/goodButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -70,22 +70,22 @@
                         android:textColor="@color/black"
                         app:cornerRadius="4dp"
                         app:strokeColor="#FFFFFF"
-                        app:strokeWidth="2dp" />
+                        app:strokeWidth="0dp" />
 
                     <Space
                         android:layout_width="12dp"
                         android:layout_height="wrap_content" />
 
                     <Button
-                        android:id="@+id/childAccountButton"
+                        android:id="@+id/okayButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:backgroundTint="#DEDA92"
+                        android:backgroundTint="#D7D7D7"
                         android:text="Okay"
                         android:textColor="@color/black"
                         app:cornerRadius="4dp"
-                        app:strokeColor="#8C8989"
+                        app:strokeColor="#FFFFFF"
                         app:strokeWidth="0dp" />
 
                     <Space
@@ -97,11 +97,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:backgroundTint="#E99F9F"
+                        android:backgroundTint="#D7D7D7"
                         android:text="Bad"
                         android:textColor="@color/black"
                         app:cornerRadius="4dp"
-                        app:strokeColor="#8C8989"
+                        app:strokeColor="#FFFFFF"
                         app:strokeWidth="0dp" />
                 </LinearLayout>
 
@@ -112,65 +112,70 @@
                     android:text="Select all that apply" />
 
                 <ToggleButton
-                    android:id="@+id/toggleButton4"
+                    android:id="@+id/difficultySpeakingButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
                     android:text="Difficulty Speaking"
                     android:textColor="@color/black"
                     android:textOff="Difficulty Speaking"
+                    android:textOn="Difficulty Speaking"
                     android:textAllCaps="false"
                     app:cornerRadius="4dp"
                     app:strokeColor="#8C8989"
                     app:strokeWidth="0dp" />
 
                 <ToggleButton
-                    android:id="@+id/toggleButton45"
+                    android:id="@+id/difficultyBreathingButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
                     android:text="Severe Difficulty Breathing"
                     android:textColor="@color/black"
                     android:textOff="Severe Difficulty Breathing"
+                    android:textOn="Severe Difficulty Breathing"
                     android:textAllCaps="false"
                     app:cornerRadius="4dp"
                     app:strokeColor="#8C8989"
                     app:strokeWidth="0dp" />
 
                 <ToggleButton
-                    android:id="@+id/toggleButton66"
+                    android:id="@+id/chestIssueButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
                     android:text="Chest Pulling In/Chest Retractions"
                     android:textColor="@color/black"
                     android:textOff="Chest Pulling In/Chest Retractions"
+                    android:textOn="Chest Pulling In/Chest Retractions"
                     android:textAllCaps="false"
                     app:cornerRadius="4dp"
                     app:strokeColor="#8C8989"
                     app:strokeWidth="0dp" />
 
                 <ToggleButton
-                    android:id="@+id/toggleButton231"
+                    android:id="@+id/chestPainButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
                     android:text="Severe or Persistent Chest Pain"
                     android:textColor="@color/black"
                     android:textOff="Severe or Persistent Chest Pain"
+                    android:textOn="Severe or Persistent Chest Pain"
                     android:textAllCaps="false"
                     app:cornerRadius="4dp"
                     app:strokeColor="#8C8989"
                     app:strokeWidth="0dp" />
 
                 <ToggleButton
-                    android:id="@+id/toggleButton333"
+                    android:id="@+id/blueGreyLipsNailsButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
                     android:text="Blue/Grey lips or nails"
                     android:textColor="@color/black"
                     android:textOff="Blue/Grey lips or nails"
+                    android:textOn="Blue/Grey lips or nails"
                     android:textAllCaps="false"
                     app:cornerRadius="4dp"
                     app:strokeColor="#8C8989"
@@ -189,7 +194,6 @@
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp"
             app:cardUseCompatPadding="true"
-            app:layout_constraintBottom_toTopOf="formCard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -221,7 +225,7 @@
                     android:layout_height="10dp" />
 
                 <TextView
-                    android:id="@+id/freaf"
+                    android:id="@+id/decisionCardText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
@@ -239,10 +243,9 @@
                     android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text="This is guidance, NOT a diagnosis.\nIf in doubt, call emergency"
                     android:textColor="#FF0000"
-                    android:textSize="10sp"
-                    tools:text="This is guidance, NOT a diagnosis.\nIf in doubt, call emergency" />
+                    android:textSize="10sp" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -256,7 +259,6 @@
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp"
             app:cardUseCompatPadding="true"
-            app:layout_constraintBottom_toTopOf="formeCard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.666"
             app:layout_constraintStart_toStartOf="parent"
@@ -281,10 +283,54 @@
                     app:strokeWidth="0dp" />
 
                 <EditText
-                    android:id="@+id/childNameInput2"
+                    android:id="@+id/pefEntry"
                     android:inputType="number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="1234567890"
+                    android:background="@android:drawable/edit_text"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/foeeeeeeCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            app:cardBackgroundColor="@color/grey"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.666"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/foeeeeCard">
+
+            <LinearLayout
+                android:id="@+id/eew323e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/f232reaf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="Enter Recent Rescue Attempts (Optional)"
+                    android:textColor="@color/black"
+                    app:cornerRadius="4dp"
+                    app:strokeColor="#8C8989"
+                    app:strokeWidth="0dp" />
+
+                <EditText
+                    android:id="@+id/rescueEntry"
+                    android:inputType="number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="1234567890"
                     android:background="@android:drawable/edit_text"/>
 
             </LinearLayout>
@@ -292,12 +338,12 @@
 
 
         <Button
-            android:id="@+id/prdwefButton"
+            android:id="@+id/endSessionButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/grey"
-            android:text="Return"
+            android:text="End Session"
             android:textColor="@color/black"
             app:cornerRadius="4dp"
             app:strokeColor="#807E7E"
@@ -305,11 +351,11 @@
             android:layout_marginTop="12dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            app:layout_constraintBottom_toTopOf="foeeeeCard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.666"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/foeeeeCard"/>
+            app:layout_constraintTop_toBottomOf="@id/foeeeeeeCard"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>

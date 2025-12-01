@@ -30,36 +30,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/white"
-                android:text="Enter PEF"
+                android:text="Enter Personal Best"
                 android:textColor="@color/black"
                 app:cornerRadius="4dp"
                 app:strokeColor="#8C8989"
                 app:strokeWidth="0dp" />
 
             <EditText
-                android:id="@+id/pefEntry"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:drawable/edit_text"
-                android:inputType="number" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="12dp" />
-
-            <TextView
-                android:id="@+id/f2reeaf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:text="Enter Post-Med PEF (Optional)"
-                android:textColor="@color/black"
-                app:cornerRadius="4dp"
-                app:strokeColor="#8C8989"
-                app:strokeWidth="0dp" />
-
-            <EditText
-                android:id="@+id/pefEntryOptional"
+                android:id="@+id/pbEntry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/edit_text"
@@ -92,12 +70,12 @@
                     android:layout_height="wrap_content" />
 
                 <Button
-                    android:id="@+id/pefEntryButton"
+                    android:id="@+id/pbEntryButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
-                    android:text="Submit PEF"
+                    android:text="Set Personal Best"
                     android:textColor="@color/black"
                     app:cornerRadius="4dp"
                     app:strokeColor="#8C8989"

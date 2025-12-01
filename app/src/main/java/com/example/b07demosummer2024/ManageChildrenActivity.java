@@ -10,7 +10,7 @@ public class ManageChildrenActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_children);
         if(savedInstanceState == null){
-            loadFragment(new ManageChildrenFragment());
+            loadFragment(new TriageFragment());
         }
     }
 
