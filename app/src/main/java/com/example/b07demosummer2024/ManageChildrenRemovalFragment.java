@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +33,7 @@ public class ManageChildrenRemovalFragment extends Fragment {
     private List<String> childNameList;
     private FirebaseDatabase db;
     private DatabaseReference childRef;
+    private final FirebaseAuth myAuth = FirebaseAuth.getInstance();
 
     @Nullable
     @Override
@@ -74,7 +77,9 @@ public class ManageChildrenRemovalFragment extends Fragment {
     }
 
     private List<String> fetchChildrenNamesFromDatabase(String childType) { //get list of string attached to identifiers
-        childRef = db.getReference("parents/genericParent/" + childType);
+        FirebaseUser user = myAuth.getCurrentUser();
+        String parentId = user.getUid();
+        childRef = db.getReference("parents/" + parentId + "/" + childType);
         childRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -95,8 +100,9 @@ public class ManageChildrenRemovalFragment extends Fragment {
 
     private void deleteChildProfile(String childType) { //look for identifier, then delete corresponding address
         String childName = childSpinner.getSelectedItem().toString().toLowerCase();
-
-        childRef = db.getReference("parents/genericParent/" + childType);
+        FirebaseUser user = myAuth.getCurrentUser();
+        String parentId = user.getUid();
+        childRef = db.getReference("parents/" + parentId + "/" + childType);
         childRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

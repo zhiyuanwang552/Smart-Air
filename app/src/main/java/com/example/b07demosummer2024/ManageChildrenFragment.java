@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +31,7 @@ public class ManageChildrenFragment extends Fragment {
     private FirebaseDatabase db;
     private DatabaseReference parentRef;
     private DatabaseReference childRef;
+    private final FirebaseAuth myAuth = FirebaseAuth.getInstance();
 
     @Nullable
     @Override
@@ -87,7 +89,9 @@ public class ManageChildrenFragment extends Fragment {
     }
 
     private void fetchChildrenFromDatabase(String childType) {
-        parentRef = db.getReference("parents/genericParent/" + childType);
+        FirebaseUser user = myAuth.getCurrentUser();
+        String parentId = user.getUid();
+        parentRef = db.getReference("parents/" + parentId + "/" + childType);
         parentRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

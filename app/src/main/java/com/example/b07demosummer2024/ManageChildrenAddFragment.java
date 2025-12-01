@@ -17,19 +17,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ManageChildrenAddFragment extends Fragment {
     private EditText childNameInput, birthMonthInput, birthDayInput, birthYearInput, notesInput, usernameInput, passwordInput, confirmPasswordInput;
     private String childType = "childAccount";
 
     private FirebaseDatabase db;
-    private DatabaseReference childRef;
     private DatabaseReference parentRef;
+    private final FirebaseAuth myAuth = FirebaseAuth.getInstance();
 
     @Nullable
     @Override
@@ -100,7 +106,8 @@ public class ManageChildrenAddFragment extends Fragment {
         String username = "";
         String password = "";
         String confirmPassword;
-        String parentId = "genericParent";
+        FirebaseUser user = myAuth.getCurrentUser();
+        String parentId = user.getUid();
 
         if (childName.isEmpty() || birthMonth.isEmpty() || birthDay.isEmpty() || birthYear.isEmpty()) {
             Toast.makeText(getContext(), "Please fill out all fields", Toast.LENGTH_SHORT).show();
@@ -122,32 +129,48 @@ public class ManageChildrenAddFragment extends Fragment {
                 return;
             }
 
-            db.getReference("children/" + username).addListenerForSingleValueEvent(new ValueEventListener() {
+            db.getReference("parents/" + parentId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.getValue() == null){
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String parentEmail = snapshot.child("email").getValue(String.class);
+                    String parentPassword = snapshot.child("password").getValue(String.class);
+                    String childName = childNameInput.getText().toString().trim();
+                    String birthMonth = birthMonthInput.getText().toString().trim();
+                    String birthDay = birthDayInput.getText().toString().trim();
+                    String birthYear = birthYearInput.getText().toString().trim();
+                    String notes = notesInput.getText().toString().trim();
+                    String parentId = user.getUid();
+                    String username = usernameInput.getText().toString().trim();
+                    String password = passwordInput.getText().toString().trim();
+                    myAuth.signOut();
 
-                        String childName = childNameInput.getText().toString().trim();
-                        String birthMonth = birthMonthInput.getText().toString().trim();
-                        String birthDay = birthDayInput.getText().toString().trim();
-                        String birthYear = birthYearInput.getText().toString().trim();
-                        String notes = notesInput.getText().toString().trim();
-                        String parentId = "genericParent";
-                        String username = usernameInput.getText().toString().trim();
-                        String password = passwordInput.getText().toString().trim();
-
-                        childRef = db.getReference("children");
-                        ManageChildrenScrollableFragment child;
-                        child = new ManageChildrenScrollableFragment(childName, birthMonth, birthDay, birthYear, notes, username, password, parentId);
-                        childRef.child(username).setValue(child);
-                        parentRef = db.getReference("parents/genericParent/childAccount");
-                        parentRef.child(username).setValue(childName);
-
-                        getParentFragmentManager().popBackStack();
-                    }
-                    else {
-                        Toast.makeText(getContext(), "Username is taken!", Toast.LENGTH_SHORT).show();
-                    }
+                    myAuth.createUserWithEmailAndPassword(username + "@gmail.com", password).addOnCompleteListener(task -> {
+                        if(!task.isSuccessful()) {
+                            Exception e = task.getException();
+                            if (e instanceof FirebaseAuthUserCollisionException) {
+                                Toast.makeText(getContext(), "Username taken!", Toast.LENGTH_SHORT).show();
+                                myAuth.signInWithEmailAndPassword(parentEmail, parentPassword);
+                                return;
+                            }
+                        }
+                        if(task.isSuccessful()) {
+                            FirebaseUser user = myAuth.getCurrentUser();
+                            if (user == null) return;
+                            String uid = user.getUid();
+                            ManageChildrenScrollableFragment child;
+                            child = new ManageChildrenScrollableFragment(childName, birthMonth, birthDay, birthYear, notes, username, password, parentId);
+                            db.getReference("children/").child(uid).setValue(child)
+                                    .addOnCompleteListener(writeTask -> {
+                                        db.getReference("children/" + uid).child("userType").setValue("child");
+                                        myAuth.signOut();
+                                        myAuth.signInWithEmailAndPassword(parentEmail, parentPassword);
+                                        Toast.makeText(getContext(), "Child account created!", Toast.LENGTH_SHORT).show();
+                                        getParentFragmentManager().popBackStack();
+                                    });
+                            parentRef = db.getReference("parents/" + parentId + "/childAccount");
+                            parentRef.child(uid).setValue(childName);
+                        }
+                    });
                 }
 
                 @Override
@@ -158,18 +181,41 @@ public class ManageChildrenAddFragment extends Fragment {
 
         }
 
-        childRef = db.getReference("children");
-        //ref.push generates a unique, random ID within your reference. getKey takes the whole address.
-
         ManageChildrenScrollableFragment child;
         if (childType.equals("childProfile")){
-            String id = childRef.push().getKey();
-            // first constructor type
-            child = new ManageChildrenScrollableFragment(id, childName, birthMonth, birthDay, birthYear, notes, parentId);
-            childRef.child(id).setValue(child);
-            parentRef = db.getReference("parents/genericParent/childProfile");
-            parentRef.child(id).setValue(childName);
-            getParentFragmentManager().popBackStack();
+            db.getReference("parents/" + parentId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String parentEmail = snapshot.child("email").getValue(String.class);
+                    String parentPassword = snapshot.child("password").getValue(String.class);
+                    myAuth.signOut();
+
+                    myAuth.createUserWithEmailAndPassword(parentId + childName + "@gmail.com", "autopass").addOnCompleteListener(task -> {
+                        if(task.isSuccessful()) {
+                            FirebaseUser user = myAuth.getCurrentUser();
+                            if (user == null) return;
+                            String uid = user.getUid();
+                            ManageChildrenScrollableFragment child;
+                            child = new ManageChildrenScrollableFragment(uid, childName, birthMonth, birthDay, birthYear, notes, parentId);
+                            db.getReference("children/").child(uid).setValue(child)
+                                    .addOnCompleteListener(writeTask -> {
+                                        db.getReference("children/" + uid).child("userType").setValue("child");
+                                        myAuth.signOut();
+                                        myAuth.signInWithEmailAndPassword(parentEmail, parentPassword);
+                                        Toast.makeText(getContext(), "Child profile created!", Toast.LENGTH_SHORT).show();
+                                        getParentFragmentManager().popBackStack();
+                                    });
+                            parentRef = db.getReference("parents/" + parentId + "/childProfile");
+                            parentRef.child(uid).setValue(childName);
+                        }
+                    });
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Handle possible errors
+                }
+            });
         }
 
     }
