@@ -39,7 +39,7 @@ public class InventoryRecyclerViewFragment extends Fragment implements DeleteLis
     private Spinner spSortByBrand;
     private ArrayAdapter<String> brandNameAdapter;
     private Button btExit;
-    private final FirebaseDatabase db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
+    private final FirebaseDatabase db = FirebaseDatabase.getInstance("https://smart-air-8a892-default-rtdb.firebaseio.com/");
     private DatabaseReference dbRef;
 
     @Nullable
@@ -125,7 +125,6 @@ public class InventoryRecyclerViewFragment extends Fragment implements DeleteLis
         spSortByBrand.setOnItemSelectedListener(listener);
     }
 
-
     private void filterMedicine()
     {
         String requiredMedicineType = getArguments().getString("requiredMedicineType");
@@ -171,7 +170,6 @@ public class InventoryRecyclerViewFragment extends Fragment implements DeleteLis
         DatabaseReference medRef;
         medRef = db.getReference("parents").
                 child(getArguments().getString("parentUserId")).child("medicines");
-
 
         medRef.child(medicineId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

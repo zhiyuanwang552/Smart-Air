@@ -38,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull android.view.MenuItem item) {
                 Fragment selectedFragment = null;
                 Bundle bundle = new Bundle();
-                bundle.putString("accountType", "parent");
-                bundle.putString("userName", "Test");
-                bundle.putString("parentUserId", "10000000");
+                bundle.putString("userType", "parent");
+                bundle.putString("userName", "testParent");
+                bundle.putString("parentUserId", "testParent");
 
                 int itemId = item.getItemId();
 
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if (itemId == R.id.navigation_dashboard)
                 {
-                    selectedFragment = new InventoryRecyclerViewFragment();
+                    selectedFragment = new InventoryMenuFragment();
                 }
                 else if (itemId == R.id.navigation_medicine_inventory)
                 {
@@ -66,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                     // If a fragment was selected, load it
                 if (selectedFragment != null) {
-                    loadFragment(selectedFragment);
                     selectedFragment.setArguments(bundle);
+                    loadFragment(selectedFragment);
                     return true;
                 }
 

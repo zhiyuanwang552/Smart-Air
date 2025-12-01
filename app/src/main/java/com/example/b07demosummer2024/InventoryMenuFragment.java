@@ -37,7 +37,7 @@ public class InventoryMenuFragment extends Fragment
     private Button btAddNewMedicine;
     private List<Medicine> medicineList;
     private DatabaseReference dbRef;
-    private final FirebaseDatabase db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");;
+    private final FirebaseDatabase db = FirebaseDatabase.getInstance("https://smart-air-8a892-default-rtdb.firebaseio.com/");
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -115,9 +115,9 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPuffsInput"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="wrap_content"
                     android:digits="0123456789"
-                    android:hint="1"
+                    android:hint="e.g. 12"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 

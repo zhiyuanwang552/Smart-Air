@@ -47,7 +47,7 @@
                 android:orientation="vertical">
 
                 <Spinner
-                    android:id="@+id/spSortByName"
+                    android:id="@+id/spSortLogType"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -73,7 +73,7 @@
                 android:orientation="vertical">
 
                 <Spinner
-                    android:id="@+id/spSortLogType"
+                    android:id="@+id/spSortByName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

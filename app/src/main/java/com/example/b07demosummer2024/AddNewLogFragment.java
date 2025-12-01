@@ -42,13 +42,12 @@ public class AddNewLogFragment extends Fragment
     private ArrayAdapter<String> medicineIdAdapter;
     private List<String> medicineIdList;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_add_log, container, false);
-        accountType = getArguments().getString("accountType");
+        accountType = getArguments().getString("userType");
         buttonSave = view.findViewById(R.id.btInventorySave);
         buttonCancel = view.findViewById(R.id.btInventoryCancel);
         spinnerReflectionType = view.findViewById(R.id.spinnerReflectionType);
@@ -84,6 +83,7 @@ public class AddNewLogFragment extends Fragment
     {
         dbRef = db.getReference("parents").
                 child(getArguments().getString("parentUserId")).child("medicines");
+
         dbRef.addValueEventListener(new ValueEventListener(){
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
@@ -123,8 +123,13 @@ public class AddNewLogFragment extends Fragment
 
     void validateAndSaveLog()
     {
+        Object medicineIdObject = spinnerMedicineId.getSelectedItem();
+        if (medicineIdObject == null) {
+            Toast.makeText(getContext(), "Missing Medicine Id! Update your Inventory first!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String reflectionType = spinnerReflectionType.getSelectedItem().toString();
-        String medicineId = spinnerMedicineId.getSelectedItem().toString();
+        String medicineId = medicineIdObject.toString();
         String puffs = etPuffsInput.getText().toString().trim();
         String description = etDescriptionInput.getText().toString().trim();
 

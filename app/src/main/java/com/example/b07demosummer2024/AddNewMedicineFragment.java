@@ -34,7 +34,7 @@ public class AddNewMedicineFragment extends Fragment {
     private TextInputEditText etBrandNameInput;
     private TextInputEditText etCostInput;
     private TextInputEditText etShelfLifeInput;
-    private final FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private final FirebaseDatabase db = FirebaseDatabase.getInstance("https://smart-air-8a892-default-rtdb.firebaseio.com/");
     private DatabaseReference dbRef;
     private String accountType;
 
@@ -43,7 +43,7 @@ public class AddNewMedicineFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_add_inventory, container, false);
-        accountType = getArguments().getString("accountType");
+        accountType = getArguments().getString("userType");
 
         spNewMedicineType = view.findViewById(R.id.spNewMedicineType);
         estimatePuffsInlayout = view.findViewById(R.id.estimatePuffsInLayout);
@@ -54,6 +54,8 @@ public class AddNewMedicineFragment extends Fragment {
         etBrandNameInput = view.findViewById(R.id.etBrandNameInput);
         etCostInput = view.findViewById(R.id.etCostInput);
         etShelfLifeInput = view.findViewById(R.id.etShelfLifeInput);
+        btSave = view.findViewById(R.id.btInventorySave);
+        btCancel = view.findViewById(R.id.btInventoryCancel);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.medicine_type_array, android.R.layout.simple_spinner_item);
@@ -128,7 +130,7 @@ public class AddNewMedicineFragment extends Fragment {
             String parentUserId = getArguments().getString("parentUserId");
             dbRef = db.getReference("parents").child(parentUserId).child("medicines");
             String newLogId = dbRef.push().getKey();
-            long expireDate = System.currentTimeMillis() + 24 * 60 * 60 * Long.parseLong(shelfLife);
+            long expireDate = System.currentTimeMillis() + 24 * 60 * 60 * 1000 * Long.parseLong(shelfLife);
             long purchaseDate = System.currentTimeMillis();
             int estimatePuffsValue = Integer.parseInt(estimatePuffs);
             double costValue;

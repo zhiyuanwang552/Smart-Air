@@ -63,9 +63,9 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etEstimatePuffsInput"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="wrap_content"
                     android:digits="0123456789"
-                    android:hint="0"
+                    android:hint="e.g. 10"
                     android:inputType="number"
                     android:maxLength="3" />
 
@@ -95,8 +95,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCostInput"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:hint="0.00"
+                    android:layout_height="wrap_content"
+                    android:hint="e.g. 12.99"
                     android:inputType="numberDecimal" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -125,7 +125,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etBrandNameInput"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="wrap_content"
                     android:hint="e.g. Ventolin"
                     android:inputType="textCapWords"
                     android:singleLine="true" />
@@ -155,7 +155,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etShelfLifeInput"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="wrap_content"
                     android:digits="0123456789"
                     android:hint="e.g. 365"
                     android:inputType="number" />

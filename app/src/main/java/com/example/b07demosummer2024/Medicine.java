@@ -16,6 +16,8 @@ public class Medicine {
 
     private String brandName;
 
+    Medicine (){}
+
     Medicine (String medicineId, long expireDate, long purchaseDate, String medicineType,
               int remainingPuffs, int maxPuffs, double price, @Nullable String brandName)
     {
@@ -71,11 +73,9 @@ public class Medicine {
     {
         this.medicineType = medicineType;
     }
-
     public int getRemainingPuffs(){
         return remainingPuffs;
     }
-
     public void setRemainingPuffs(int remainingPuffs) {
         this.remainingPuffs = remainingPuffs;
     }
@@ -111,7 +111,7 @@ public class Medicine {
     {
         if (System.currentTimeMillis() >= expireDate) return "Expired";
         else
-            if (expireDate - System.currentTimeMillis() < 30 * 24 * 60 * 60 * 1000) return "Soon to Expire";
+            if (expireDate - System.currentTimeMillis() < 7 * 24 * 60 * 60 * 1000) return "Expire Soon";
             else return "Normal";
     }
 

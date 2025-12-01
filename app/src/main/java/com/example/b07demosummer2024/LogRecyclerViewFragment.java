@@ -50,7 +50,7 @@ public class LogRecyclerViewFragment extends Fragment implements DeleteListener
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_log_recycler_view, container, false);
-        accountType = getArguments().getString("accountType");
+        accountType = getArguments().getString("userType");
 
         // Initialize the RecyclerView
         recyclerView = view.findViewById(R.id.log_recyclerview);
@@ -70,7 +70,10 @@ public class LogRecyclerViewFragment extends Fragment implements DeleteListener
             @Override
             public void onClick(View v)
             {
-                loadFragmentAdd(new AddNewLogFragment());
+                Bundle bundle = getArguments();
+                Fragment fragment = new AddNewLogFragment();
+                fragment.setArguments(bundle);
+                loadFragmentAdd(fragment);
             }
         });
 
@@ -118,7 +121,7 @@ public class LogRecyclerViewFragment extends Fragment implements DeleteListener
 
         for (MedicalLog currentLog : logList) {
             if (currentLog.getLinkedMedicineType().equals(selectedType)) {
-                if (selectedUser.equals("ALL") || currentLog.getUserName().equals(selectedUser)) {
+                if (selectedUser.equals("All") || currentLog.getUserName().equals(selectedUser)) {
                     filteredList.add(currentLog);
                 }
             }
@@ -129,7 +132,7 @@ public class LogRecyclerViewFragment extends Fragment implements DeleteListener
 
     private void fetchLogsFromDatabase()
     {
-        dbRef = db.getReference("parentAccount").
+        dbRef = db.getReference("parents").
                 child(getArguments().getString("parentUserId")).child("medicalLogs");
 
         dbRef.addValueEventListener(new ValueEventListener(){
@@ -145,6 +148,7 @@ public class LogRecyclerViewFragment extends Fragment implements DeleteListener
                 }
 
                 updateUserNameSpinner(new ArrayList<>(childNameSet));
+                logAdapter.notifyDataSetChanged();
                 filterLogs();
             }
 
@@ -160,7 +164,7 @@ public class LogRecyclerViewFragment extends Fragment implements DeleteListener
         if (childNameList != null && userNameAdapter != null)
         {
             childNameList.clear();
-            childNameList.add("ALL");
+            childNameList.add("All");
             childNameList.addAll(newUsers);
             userNameAdapter.notifyDataSetChanged();
         }
@@ -174,11 +178,8 @@ public class LogRecyclerViewFragment extends Fragment implements DeleteListener
         }
 
         DatabaseReference logsRef;
-        if (accountType.equals("parent")) logsRef = db.getReference("parentAccount").
-                child(getArguments().getString("userId")).child("medicalLogs");
-        else logsRef = db.getReference("parentAccount").child(getArguments().getString("parentUserId"))
-                .child("medicalLogs");
-
+        logsRef = db.getReference("parents").
+                child(getArguments().getString("parentUserId")).child("medicalLogs");
 
         logsRef.child(logId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

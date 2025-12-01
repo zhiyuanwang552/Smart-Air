@@ -46,6 +46,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.MedicalLogViewHo
         holder.textViewReflection.setText(reflectionInfo);
         holder.textViewSymptoms.setText(log.getDescriptions());
         holder.textViewNumberPuffs.setText(puffsUsed);
+        holder.textViewUsedBy.setText(log.getUserName());
 
         holder.deleteButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -62,7 +63,8 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.MedicalLogViewHo
     }
 
     public static class MedicalLogViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewDate, textViewMedId, textViewReflection, textViewNumberPuffs, textViewSymptoms;
+        TextView textViewDate, textViewMedId, textViewReflection,
+                textViewNumberPuffs, textViewSymptoms, textViewUsedBy;
         Button deleteButton;
 
         public MedicalLogViewHolder(@NonNull View itemView) {
@@ -73,6 +75,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.MedicalLogViewHo
             textViewNumberPuffs = itemView.findViewById(R.id.textViewNumberPuffs);
             textViewSymptoms = itemView.findViewById(R.id.textViewSymptoms);
             deleteButton = itemView.findViewById(R.id.buttonDeleteLog);
+            textViewUsedBy = itemView.findViewById(R.id.textViewUsedBy);
 
         }
     }

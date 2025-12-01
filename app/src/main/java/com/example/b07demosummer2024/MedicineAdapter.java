@@ -29,7 +29,7 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
     @Override
     public MedicineAdapter.MedicineViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.medical_log_item, parent, false);
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.inventory_log_item, parent, false);
         return new MedicineAdapter.MedicineViewHolder(view);
     }
 
@@ -59,7 +59,9 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         holder.tvMedicineId.setText(currentMedId);
         holder.tvBrandNameValue.setText(formattedBrandName);
         holder.tvPuffsValue.setText(formattedPuffs);
-        if ("Expired".equals(med.getExpireState()) || "Soon to Expire".equals(med.getExpireState())) {
+        holder.tvPurchaseDate.setText(formattedPurchaseDate);
+        holder.tvCostValue.setText(formattedCost);
+        if ("Expired".equals(med.getExpireState()) || "Expire Soon".equals(med.getExpireState())) {
             // Get warning red
             holder.tvExpireDate.setTextColor(ContextCompat.getColor(context, R.color.warning_red));
         }
@@ -70,13 +72,12 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         holder.tvExpireDate.setText(formattedExpireDate);
 
         if ("Out of Stack".equals(med.getInventoryState()) || "Low Inventory".equals(med.getInventoryState())) {
-            holder.tvPurchaseDate.setTextColor(ContextCompat.getColor(context, R.color.warning_red));
+            holder.tvPuffsValue.setTextColor(ContextCompat.getColor(context, R.color.warning_red));
         }
         else {
-            holder.tvPurchaseDate.setTextColor(ContextCompat.getColor(context, R.color.black));
+            holder.tvPuffsValue.setTextColor(ContextCompat.getColor(context, R.color.black));
         }
-        holder.tvPurchaseDate.setText(formattedPurchaseDate);
-        holder.tvCostValue.setText(formattedCost);
+
 
         holder.btDeleteMed.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -106,10 +107,6 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
             tvCostValue = itemView.findViewById(R.id.tvCostValue);
             btDeleteMed = itemView.findViewById(R.id.btDeleteMed);
         }
-    }
-
-    public interface OnMedicineDeleteListener {
-        public void onDeleteClick(String logId); // 点击时将传递logId
     }
 
 }
