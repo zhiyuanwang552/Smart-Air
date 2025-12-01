@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
     android:padding="16dp">
 
     <LinearLayout
@@ -11,132 +13,196 @@
 
         <TextView
             android:id="@+id/textViewR5Title"
+            style="@style/TextAppearance.Material3.DisplaySmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawablePadding="8dp"
-            android:text="Daily asthma check-in: 📝 😁😊😐😔🤒"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:paddingBottom="12dp" />
+            android:layout_marginBottom="16dp"
+            android:text="@string/daily_asthma_check_in" />
 
         <!-- Symptoms -->
-        <TextView
-            android:layout_width="wrap_content"
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="What where your symptoms today?"
-            android:textStyle="bold" />
+            app:cardBackgroundColor="#FFECEC"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true">
 
-        <CheckBox
-            android:id="@+id/checkBoxNightWaking"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Night waking" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        <CheckBox
-            android:id="@+id/checkBoxActivityLimits"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Activity limits" />
+                <TextView
+                    style="@style/TextAppearance.Material3.TitleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/what_where_your_symptoms_today" />
 
-        <CheckBox
-            android:id="@+id/checkBoxCoughWheeze"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cough / wheeze" />
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkBoxNightWaking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/night_waking" />
 
-        <CheckBox
-            android:id="@+id/checkBoxNone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="None" />
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkBoxActivityLimits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/activity_limits" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkBoxCoughWheeze"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cough_wheeze" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkBoxNone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/none" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- Triggers -->
-        <TextView
-            android:layout_width="wrap_content"
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:text="What were the symptom triggers? (select all that apply)"
-            android:textStyle="bold" />
+            android:layout_marginTop="8dp"
+            app:cardBackgroundColor="#E3F2FD"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true">
 
-        <CheckBox
-            android:id="@+id/checkBoxTriggerExercise"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Exercise" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        <CheckBox
-            android:id="@+id/checkBoxTriggerColdAir"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cold air" />
+                <TextView
+                    style="@style/TextAppearance.Material3.TitleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/what_were_the_symptom_triggers_select_all_that_apply" />
 
-        <CheckBox
-            android:id="@+id/checkBoxTriggerDustPets"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dust / pets" />
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkBoxTriggerExercise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/exercise" />
 
-        <CheckBox
-            android:id="@+id/checkBoxTriggerSmoke"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Smoke" />
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkBoxTriggerColdAir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cold_air" />
 
-        <CheckBox
-            android:id="@+id/checkBoxTriggerIllness"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Illness" />
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkBoxTriggerDustPets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dust_pets" />
 
-        <CheckBox
-            android:id="@+id/checkBoxTriggerOdors"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Perfume / cleaners / strong odors" />
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkBoxTriggerSmoke"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/smoke" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkBoxTriggerIllness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/illness" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkBoxTriggerOdors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/perfume_cleaners_strong_odors" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- Author -->
-        <TextView
-            android:layout_width="wrap_content"
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:text="Who is filling this in?"
-            android:textStyle="bold" />
+            android:layout_marginTop="8dp"
+            app:cardBackgroundColor="#E6FDE3"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true">
 
-        <RadioGroup
-            android:id="@+id/radioGroupAuthor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <RadioButton
-                android:id="@+id/radioButtonChild"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Child" />
+                android:orientation="vertical"
+                android:padding="16dp">
 
-            <RadioButton
-                android:id="@+id/radioButtonParent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Parent" />
-        </RadioGroup>
+                <TextView
+                    style="@style/TextAppearance.Material3.TitleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/who_is_filling_this_in" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroupAuthor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/radioButtonChild"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/child" />
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/radioButtonParent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/parent" />
+                </RadioGroup>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- Optional note -->
-        <EditText
-            android:id="@+id/editTextNotes"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textFieldNotes"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Optional note (e.g. what was happening today?)"
-            android:inputType="textMultiLine"
-            android:minLines="2"
-            android:gravity="top"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="16dp"
+            android:hint="@string/optional_note_e_g_what_was_happening_today"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp">
 
-        <Button
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:minLines="3" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonSaveCheckIn"
+            style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save daily check-in"
-            android:layout_marginTop="24dp" />
-
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#3F99DB"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:text="@string/save_daily_check_in"
+            android:textSize="16sp" />
     </LinearLayout>
 </ScrollView>
