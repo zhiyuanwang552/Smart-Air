@@ -143,7 +143,7 @@ public class AddNewLogFragment extends Fragment
             try
             {
                 int puffsValue = Integer.parseInt(puffs);
-                if (puffsValue <= 0) { // 用量通常是正数
+                if (puffsValue <= 0) { //Must be positive
                     puffsInlayout.setError("Used puffs must be positive!");
                     isValid = false;
                 }
@@ -167,14 +167,11 @@ public class AddNewLogFragment extends Fragment
             @Override
             public void onCallback(String medicineType)
             {
-                // 这个回调会在获取到 medicineType 后被执行
                 if (medicineType == null) {
-                    // 如果获取失败，可以给一个默认值或者提示错误
                     Toast.makeText(getContext(), "Could not find medicine type, saving with ID.", Toast.LENGTH_SHORT).show();
-                    medicineType = "Controller"; // 使用 Controller 作为备用值
+                    medicineType = "Controller";
                 }
 
-                // --- 在回调内部继续执行保存操作 ---
                 String reflectionType = spinnerReflectionType.getSelectedItem().toString();
                 String userName = getArguments().getString("userName");
                 String parentUserId = getArguments().getString("parentUserId");
@@ -230,13 +227,12 @@ public class AddNewLogFragment extends Fragment
             return;
         }
 
-        // 构造指向特定药品信息的绝对路径
+        //absolute path
         DatabaseReference medicineRef = db.getReference("parents")
                 .child(parentUserId)
                 .child("medicines")
                 .child(medicineId);
 
-        // 使用 addListenerForSingleValueEvent 进行一次性读取
         medicineRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
