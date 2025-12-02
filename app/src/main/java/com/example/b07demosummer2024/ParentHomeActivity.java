@@ -545,7 +545,7 @@ public class ParentHomeActivity extends Fragment {
 
 
 
-        "this part of the report: number\n something else "
+        //"this part of the report: number\n something else "
         // TODO: Remove this
         canvas.drawText("SAMPLE TEXTTTTTTTTT", 75, 100, paint);
         canvas.drawText("PDFPDFPDF", 75, 125, paint);
