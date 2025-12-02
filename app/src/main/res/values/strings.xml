@@ -53,6 +53,17 @@
     <string name="copy">Copy to Clipboard</string>
     <string name="revoke">Revoke</string>
 
+    <!-- For fragment_manage_schedule -->
+    <string name="manage_medicine_schedule">Manage Medicine Schedule</string>
+    <string name="manage_schedule">Manage Schedule</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+
     <!-- For activity_provider_permissions.xml -->
     <string name="provider_permissions">Provider Permissions</string>
     <string name="rescue_logs">Rescue logs</string>
