@@ -214,7 +214,7 @@ public class AddNewLogFragment extends Fragment
                 }
             }
         };
-        
+
         getMedicineTypeUsingId(medicineId, callback, Integer.parseInt(puffs));
     }
 
