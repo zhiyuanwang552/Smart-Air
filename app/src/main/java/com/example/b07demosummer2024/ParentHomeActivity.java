@@ -42,6 +42,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
@@ -245,7 +246,8 @@ public class ParentHomeActivity extends Fragment {
 
     private void fetchAlertsFromDatabase(String childId) {
         childRef = db.getReference("children/" + childId + "/alertHistory");
-        childRef.addValueEventListener(new ValueEventListener() {
+        Query alertQuery = childRef.orderByChild("timestamp").limitToLast(10);
+        alertQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 alertList.clear();
@@ -253,6 +255,10 @@ public class ParentHomeActivity extends Fragment {
                     AlertInstance alert = snapshot.getValue(AlertInstance.class);
                     alertList.add(alert);
                 }
+
+                alertList.sort((a1, a2) ->
+                        Long.compare(a2.getTimeStamp(), a1.getTimeStamp()));
+
                 alertAdapter.notifyDataSetChanged();
             }
 
