@@ -4,7 +4,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="delete_item">Delete</string>
     <string name="add_item">Add Item</string>
-    <string name="back">Back</string>
     <string name="recyclerview">RecyclerView</string>
     <string name="scroller">Scroller</string>
     <string name="spinner">Spinner</string>
@@ -78,5 +77,73 @@
         <item>Expire Soon</item>
     </string-array>
 
+    <!-- For all of dylan files -->
+    <string name="add_child">Add Child</string>
+    <string name="remove_child">Remove Child</string>
+    <string name="add_a_child">Add a Child</string>
+    <string name="child_name">Child Name</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="month">Month</string>
+    <string name="day">Day</string>
+    <string name="year">Year</string>
+    <string name="additional_notes">Additional Notes</string>
+    <string name="account_type">Account Type</string>
+    <string name="child_profile">Child Profile</string>
+    <string name="child_account">Child Account</string>
+    <string name="username">Username</string>
+    <string name="password_warning">Password (Case Sensitive!)</string>
+    <string name="reconfirm_password">Reconfirm Password</string>
+    <string name="create_account">Create Account</string>
+
+    <string name="remove_a_child">Remove a Child</string>
+    <string name="child_selected">Child Selected</string>
+    <string name="confirm_removal">Confirm Removal</string>
+    <string name="manage_providers">Manage Providers</string>
+    <string name="provider_name">Provider Name</string>
+    <string name="remaining_time">Time Left</string>
+
+    <!-- For activity_manage_providers -->
+    <string name="manage_invite_codes">Manage Invite Codes</string>
+
+    <!-- For fragment_provider -->
+    <string name="manage_permissions">Manage Permissions</string>
+
+    <!-- For fragment_manage_invite_codes -->
+    <string name="generate_invite">Generate New Invite Code</string>
+
+    <!-- For fragment_invite_code -->
+    <string name="invite_link">Invite Link/Code</string>
+    <string name="copy">Copy to Clipboard</string>
+    <string name="revoke">Revoke</string>
+
+    <!-- For fragment_manage_schedule -->
+    <string name="manage_medicine_schedule">Manage Medicine Schedule</string>
+    <string name="manage_schedule">Manage Schedule</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+
+    <!-- For activity_provider_permissions.xml -->
+    <string name="provider_permissions">Provider Permissions</string>
+    <string name="rescue_logs">Rescue logs</string>
+    <string name="controller_adherence">Controller adherence</string>
+    <string name="symptoms">Symptoms</string>
+    <string name="triggers">Triggers</string>
+    <string name="peak_flow">Peak-flow (PEF)</string>
+    <string name="triage_incidents">Triage incidents</string>
+    <string name="summary_charts">Summary charts</string>
+
+    <!-- For fragment_provider_permissions -->
+    <string name="delete_provider">Delete Provider</string>
+
+    <!-- General buttons -->
+    <string name="next">Next</string>
+    <string name="save">Save</string>
+    <string name="returnK">Return</string>
+    <string name="back">Back</string>
 
 </resources>
