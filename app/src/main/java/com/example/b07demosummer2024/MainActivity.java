@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (itemId == R.id.navigation_profile)
                 {
-                    selectedFragment = new TechHelpFragment();
+                    selectedFragment = findProfileFragment(userType);
                 }
                 else if (itemId == R.id.navigation_record)
                 {
@@ -70,20 +70,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if (savedInstanceState == null) {
-            switch (userType) {
-                case "parents":
-                    System.out.println("parent profile");
-                    loadFragment(new ParentProfilePageFragment());
-                    break;
-                case "children":
-                    System.out.println("child profile");
-                    loadFragment(new ChildProfilePageFragment());
-                    break;
-                case "providers":
-                    System.out.println("Provider profile");
-                    loadFragment(new ProviderProfilePageFragment());
-                    break;
-            }
+            loadFragment(findProfileFragment(userType));
+        }
+    }
+
+    public Fragment findProfileFragment(String userType){
+        switch (userType) {
+            case "child_profile":
+                return new ChildProfilePageFragment();
+            case "parents":
+                return new ParentProfilePageFragment();
+            case "children":
+                return new ChildProfilePageFragment();
+            case "providers":
+                return new ProviderProfilePageFragment();
+            default:
+                return null;
         }
     }
 
