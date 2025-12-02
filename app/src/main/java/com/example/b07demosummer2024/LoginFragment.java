@@ -1,5 +1,6 @@
 package com.example.b07demosummer2024;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,21 +84,21 @@ public class LoginFragment extends Fragment implements LoginContract.Viewer {
                 System.out.println("Parent Onboarding");
                 loadFragment(new ParentOnboardingFragment());
             }else{
-                loadFragment(new ParentHomepageFragment());
+                goToMainPage();
             }
         }else if (LoginType.equals("children")){
             if(presenter.FirstTimeLogIn()){
                 System.out.println("Children Onboarding");
                 loadFragment(new ChildOnboardingFragment());
             }else {
-                loadFragment(new ChildHomepageFragment());
+                goToMainPage();
             }
         }else if (LoginType.equals("providers")){
             if(presenter.FirstTimeLogIn()){
                 System.out.println("Provider Onboarding");
                 loadFragment(new ProviderOnboardingFragment());
             }else {
-                loadFragment(new ProviderHomepageFragment());
+                goToMainPage();
             }
         }
     }
@@ -106,5 +107,10 @@ public class LoginFragment extends Fragment implements LoginContract.Viewer {
         transaction.replace(R.id.login_fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    public void goToMainPage(){
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
     }
 }

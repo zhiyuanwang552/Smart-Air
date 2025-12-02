@@ -11,6 +11,9 @@ constraintlayout = "2.1.4"
 googleGmsGoogleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
 fragment = "1.8.9"
+recyclerview = "1.4.0"
+cardview = "1.0.0"
+cardviewV7 = "28.0.0"
 
 [libraries]
 firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "firebaseAuth" }
@@ -23,6 +26,9 @@ activity = { group = "androidx.activity", name = "activity", version.ref = "acti
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
+recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
+cardview = { group = "androidx.cardview", name = "cardview", version.ref = "cardview" }
+cardview-v7 = { group = "com.android.support", name = "cardview-v7", version.ref = "cardviewV7" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

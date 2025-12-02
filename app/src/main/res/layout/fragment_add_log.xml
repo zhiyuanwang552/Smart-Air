@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 根布局: 填满全屏, 设置半透明背景, 拦截点击事件 -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#99000000"
+    android:clickable="true"
+    android:focusable="true"
+    tools:context=".AddNewLogFragment">
+
+    <!-- 使用 CardView 来包裹你的表单内容，使其居中显示并有卡片样式 -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mcAddNewLog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintWidth_max="400dp">
+
+        <!-- 内容容器，设置内边距 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/add_medical_log_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="24dp">
+
+            <!-- 标题 -->
+            <TextView
+                android:id="@+id/dialogTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_new_medical_log"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- 反思类型 Spinner -->
+            <TextView
+                android:id="@+id/reflectionTypeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:labelFor="@+id/spinnerReflectionType"
+                android:text="@string/select_reflection_type"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dialogTitle" />
+
+            <Spinner
+                android:id="@+id/spinnerReflectionType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:minHeight="48dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/reflectionTypeLabel" />
+
+            <!-- 药物ID Spinner -->
+            <TextView
+                android:id="@+id/medicineIdLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:labelFor="@+id/spinnerMedicineId"
+                android:text="@string/medicine_id"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerReflectionType" />
+
+            <Spinner
+                android:id="@+id/spinnerMedicineId"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:minHeight="48dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/medicineIdLabel" />
+
+
+            <!-- 用量 -->
+            <TextView
+                android:id="@+id/puffsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center_vertical"
+                android:text="@string/number_of_puffs_title"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/estimatePuffsInLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerMedicineId" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/estimatePuffsInLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBaseline_toBaselineOf="@id/puffsLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/puffsLabel"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerMedicineId">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPuffsInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="0123456789"
+                    android:hint="e.g. 12"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <!-- 症状描述 -->
+            <TextView
+                android:id="@+id/descriptionLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/add_sypmtom_description_title"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/estimatePuffsInLayout" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/description_input_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/descriptionLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etBrandNameInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:hint="@string/write_something_here"
+                    android:inputType="textMultiLine"
+                    android:minLines="3"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- 按钮组 -->
+            <Button
+                android:id="@+id/btInventoryCancel"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="#00FFFFFF"
+                android:text="@string/cancel"
+                android:textColor="#F44336"
+                app:cornerRadius="20dp"
+                app:layout_constraintEnd_toStartOf="@+id/btInventorySave"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description_input_layout"
+                app:strokeColor="@color/black" />
+
+            <Button
+                android:id="@+id/btInventorySave"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="#00FFFFFF"
+                android:text="@string/save"
+                android:textColor="#2196F3"
+                app:cornerRadius="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btInventoryCancel"
+                app:layout_constraintTop_toTopOf="@id/btInventoryCancel"
+                app:strokeColor="@color/black"
+                app:strokeWidth="1dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
