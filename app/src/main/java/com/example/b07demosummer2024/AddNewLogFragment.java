@@ -214,8 +214,7 @@ public class AddNewLogFragment extends Fragment
                 }
             }
         };
-
-        // 调用异步方法来获取 medicineType
+        
         getMedicineTypeUsingId(medicineId, callback, Integer.parseInt(puffs));
     }
 
