@@ -13,6 +13,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,19 +25,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManageChildrenFragment extends Fragment {
-
     private RecyclerView recyclerView;
     private ChildrenScrollableAdapter childAdapter;
     private List<ManageChildrenScrollableFragment> childList;
     private FirebaseDatabase db;
     private DatabaseReference parentRef;
     private DatabaseReference childRef;
+    private final FirebaseAuth myAuth = FirebaseAuth.getInstance();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_manage_children, container, false);
 
+        FirebaseAuth.getInstance().signInAnonymously();
         Button addChild = view.findViewById(R.id.addChildButton);
         Button removeChild = view.findViewById(R.id.button7);
         recyclerView = view.findViewById(R.id.childrenRecyclerView);
@@ -86,7 +89,9 @@ public class ManageChildrenFragment extends Fragment {
     }
 
     private void fetchChildrenFromDatabase(String childType) {
-        parentRef = db.getReference("parents/genericParent/" + childType);
+        FirebaseUser user = myAuth.getCurrentUser();
+        String parentId = user.getUid();
+        parentRef = db.getReference("parents/" + parentId + "/" + childType);
         parentRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

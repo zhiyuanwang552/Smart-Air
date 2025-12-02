@@ -111,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
-                    android:text="copy to clipboard"
+                    android:text="Copy to Clipboard"
                     android:textColor="@color/black"
                     app:cornerRadius="4dp" />
 
@@ -125,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:backgroundTint="@color/white"
-                    android:text="revoke"
+                    android:text="Revoke"
                     android:textColor="@color/black"
                     app:cornerRadius="4dp" />
             </LinearLayout>
