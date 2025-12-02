@@ -136,6 +136,7 @@
                         android:text="Weekly Rescue Count: N/A" />
 
                     <Button
+                        android:id="@+id/scheduleConfigButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"

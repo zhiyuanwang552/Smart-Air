@@ -68,6 +68,7 @@ public class ParentHomeActivity extends Fragment {
     private Spinner childSpinner;
     private Button setPbButton;
     private Button exportButton;
+    private Button scheduleConfigButton;
     private Switch chartToggle;
     private AlertAdapter alertAdapter;
     private RecyclerView recyclerView;
@@ -96,6 +97,7 @@ public class ParentHomeActivity extends Fragment {
 
         FirebaseUser user = myAuth.getCurrentUser();
         String parentId = user.getUid();
+        scheduleConfigButton = view.findViewById(R.id.scheduleConfigButton);
         setPbButton = view.findViewById(R.id.setPbButton);
         exportButton = view.findViewById(R.id.exportReportButton);
         zoneDisplay = view.findViewById(R.id.zoneDisplay);
@@ -247,6 +249,16 @@ public class ParentHomeActivity extends Fragment {
                 loadFragment(PEF);
             }
         });
+        scheduleConfigButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PbEntryFragment PEF = new PbEntryFragment();
+                Bundle args = new Bundle();
+                args.putString("childId", childId);
+                PEF.setArguments(args);
+                loadFragment(PEF);
+            }
+        });
         // add onclick listener for export button.
     }
 
@@ -292,6 +304,16 @@ public class ParentHomeActivity extends Fragment {
     }
 
     private void setRescueDate(String childId) {
+        db.getReference("children/" + childId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String c = dataSnapshot.child("childName").getValue(String.class);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(), "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
         db.getReference("parents/medicalLogs").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

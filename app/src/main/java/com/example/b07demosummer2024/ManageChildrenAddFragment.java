@@ -166,6 +166,7 @@ public class ManageChildrenAddFragment extends Fragment {
                             db.getReference("children/").child(uid).setValue(child)
                                     .addOnCompleteListener(writeTask -> {
                                         db.getReference("children/" + uid).child("userType").setValue("children");
+                                        db.getReference("children/" + uid).child("id").setValue(uid);
                                         myAuth.signOut();
                                         myAuth.signInWithEmailAndPassword(parentEmail, parentPassword).addOnCompleteListener(trial -> {
                                             Toast.makeText(getContext(), "Child account created!", Toast.LENGTH_SHORT).show();
