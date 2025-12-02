@@ -124,15 +124,11 @@ public class SymptomHistoryFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         allEntries.clear();
-                        minTimestamp = Long.MAX_VALUE;
-                        maxTimestamp = Long.MIN_VALUE;
 
                         for (DataSnapshot child : snapshot.getChildren()) {
                             DailyCheckInModel model = child.getValue(DailyCheckInModel.class);
-                            if (model != null) {
+                            if (model != null && model.getUid().equals(uid)) {
                                 allEntries.add(model);
-                                minTimestamp = Math.min(minTimestamp, model.timestamp);
-                                maxTimestamp = Math.max(maxTimestamp, model.timestamp);
                             }
                         }
 

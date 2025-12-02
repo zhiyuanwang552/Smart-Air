@@ -26,7 +26,7 @@
     <string name="who_is_filling_this_in">Who is filling this in?</string>
     <string name="child">Child</string>
     <string name="parent">Parent</string>
-    <string name="optional_note_e_g_what_was_happening_today">Optional note (e.g. what unique, asthma events happened today?)</string>
+    <string name="optional_note_e_g_what_was_happening_today">Optional note (e.g. What happened today?)</string>
     <string name="filters">Filters</string>
     <string name="symptom">Symptom</string>
     <string name="trigger">Trigger</string>

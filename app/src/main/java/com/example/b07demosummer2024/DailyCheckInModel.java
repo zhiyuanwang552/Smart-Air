@@ -15,5 +15,7 @@ public class DailyCheckInModel {
     public Map<String, Boolean> symptoms = new HashMap<>();
     public Map<String, Boolean> triggers = new HashMap<>();
 
-    public DailyCheckInModel() {}
+    public String getUid() {
+        return uid;
+    }
 }

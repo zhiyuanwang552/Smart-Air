@@ -141,15 +141,6 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Search Button -->
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#3CBD47"
-                android:text="Search"
-                android:layout_marginTop="20dp"
-                android:textColor="@android:color/white" />
-
             <!-- Export Buttons -->
             <TextView
                 style="?attr/textAppearanceTitleMedium"
