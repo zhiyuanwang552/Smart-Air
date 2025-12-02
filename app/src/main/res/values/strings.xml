@@ -35,6 +35,9 @@
     <string name="export">Export</string>
     <string name="export_pdf">Export PDF</string>
     <string name="export_csv">Export CSV</string>
+    <string name="did_you_use_any_high_quality_techniques">Did you use any high quality techniques?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <string-array name="categories_array">
         <item>Books</item>
