@@ -161,7 +161,7 @@ public class ManageChildrenAddFragment extends Fragment {
                             child = new ManageChildrenScrollableFragment(childName, birthMonth, birthDay, birthYear, notes, username, password, parentId);
                             db.getReference("children/").child(uid).setValue(child)
                                     .addOnCompleteListener(writeTask -> {
-                                        db.getReference("children/" + uid).child("userType").setValue("child");
+                                        db.getReference("children/" + uid).child("userType").setValue("children");
                                         myAuth.signOut();
                                         myAuth.signInWithEmailAndPassword(parentEmail, parentPassword);
                                         Toast.makeText(getContext(), "Child account created!", Toast.LENGTH_SHORT).show();
@@ -181,41 +181,14 @@ public class ManageChildrenAddFragment extends Fragment {
 
         }
 
-        ManageChildrenScrollableFragment child;
         if (childType.equals("childProfile")){
-            db.getReference("parents/" + parentId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String parentEmail = snapshot.child("email").getValue(String.class);
-                    String parentPassword = snapshot.child("password").getValue(String.class);
-                    myAuth.signOut();
-
-                    myAuth.createUserWithEmailAndPassword(parentId + childName + "@gmail.com", "autopass").addOnCompleteListener(task -> {
-                        if(task.isSuccessful()) {
-                            FirebaseUser user = myAuth.getCurrentUser();
-                            if (user == null) return;
-                            String uid = user.getUid();
-                            ManageChildrenScrollableFragment child;
-                            child = new ManageChildrenScrollableFragment(uid, childName, birthMonth, birthDay, birthYear, notes, parentId);
-                            db.getReference("children/").child(uid).setValue(child)
-                                    .addOnCompleteListener(writeTask -> {
-                                        db.getReference("children/" + uid).child("userType").setValue("child");
-                                        myAuth.signOut();
-                                        myAuth.signInWithEmailAndPassword(parentEmail, parentPassword);
-                                        Toast.makeText(getContext(), "Child profile created!", Toast.LENGTH_SHORT).show();
-                                        getParentFragmentManager().popBackStack();
-                                    });
-                            parentRef = db.getReference("parents/" + parentId + "/childProfile");
-                            parentRef.child(uid).setValue(childName);
-                        }
-                    });
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    // Handle possible errors
-                }
-            });
+            String id = db.getReference("children").push().getKey();
+            ManageChildrenScrollableFragment child = new ManageChildrenScrollableFragment(id, childName, birthMonth, birthDay, birthYear, notes, parentId);
+            db.getReference("children").child(id).setValue(child);
+            db.getReference("children/" + id).child("userType").setValue("children");
+            parentRef = db.getReference("parents/" + parentId + "/childProfile");
+            parentRef.child(id).setValue(childName);
+            Toast.makeText(getContext(), "Child profile created!", Toast.LENGTH_SHORT).show();
         }
 
     }
