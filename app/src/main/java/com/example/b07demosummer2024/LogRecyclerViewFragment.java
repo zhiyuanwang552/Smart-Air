@@ -88,7 +88,7 @@ public class LogRecyclerViewFragment extends Fragment implements DeleteListener
         spSortLogType.setAdapter(logTypeAdapter);
 
         this.childNameList = new ArrayList<>();
-        if (accountType.equals("parent")) this.childNameList.add("ALL");
+        if (accountType.equals("parents")) this.childNameList.add("ALL");
         else this.childNameList.add(getArguments().getString("userName"));    //if it is child, only show his name
 
         this.userNameAdapter = new ArrayAdapter<>(getContext(),
@@ -147,7 +147,7 @@ public class LogRecyclerViewFragment extends Fragment implements DeleteListener
                     childNameSet.add(log.getUserName());
                 }
 
-                updateUserNameSpinner(new ArrayList<>(childNameSet));
+                if (accountType.equals("parents")) updateUserNameSpinner(new ArrayList<>(childNameSet));
                 logAdapter.notifyDataSetChanged();
                 filterLogs();
             }

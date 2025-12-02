@@ -126,9 +126,11 @@ public class InventoryMenuFragment extends Fragment
             @Override
             public void onClick(View v) {
                 Fragment fragment = new InventoryRecyclerViewFragment();
-                Bundle bundle = getArguments();
-                bundle.putString("requiredMedicineType", "Rescue");
-                fragment.setArguments(bundle);
+                Bundle oldbundle = getArguments();
+                Bundle newbundle = new Bundle();
+                newbundle.putAll(oldbundle);
+                newbundle.putString("requiredMedicineType", "Rescue");
+                fragment.setArguments(newbundle);
                 loadFragmentReplace(fragment);
             }
         });
@@ -136,9 +138,11 @@ public class InventoryMenuFragment extends Fragment
             @Override
             public void onClick(View v) {
                 Fragment fragment = new InventoryRecyclerViewFragment();
-                Bundle bundle = getArguments();
-                bundle.putString("requiredMedicineType", "Controller");
-                fragment.setArguments(bundle);
+                Bundle oldbundle = getArguments();
+                Bundle newbundle = new Bundle();
+                newbundle.putAll(oldbundle);
+                newbundle.putString("requiredMedicineType", "Controller");
+                fragment.setArguments(newbundle);
                 loadFragmentReplace(fragment);
             }
         });

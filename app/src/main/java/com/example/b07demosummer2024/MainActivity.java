@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull android.view.MenuItem item) {
                 Fragment selectedFragment = null;
                 Bundle bundle = new Bundle();
-                bundle.putString("userType", "parent");
+                bundle.putString("userType", "children");
                 bundle.putString("userName", "testUser");
                 bundle.putString("parentUserId", "testParent");
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (itemId == R.id.navigation_profile)
                 {
-                    selectedFragment = new HomeFragment();
+                    selectedFragment = new TechHelpFragment();
                 }
                 else if (itemId == R.id.navigation_record)
                 {
