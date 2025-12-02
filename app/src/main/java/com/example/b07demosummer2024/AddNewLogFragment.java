@@ -38,7 +38,7 @@ public class AddNewLogFragment extends Fragment
     private TextInputEditText etDescriptionInput;
     private final FirebaseDatabase db = FirebaseDatabase.getInstance("https://smart-air-8a892-default-rtdb.firebaseio.com/");
     private DatabaseReference dbRef;
-    private String accountType;
+    private String userType;
     private ArrayAdapter<String> medicineIdAdapter;
     private List<String> medicineIdList;
 
@@ -47,7 +47,7 @@ public class AddNewLogFragment extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_add_log, container, false);
-        accountType = getArguments().getString("userType");
+        userType = getArguments().getString("userType");
         buttonSave = view.findViewById(R.id.btInventorySave);
         buttonCancel = view.findViewById(R.id.btInventoryCancel);
         spinnerReflectionType = view.findViewById(R.id.spinnerReflectionType);
@@ -237,19 +237,17 @@ public class AddNewLogFragment extends Fragment
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     Medicine linkedMed = dataSnapshot.getValue(Medicine.class);
-                    int newRemainningPuffs = linkedMed.getRemainingPuffs() - puffsValue;
-                    medicineRef.child("remainingPuffs").setValue(newRemainningPuffs);
+                    int newRemainingPuffs = linkedMed.getRemainingPuffs() - puffsValue;
+                    medicineRef.child("remainingPuffs").setValue(newRemainingPuffs);
 
                     callback.onCallback(linkedMed.getMedicineType());
                 } else {
-                    // 路径不存在
                     callback.onCallback(null);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // 读取失败
                 Toast.makeText(getContext(), "Failed to get medicine type: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 callback.onCallback(null);
             }

@@ -17,6 +17,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MyAchievementLayout" />
 
+    <ProgressBar
+        android:id="@+id/pbPlannedController"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:max="14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/PlannedControllerDaysLabel" />
+
     <TextView
         android:id="@+id/TechniqueCompletedDaysLabel"
         android:layout_width="wrap_content"
@@ -26,7 +37,18 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PlannedControllerDaysLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/pbPlannedController" />
+
+    <ProgressBar
+        android:id="@+id/pbTechComplete"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:max="14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/TechniqueCompletedDaysLabel" />
 
     <TextView
         android:id="@+id/tvPlannedControllerDaysValue"
@@ -50,19 +72,19 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/TechniqueCompletedDaysLabel"
-        app:layout_constraintStart_toEndOf="@+id/TechniqueCompletedDaysLabel"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/TechniqueCompletedDaysLabel" />
 
     <TextView
         android:id="@+id/MyAchievementLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="24dp"
         android:text="My Achievement"
         android:textSize="24sp"
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -76,12 +98,13 @@
         android:orientation="vertical"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TechniqueCompletedDaysLabel">
+        app:layout_constraintTop_toBottomOf="@+id/pbTechComplete">
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/ivPrefectController"
             android:layout_width="120dp"
             android:layout_height="120dp"
+            android:alpha="0.3"
             app:srcCompat="@drawable/first_perfect_week" />
 
         <TextView
@@ -103,12 +126,13 @@
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TechniqueCompletedDaysLabel">
+        app:layout_constraintTop_toBottomOf="@+id/pbTechComplete">
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/ivLowRescue"
             android:layout_width="120dp"
             android:layout_height="120dp"
+            android:alpha="1"
             app:srcCompat="@drawable/low_secure_month" />
 
         <TextView
@@ -133,9 +157,10 @@
         app:layout_constraintTop_toBottomOf="@+id/firstperfectcontrollerlayout">
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/ivHighTech"
             android:layout_width="120dp"
             android:layout_height="120dp"
+            android:alpha="0.3"
             app:srcCompat="@drawable/techniques" />
 
         <TextView
@@ -148,3 +173,4 @@
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
