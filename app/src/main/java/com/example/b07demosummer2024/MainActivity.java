@@ -1,5 +1,6 @@
 package com.example.b07demosummer2024;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -28,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences myPrefs = getSharedPreferences("local_info", MODE_PRIVATE);
+        String userType = myPrefs.getString("loginType", null);
+
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -64,9 +69,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        if (savedInstanceState == null) {
-//            loadFragment(new ProfileFragment());
-//        }
+        if (savedInstanceState == null) {
+            switch (userType) {
+                case "parents":
+                    System.out.println("parent profile");
+                    loadFragment(new ParentProfilePageFragment());
+                    break;
+                case "children":
+                    System.out.println("child profile");
+                    loadFragment(new ChildProfilePageFragment());
+                    break;
+                case "providers":
+                    System.out.println("Provider profile");
+                    loadFragment(new ProviderProfilePageFragment());
+                    break;
+            }
+        }
     }
 
     private void loadFragment(Fragment fragment) {

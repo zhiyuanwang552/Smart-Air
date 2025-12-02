@@ -1,6 +1,7 @@
 package com.example.b07demosummer2024;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +14,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import android.content.Context;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginFragment extends Fragment implements LoginContract.Viewer {
     ScreenPresenter presenter;
@@ -79,27 +83,22 @@ public class LoginFragment extends Fragment implements LoginContract.Viewer {
 
     public void loginSuccess(String LoginType) {
         //Todo add in transition from login activity to main activity
-        if(LoginType.equals("parents")){
-            if(presenter.FirstTimeLogIn()){
-                System.out.println("Parent Onboarding");
-                loadFragment(new ParentOnboardingFragment());
-            }else{
-                goToMainPage();
-            }
-        }else if (LoginType.equals("children")){
-            if(presenter.FirstTimeLogIn()){
-                System.out.println("Children Onboarding");
-                loadFragment(new ChildOnboardingFragment());
-            }else {
-                goToMainPage();
-            }
-        }else if (LoginType.equals("providers")){
-            if(presenter.FirstTimeLogIn()){
-                System.out.println("Provider Onboarding");
-                loadFragment(new ProviderOnboardingFragment());
-            }else {
-                goToMainPage();
-            }
+        String loginType = "loginType";
+        String curr_uid = "curr_uid";
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String uid = auth.getUid();
+        SharedPreferences prefs = requireContext()
+                .getSharedPreferences("local_info", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("loginType", LoginType);
+        editor.putString("curr_uid", uid);
+        editor.apply();
+
+        if (presenter.FirstTimeLogIn()) {
+            loadFragment(new OnboardingFragment());
+        } else {
+            goToMainPage();
         }
     }
     private void loadFragment(Fragment fragment) {
@@ -112,5 +111,6 @@ public class LoginFragment extends Fragment implements LoginContract.Viewer {
     public void goToMainPage(){
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
+        requireActivity().finish();
     }
 }
