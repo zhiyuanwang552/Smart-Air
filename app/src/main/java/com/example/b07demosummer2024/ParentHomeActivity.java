@@ -55,6 +55,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -87,6 +92,7 @@ public class ParentHomeActivity extends Fragment {
     private TextView infoText;
     private TextView rescueDate;
     private TextView weeklyRescues;
+    private TextView controllerAdherence;
 
     private final FirebaseAuth myAuth = FirebaseAuth.getInstance();
 
@@ -107,6 +113,7 @@ public class ParentHomeActivity extends Fragment {
         cardThree = view.findViewById(R.id.cardThree);
         chartToggle = view.findViewById(R.id.chartToggle);
         infoText = view.findViewById(R.id.infoText);
+        controllerAdherence = view.findViewById(R.id.controllerAdherence);
         rescueDate = view.findViewById(R.id.rescueDate);
         weeklyRescues = view.findViewById(R.id.weeklyRescues);
         childNameList = new ArrayList<>();
@@ -134,13 +141,6 @@ public class ParentHomeActivity extends Fragment {
         pieChart = view.findViewById(R.id.pieChart);
 
         reloadPage("blank");
-
-        exportButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                exportReport(requireContext());
-            }
-        });
 
         childSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -223,6 +223,7 @@ public class ParentHomeActivity extends Fragment {
         setZoneDisplay(childId);
         fetchAlertsFromDatabase(childId);
         setRescueDate(childId);
+        setControllerAdherence(childId);
         generatePieChart(30, childId);
         if (chartToggle.isChecked()) {
             generateLineChart(30, childId);
@@ -252,14 +253,19 @@ public class ParentHomeActivity extends Fragment {
         scheduleConfigButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PbEntryFragment PEF = new PbEntryFragment();
+                ManageScheduleFragment MSF = new ManageScheduleFragment();
                 Bundle args = new Bundle();
                 args.putString("childId", childId);
-                PEF.setArguments(args);
-                loadFragment(PEF);
+                MSF.setArguments(args);
+                loadFragment(MSF);
             }
         });
-        // add onclick listener for export button.
+        exportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exportReport(requireContext(), childId);
+            }
+        });
     }
 
     private void hideDisplays(){
@@ -304,21 +310,13 @@ public class ParentHomeActivity extends Fragment {
     }
 
     private void setRescueDate(String childId) {
-        db.getReference("children/" + childId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String c = dataSnapshot.child("childName").getValue(String.class);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(), "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        db.getReference("parents/medicalLogs").addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseUser user = myAuth.getCurrentUser();
+        String parentId = user.getUid();
+        db.getReference("parents/" + parentId + "/medicalLogs").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    if (Objects.equals(snapshot.child("userName").getValue(String.class), childId)) {
+                    if (Objects.equals(snapshot.child("userId").getValue(String.class), childId)) {
                         if (Objects.equals(snapshot.child("linkedMedicineType").getValue(String.class), "rescue")){
                             Date date = new Date(snapshot.child("logDate").getValue(long.class));
                             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.getDefault());
@@ -333,12 +331,12 @@ public class ParentHomeActivity extends Fragment {
                 Toast.makeText(getContext(), "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        db.getReference("parents/medicalLogs").addListenerForSingleValueEvent(new ValueEventListener() {
+        db.getReference("parents/" + parentId + "/medicalLogs").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int count = 0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    if (Objects.equals(snapshot.child("userName").getValue(String.class), childId)) {
+                    if (Objects.equals(snapshot.child("userId").getValue(String.class), childId)) {
                         if (Objects.equals(snapshot.child("linkedMedicineType").getValue(String.class), "rescue")){
                             if (System.currentTimeMillis() - 604800000 < snapshot.child("logDate").getValue(long.class)){
                                 count += 1;
@@ -354,6 +352,96 @@ public class ParentHomeActivity extends Fragment {
             }
         });
     }
+
+    private void setControllerAdherence(String childId) {
+        FirebaseUser user = myAuth.getCurrentUser();
+        String parentId = user.getUid();
+        db.getReference("children/" + childId + "/medicineSchedule").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dayShot) {
+                db.getReference("parents/" + parentId + "/medicalLogs").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        double totalDays = 0;
+                        if (Boolean.TRUE.equals(dayShot.child("monday").getValue(Boolean.class))) {totalDays += 1;}
+                        if (Boolean.TRUE.equals(dayShot.child("tuesday").getValue(Boolean.class))) {totalDays += 1;}
+                        if (Boolean.TRUE.equals(dayShot.child("wednesday").getValue(Boolean.class))) {totalDays += 1;}
+                        if (Boolean.TRUE.equals(dayShot.child("thursday").getValue(Boolean.class))) {totalDays += 1;}
+                        if (Boolean.TRUE.equals(dayShot.child("friday").getValue(Boolean.class))) {totalDays += 1;}
+                        if (Boolean.TRUE.equals(dayShot.child("saturday").getValue(Boolean.class))) {totalDays += 1;}
+                        if (Boolean.TRUE.equals(dayShot.child("sunday").getValue(Boolean.class))) {totalDays += 1;}
+                        boolean monday = false;
+                        boolean tuesday= false;
+                        boolean wednesday= false;
+                        boolean thursday= false;
+                        boolean friday= false;
+                        boolean saturday= false;
+                        boolean sunday= false;
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            if (Objects.equals(snapshot.child("userId").getValue(String.class), childId)) {
+                                if (Objects.equals(snapshot.child("linkedMedicineType").getValue(String.class), "controller")){
+                                    if (System.currentTimeMillis() - 604800000 < snapshot.child("logDate").getValue(long.class)){
+                                        long millis = snapshot.child("logDate").getValue(long.class);
+                                        LocalDate date = Instant.ofEpochMilli(millis)
+                                                .atZone(ZoneId.systemDefault())
+                                                .toLocalDate();
+                                        DayOfWeek dayOfWeek = date.getDayOfWeek();
+                                        String dayName = dayOfWeek.name().toLowerCase();
+                                        if (dayName.equals("monday")){
+                                            monday = true;
+                                        } else if (dayName.equals("tuesday")){
+                                            tuesday = true;
+                                        } else if (dayName.equals("wednesday")){
+                                            wednesday = true;
+                                        } else if (dayName.equals("thursday")){
+                                            thursday = true;
+                                        } else if (dayName.equals("friday")){
+                                            friday = true;
+                                        } else if (dayName.equals("saturday")){
+                                            saturday = true;
+                                        } else if (dayName.equals("sunday")){
+                                            sunday = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        double capturedDays = 0;
+                        double adherenceRate;
+                        if (monday && Boolean.TRUE.equals(dayShot.child("monday").getValue(Boolean.class))) {capturedDays += 1;}
+                        if (tuesday && Boolean.TRUE.equals(dayShot.child("tuesday").getValue(Boolean.class))) {capturedDays += 1;}
+                        if (wednesday && Boolean.TRUE.equals(dayShot.child("wednesday").getValue(Boolean.class))) {capturedDays += 1;}
+                        if (thursday && Boolean.TRUE.equals(dayShot.child("thursday").getValue(Boolean.class))) {capturedDays += 1;}
+                        if (friday && Boolean.TRUE.equals(dayShot.child("friday").getValue(Boolean.class))) {capturedDays += 1;}
+                        if (saturday && Boolean.TRUE.equals(dayShot.child("saturday").getValue(Boolean.class))) {capturedDays += 1;}
+                        if (sunday && Boolean.TRUE.equals(dayShot.child("sunday").getValue(Boolean.class))) {capturedDays += 1;}
+                        if (totalDays == 0) {
+                            adherenceRate = 1;
+                        } else {
+                            adherenceRate = capturedDays / totalDays;
+                        }
+                        if (adherenceRate > 0.9) {
+                            controllerAdherence.setTextColor(Color.parseColor("#006400"));
+                        } else if (adherenceRate > 0.6) {
+                            controllerAdherence.setTextColor(Color.parseColor("#8B8000"));
+                        } else {
+                            controllerAdherence.setTextColor(Color.parseColor("#8B0000"));
+                        }
+                        controllerAdherence.setText(adherenceRate * 100 + "%");
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(getContext(), "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(), "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void setZoneDisplay(String childId) {
         String currentDate = java.time.LocalDate.now().toString();
         db.getReference("children/" + childId + "/pefHistory/" + currentDate + "/zone").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -408,17 +496,56 @@ public class ParentHomeActivity extends Fragment {
         });
     }
 
-    private void exportReport(Context context) {
+    private void exportReport(Context context, String childId) {
         PdfDocument report = new PdfDocument();
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(595, 842, 1).create();
         PdfDocument.Page page = report.startPage(pageInfo);
+
+        FirebaseUser user = myAuth.getCurrentUser();
+        String parentId = user.getUid();
+        db.getReference("parents/" + parentId + "/medicalLogs").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int count = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (Objects.equals(snapshot.child("userId").getValue(String.class), childId)) {
+                        if (Objects.equals(snapshot.child("linkedMedicineType").getValue(String.class), "rescue")){
+                        long threeMonthsAgoMillis = Instant.now().minus(3, ChronoUnit.MONTHS).toEpochMilli();
+                            if (threeMonthsAgoMillis < snapshot.child("logDate").getValue(long.class)){
+                                count += 1;
+                            }
+                        }
+                    }
+                }
+                // COUNT IS THE 3 MONTH RESCUE TOTAL .
+                weeklyRescues.setText("Weekly Rescue Count: " + String.valueOf(count));
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(), "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         Canvas canvas = page.getCanvas();
         Paint paint = new Paint();
         paint.setTextSize(16);
 
-        // All the proper stuff goes here
+        /*
+        Rescue logs - Idk what this one is (did anbo log this to the database?)
+                      R6 says rescue frequency, so just a number? how do we quantify this?
+                      EZ (quantify)
+        Symptoms - R6 describes this as the number of problem days (we count in the past 3-6 months?)
+        Triggers - Glossary describes this as things that trigger symptoms (like dust)
+                   Is this just a list of triggers then? Is this saved anywhere?
+        Peak-flow - Personal best lmao (THIS ONE)
+        Triage incidents - We saved this information, we just access it and then read to the pdf
+        Summary charts - R2 describes this as dashboard/report visuals
+                         Related to the provider home and not the report (THIS ONE)
+        */
 
+
+
+        "this part of the report: number\n something else "
         // TODO: Remove this
         canvas.drawText("SAMPLE TEXTTTTTTTTT", 75, 100, paint);
         canvas.drawText("PDFPDFPDF", 75, 125, paint);
@@ -432,6 +559,14 @@ public class ParentHomeActivity extends Fragment {
         Rect src = new Rect(0, 0, chartBitmap.getWidth(), chartBitmap.getHeight()); // original bitmap
         Rect dst = new Rect(75, 150, 75 + 300, 150 + 150);
         canvas.drawBitmap(chartBitmap, src, dst, null);
+
+        pieChart.measure(View.MeasureSpec.makeMeasureSpec(600, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(600, View.MeasureSpec.EXACTLY));
+        pieChart.layout(0, 0, pieChart.getMeasuredWidth(), pieChart.getMeasuredHeight());
+        Bitmap pieChartBitmap = Bitmap.createBitmap(pieChart.getMeasuredWidth(), pieChart.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        Canvas pieChartCanvas = new Canvas(pieChartBitmap);
+        pieChart.draw(pieChartCanvas);
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(pieChartBitmap, 300, 300, true);
+        canvas.drawBitmap(scaledBitmap, 75, 325, null);
 
         report.finishPage(page);
 

@@ -56,47 +56,47 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="@string/manage_schedule" />
+                    android:text="Select Active Days" />
 
                 <!-- Toggle Buttons -->
                 <Switch
-                    android:id="@+id/switch8"
+                    android:id="@+id/mondaySwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/monday" />
 
                 <Switch
-                    android:id="@+id/switch9"
+                    android:id="@+id/tuesdaySwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tuesday" />
 
                 <Switch
-                    android:id="@+id/switch11"
+                    android:id="@+id/wednesdaySwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/wednesday" />
 
                 <Switch
-                    android:id="@+id/switch12"
+                    android:id="@+id/thursdaySwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/thursday" />
 
                 <Switch
-                    android:id="@+id/switch13"
+                    android:id="@+id/fridaySwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/friday" />
 
                 <Switch
-                    android:id="@+id/switch14"
+                    android:id="@+id/saturdaySwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/saturday" />
 
                 <Switch
-                    android:id="@+id/switch15"
+                    android:id="@+id/sundaySwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/sunday" />
@@ -133,20 +133,6 @@
                         android:layout_weight="1"
                         android:backgroundTint="@color/white"
                         android:text="@string/returnK"
-                        android:textColor="@color/black"
-                        app:cornerRadius="4dp" />
-
-                    <Space
-                        android:layout_width="12dp"
-                        android:layout_height="wrap_content" />
-
-                    <Button
-                        android:id="@+id/createButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/white"
-                        android:text="@string/save"
                         android:textColor="@color/black"
                         app:cornerRadius="4dp" />
                 </LinearLayout>
