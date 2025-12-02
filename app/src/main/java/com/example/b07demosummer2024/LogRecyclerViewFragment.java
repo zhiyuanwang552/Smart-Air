@@ -125,7 +125,8 @@ public class LogRecyclerViewFragment extends Fragment implements DeleteListener
 
         for (MedicalLog currentLog : logList) {
             if (currentLog.getLinkedMedicineType().equals(selectedType)) {
-                if (selectedUser.equals("All") || currentLog.getUserName().equals(selectedUser)) {
+                if (selectedUser.equals("All") || (currentLog.getUserName().equals(selectedUser)
+                && currentLog.getUserId().equals(getArguments().getString("userId")))) {
                     filteredList.add(currentLog);
                 }
             }

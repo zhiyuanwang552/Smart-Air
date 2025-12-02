@@ -30,7 +30,6 @@ public class LoginFragment extends Fragment implements LoginContract.Viewer {
         presenter = new ScreenPresenter(new Model());
         presenter.setViewer(this);
 
-
         //attach the buttons of the fragments to variables
         ImageButton buttonLogin = view.findViewById(R.id.LoginButton);
         ImageButton buttonSignUp = view.findViewById(R.id.SignUpButton);

@@ -175,6 +175,7 @@ public class AddNewLogFragment extends Fragment
                 String reflectionType = spinnerReflectionType.getSelectedItem().toString();
                 String userName = getArguments().getString("userName");
                 String parentUserId = getArguments().getString("parentUserId");
+                String userId = getArguments().getString("userId");
 
                 if (parentUserId == null || parentUserId.isEmpty()) {
                     Toast.makeText(getContext(), "Error: User ID is missing. Cannot save.", Toast.LENGTH_SHORT).show();
@@ -187,9 +188,8 @@ public class AddNewLogFragment extends Fragment
                 String newLogId = userLogsRef.push().getKey();
 
                 long timestamp = System.currentTimeMillis();
-                // 现在使用真实的 medicineType
                 MedicalLog newLog = new MedicalLog(newLogId, GeneralLog.MedicalLogType, timestamp, description,
-                        medicineId, reflectionType, puffsValue, userName, medicineType);
+                        medicineId, reflectionType, puffsValue, userName, medicineType, userId);
 
                 if (newLogId != null)
                 {
