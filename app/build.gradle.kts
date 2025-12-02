@@ -38,6 +38,7 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.fragment)
     implementation(libs.cardview)
+    implementation(libs.google.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

@@ -57,6 +57,32 @@
     <string name="number_of_puffs_title">Number of puffs:</string>
     <string name="select_a_profile">Select a Profile</string>
     <string name="sign_in">Sign In</string>
+    <string name="save_daily_check_in">Save daily check-in</string>
+    <string name="daily_asthma_check_in">Daily asthma check-in: 📝😁😊😐😔🤒</string>
+    <string name="what_where_your_symptoms_today">What where your symptoms today?</string>
+    <string name="night_waking">Night waking</string>
+    <string name="activity_limits">Activity limits</string>
+    <string name="cough_wheeze">Cough / wheeze</string>
+    <string name="none">None</string>
+    <string name="what_were_the_symptom_triggers_select_all_that_apply">What were the symptom triggers?</string>
+    <string name="exercise">Exercising</string>
+    <string name="cold_air">Cold air</string>
+    <string name="dust_pets">Dust / pets</string>
+    <string name="smoke">Smoke</string>
+    <string name="illness">Illness</string>
+    <string name="perfume_cleaners_strong_odors">Perfume / cleaners / strong odors</string>
+    <string name="who_is_filling_this_in">Who is filling this in?</string>
+    <string name="child">Child</string>
+    <string name="parent">Parent</string>
+    <string name="optional_note_e_g_what_was_happening_today">Optional note (e.g. What happened today?)</string>
+    <string name="filters">Filters</string>
+    <string name="symptom">Symptom</string>
+    <string name="trigger">Trigger</string>
+    <string name="from_date">From Date</string>
+    <string name="to_date">To Date</string>
+    <string name="export">Export</string>
+    <string name="export_pdf">Export PDF</string>
+    <string name="export_csv">Export CSV</string>
 
     <string-array name="categories_array">
         <item>Books</item>
