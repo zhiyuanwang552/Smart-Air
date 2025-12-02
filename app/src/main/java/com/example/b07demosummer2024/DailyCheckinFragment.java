@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
@@ -21,6 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import com.google.firebase.database.GenericTypeIndicator;
 
 public class DailyCheckinFragment extends Fragment {
 
@@ -109,8 +113,56 @@ public class DailyCheckinFragment extends Fragment {
     }
 
     private void saveCheckInData() {
+        // Get user
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user == null) {
+            Toast.makeText(getContext(), "User not logged in.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String uid = user.getUid();
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+
+        // Use GenericTypeIndicator for safe casting
+        GenericTypeIndicator<Map<String, Object>> t =
+                new GenericTypeIndicator<Map<String, Object>>() {};
+
+        rootRef.child("parents").child(uid).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult().exists()) {
+                Map<String, Object> profile = task.getResult().getValue(t);
+                assert profile != null;
+                storeCheckInWithProfile(profile, uid);
+            } else {
+                rootRef.child("providers").child(uid).get().addOnCompleteListener(task2 -> {
+                    if (task2.isSuccessful() && task2.getResult().exists()) {
+                        Map<String, Object> profile = task2.getResult().getValue(t);
+                        assert profile != null;
+                        storeCheckInWithProfile(profile, uid);
+                    } else {
+                        rootRef.child("children").child(uid).get().addOnCompleteListener(task3 -> {
+                            if (task3.isSuccessful() && task3.getResult().exists()) {
+                                Map<String, Object> profile = task3.getResult().getValue(t);
+                                assert profile != null;
+                                storeCheckInWithProfile(profile, uid);
+                            } else {
+                                Toast.makeText(getContext(), "User profile not found.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    private void storeCheckInWithProfile(Map<String, Object> profile, String uid) {
         // Map to store the data
         Map<String, Object> checkInData = new HashMap<>();
+
+        // Add user info
+        checkInData.put("uid", uid);
+        checkInData.put("email", profile.get("email"));
+        checkInData.put("userType", profile.get("userType"));
 
         // Symptoms
         Map<String, Boolean> symptoms = new HashMap<>();
@@ -150,11 +202,8 @@ public class DailyCheckinFragment extends Fragment {
         String checkInId = databaseReference.push().getKey();
         if (checkInId != null) {
             databaseReference.child(checkInId).setValue(checkInData)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(getContext(), "Check-in saved successfully!", Toast.LENGTH_SHORT).show();
-                    // Optionally, navigate back or clear the form
-                })
-                .addOnFailureListener(e -> Toast.makeText(getContext(), "Failed to save check-in.", Toast.LENGTH_SHORT).show());
+                    .addOnSuccessListener(aVoid -> Toast.makeText(getContext(), "Check-in saved successfully!", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e -> Toast.makeText(getContext(), "Failed to save check-in.", Toast.LENGTH_SHORT).show());
         }
     }
 }
