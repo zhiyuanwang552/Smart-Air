@@ -1,5 +1,6 @@
 package com.example.b07demosummer2024;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -32,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         auth = FirebaseAuth.getInstance();
 
+        SharedPreferences myPrefs = getSharedPreferences("local_info", MODE_PRIVATE);
+        String userType = myPrefs.getString("loginType", null);
+
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -46,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (itemId == R.id.navigation_profile)
                 {
-                    selectedFragment = new TechHelpFragment();
+                    selectedFragment = findProfileFragment(userType);
                 }
                 else if (itemId == R.id.navigation_record)
                 {
@@ -67,9 +72,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        if (savedInstanceState == null) {
-//            loadFragment(new ProfileFragment());
-//        }
+        if (savedInstanceState == null) {
+            loadFragment(findProfileFragment(userType));
+        }
+    }
+
+    public Fragment findProfileFragment(String userType){
+        switch (userType) {
+            case "child_profile":
+                return new ChildProfilePageFragment();
+            case "parents":
+                return new ParentProfilePageFragment();
+            case "children":
+                return new ChildProfilePageFragment();
+            case "providers":
+                return new ProviderProfilePageFragment();
+            default:
+                return null;
+        }
     }
 
     private void loadFragment(Fragment fragment) {

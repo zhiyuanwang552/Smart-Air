@@ -57,6 +57,8 @@
     <string name="controller">Controller</string>
     <string name="rescue">Rescue</string>
     <string name="number_of_puffs_title">Number of puffs:</string>
+    <string name="select_a_profile">Select a Profile</string>
+    <string name="sign_in">Sign In</string>
 
     <string-array name="categories_array">
         <item>Books</item>
