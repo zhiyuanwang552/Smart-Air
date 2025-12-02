@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
@@ -108,6 +109,7 @@ public class ManageChildrenAddFragment extends Fragment {
         String confirmPassword;
         FirebaseUser user = myAuth.getCurrentUser();
         String parentId = user.getUid();
+        Log.d("loadChildrenDebugA", "The current uid is " + parentId);
 
         if (childName.isEmpty() || birthMonth.isEmpty() || birthDay.isEmpty() || birthYear.isEmpty()) {
             Toast.makeText(getContext(), "Please fill out all fields", Toast.LENGTH_SHORT).show();
@@ -140,18 +142,20 @@ public class ManageChildrenAddFragment extends Fragment {
                     String birthYear = birthYearInput.getText().toString().trim();
                     String notes = notesInput.getText().toString().trim();
                     String parentId = user.getUid();
+                    Log.d("loadChildrenDebugB", "The current uid is " + parentId);
                     String username = usernameInput.getText().toString().trim();
                     String password = passwordInput.getText().toString().trim();
                     myAuth.signOut();
 
                     myAuth.createUserWithEmailAndPassword(username + "@gmail.com", password).addOnCompleteListener(task -> {
                         if(!task.isSuccessful()) {
+                            myAuth.signInWithEmailAndPassword(parentEmail, parentPassword);
                             Exception e = task.getException();
                             if (e instanceof FirebaseAuthUserCollisionException) {
                                 Toast.makeText(getContext(), "Username taken!", Toast.LENGTH_SHORT).show();
-                                myAuth.signInWithEmailAndPassword(parentEmail, parentPassword);
                                 return;
                             }
+                            Toast.makeText(getContext(), "Passwords must include numbers and symbols!", Toast.LENGTH_SHORT).show();
                         }
                         if(task.isSuccessful()) {
                             FirebaseUser user = myAuth.getCurrentUser();
@@ -163,9 +167,10 @@ public class ManageChildrenAddFragment extends Fragment {
                                     .addOnCompleteListener(writeTask -> {
                                         db.getReference("children/" + uid).child("userType").setValue("children");
                                         myAuth.signOut();
-                                        myAuth.signInWithEmailAndPassword(parentEmail, parentPassword);
-                                        Toast.makeText(getContext(), "Child account created!", Toast.LENGTH_SHORT).show();
-                                        getParentFragmentManager().popBackStack();
+                                        myAuth.signInWithEmailAndPassword(parentEmail, parentPassword).addOnCompleteListener(trial -> {
+                                            Toast.makeText(getContext(), "Child account created!", Toast.LENGTH_SHORT).show();
+                                            getParentFragmentManager().popBackStack();
+                                        });
                                     });
                             parentRef = db.getReference("parents/" + parentId + "/childAccount");
                             parentRef.child(uid).setValue(childName);
@@ -188,6 +193,7 @@ public class ManageChildrenAddFragment extends Fragment {
             db.getReference("children/" + id).child("userType").setValue("children");
             parentRef = db.getReference("parents/" + parentId + "/childProfile");
             parentRef.child(id).setValue(childName);
+            getParentFragmentManager().popBackStack();
             Toast.makeText(getContext(), "Child profile created!", Toast.LENGTH_SHORT).show();
         }
 

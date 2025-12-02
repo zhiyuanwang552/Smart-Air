@@ -2,6 +2,8 @@ package com.example.b07demosummer2024;
 
 import static android.graphics.Color.parseColor;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -31,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.time.Instant;
+import java.util.Objects;
 
 public class TriageFragment extends Fragment {
 
@@ -49,8 +52,14 @@ public class TriageFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_triage, container, false);
 
-        FirebaseUser user = myAuth.getCurrentUser();
-        String childId = user.getUid();
+        String childId;
+        SharedPreferences prefs = requireContext().getSharedPreferences("local_info", Context.MODE_PRIVATE);
+        if (Objects.equals(prefs.getString("loginType", null), "childProfile")){
+            childId = prefs.getString("curr_uid", null);
+        } else {
+            FirebaseUser user = myAuth.getCurrentUser();
+            childId = user.getUid();
+        }
 
         decisionCardText = view.findViewById(R.id.decisionCardText);
         EditText pefEntry = view.findViewById(R.id.pefEntry);

@@ -31,7 +31,7 @@ public class ProviderCodeEntryFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_manage_children_add, container, false);
+        View view = inflater.inflate(R.layout.fragment_provider_code_entry, container, false);
 
         db = FirebaseDatabase.getInstance("https://smart-air-8a892-default-rtdb.firebaseio.com/");
 
@@ -79,10 +79,21 @@ public class ProviderCodeEntryFragment extends Fragment {
                                         FirebaseUser user = myAuth.getCurrentUser();
                                         String providerId = user.getUid();
                                         String childName = dataSnapShot.getValue(String.class);
-                                        ProviderInstance provider = new ProviderInstance(providerId, "providerABC");
-                                        db.getReference("providers/" + providerId + "/connections").child(childIdentifier).setValue(childName);
-                                        db.getReference("children/" + childIdentifier + "providers/" + providerId).setValue(provider);
-                                        getParentFragmentManager().popBackStack();
+                                        db.getReference("providers/" + providerId).child("email").addListenerForSingleValueEvent(new ValueEventListener(){
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
+                                                ProviderInstance provider = new ProviderInstance(providerId, datasnapshot.getValue(String.class));
+                                                db.getReference("providers/" + providerId + "/connections").child(childIdentifier).setValue(childName);
+                                                db.getReference("children/" + childIdentifier + "/providers/" + providerId).setValue(provider);
+                                                getParentFragmentManager().popBackStack();
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                // Handle possible errors
+                                            }
+
+                                        });
                                     }
 
                                     @Override

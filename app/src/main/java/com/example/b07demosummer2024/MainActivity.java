@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if (itemId == R.id.navigation_dashboard)
                 {
-                    selectedFragment = new InventoryMenuFragment();
+                    selectedFragment = new ParentHomeActivity();
                 }
                     // If a fragment was selected, load it
                 if (selectedFragment != null) {

@@ -3,6 +3,7 @@ package com.example.b07demosummer2024;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,6 +88,7 @@ public class LoginFragment extends Fragment implements LoginContract.Viewer {
         String curr_uid = "curr_uid";
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String uid = auth.getUid();
+        Log.d("LoginDebug", "Your current uid is " + uid);
         SharedPreferences prefs = requireContext()
                 .getSharedPreferences("local_info", Context.MODE_PRIVATE);
 

@@ -1,7 +1,6 @@
 package com.example.b07demosummer2024;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,9 +35,8 @@ public class ManageChildrenFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_manage_children, container, false);
+        View view = inflater.inflate(R.layout.fragment_manage_children, container, false);
 
-        FirebaseAuth.getInstance().signInAnonymously();
         Button addChild = view.findViewById(R.id.addChildButton);
         Button removeChild = view.findViewById(R.id.button7);
         recyclerView = view.findViewById(R.id.childrenRecyclerView);

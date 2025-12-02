@@ -78,10 +78,11 @@
                         android:text="Last Rescue Time" />
 
                     <TextView
+                        android:id="@+id/rescueDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="4dp"
-                        android:text="11/18/2025\n3:44 P.M" />
+                        android:text="No Rescue Logged" />
 
                     <Button
                         android:id="@+id/setPbButton"
@@ -127,6 +128,13 @@
                         android:textSize="36sp"
                         android:textStyle="bold" />
 
+                    <TextView
+                        android:id="@+id/weeklyRescues"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:text="Weekly Rescue Count: N/A" />
+
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -160,6 +168,12 @@
                     android:layout_height="170dp"
                     tools:layout_editor_absoluteX="130dp"
                     tools:layout_editor_absoluteY="195dp" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart"
+                    android:layout_height="200dp"
+                    android:layout_width="200dp"
+                    android:visibility="gone" />
 
                 <Switch
                     android:id="@+id/chartToggle"

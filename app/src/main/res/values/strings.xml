@@ -48,7 +48,6 @@
     <string name="select_reflection_type">How do you feel now?</string>
     <string name="add_new_medical_log">Add New Medical Log</string>
     <string name="medicine_id">Medicine ID:</string>
-    <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="write_something_here">Write something here!</string>
     <string name="add_sypmtom_description_title">Add Sypmtom Description</string>

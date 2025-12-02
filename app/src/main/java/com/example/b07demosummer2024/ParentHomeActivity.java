@@ -31,11 +31,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -48,11 +54,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class ParentHomeActivity extends Fragment {
@@ -67,13 +75,17 @@ public class ParentHomeActivity extends Fragment {
     private FirebaseDatabase db;
     private DatabaseReference childRef;
     private List<AlertInstance> alertList;
-    private LineChart lineChart;
     private DatabaseReference zoneRef;
-    private ArrayList<Entry> entries;
+    private LineChart lineChart;
+    private ArrayList<Entry> lineEntries;
+    private PieChart pieChart;
+    private ArrayList<PieEntry> pieEntries;
     private CardView cardOne;
     private CardView cardTwo;
     private CardView cardThree;
     private TextView infoText;
+    private TextView rescueDate;
+    private TextView weeklyRescues;
 
     private final FirebaseAuth myAuth = FirebaseAuth.getInstance();
 
@@ -85,6 +97,7 @@ public class ParentHomeActivity extends Fragment {
         FirebaseUser user = myAuth.getCurrentUser();
         String parentId = user.getUid();
         setPbButton = view.findViewById(R.id.setPbButton);
+        exportButton = view.findViewById(R.id.exportReportButton);
         zoneDisplay = view.findViewById(R.id.zoneDisplay);
         childSpinner = view.findViewById(R.id.childSpinner);
         cardOne = view.findViewById(R.id.cardOne);
@@ -92,6 +105,8 @@ public class ParentHomeActivity extends Fragment {
         cardThree = view.findViewById(R.id.cardThree);
         chartToggle = view.findViewById(R.id.chartToggle);
         infoText = view.findViewById(R.id.infoText);
+        rescueDate = view.findViewById(R.id.rescueDate);
+        weeklyRescues = view.findViewById(R.id.weeklyRescues);
         childNameList = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recycler_alerts);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -110,6 +125,11 @@ public class ParentHomeActivity extends Fragment {
         alertList = new ArrayList<>();
         alertAdapter = new AlertAdapter(alertList);
         recyclerView.setAdapter(alertAdapter);
+
+        lineEntries = new ArrayList<>();
+        pieEntries = new ArrayList<>();
+        lineChart = view.findViewById(R.id.lineChart);
+        pieChart = view.findViewById(R.id.pieChart);
 
         reloadPage("blank");
 
@@ -200,6 +220,8 @@ public class ParentHomeActivity extends Fragment {
         showDisplays();
         setZoneDisplay(childId);
         fetchAlertsFromDatabase(childId);
+        setRescueDate(childId);
+        generatePieChart(30, childId);
         if (chartToggle.isChecked()) {
             generateLineChart(30, childId);
         } else {
@@ -268,6 +290,48 @@ public class ParentHomeActivity extends Fragment {
             }
         });
     }
+
+    private void setRescueDate(String childId) {
+        db.getReference("parents/medicalLogs").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (Objects.equals(snapshot.child("userName").getValue(String.class), childId)) {
+                        if (Objects.equals(snapshot.child("linkedMedicineType").getValue(String.class), "rescue")){
+                            Date date = new Date(snapshot.child("logDate").getValue(long.class));
+                            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.getDefault());
+                            rescueDate.setText(sdf.format(date));
+                            return;
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(), "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        db.getReference("parents/medicalLogs").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int count = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (Objects.equals(snapshot.child("userName").getValue(String.class), childId)) {
+                        if (Objects.equals(snapshot.child("linkedMedicineType").getValue(String.class), "rescue")){
+                            if (System.currentTimeMillis() - 604800000 < snapshot.child("logDate").getValue(long.class)){
+                                count += 1;
+                            }
+                        }
+                    }
+                }
+                weeklyRescues.setText("Weekly Rescue Count: " + String.valueOf(count));
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(), "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     private void setZoneDisplay(String childId) {
         String currentDate = java.time.LocalDate.now().toString();
         db.getReference("children/" + childId + "/pefHistory/" + currentDate + "/zone").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -330,9 +394,14 @@ public class ParentHomeActivity extends Fragment {
         Canvas canvas = page.getCanvas();
         Paint paint = new Paint();
         paint.setTextSize(16);
+
+        // All the proper stuff goes here
+
+        // TODO: Remove this
         canvas.drawText("SAMPLE TEXTTTTTTTTT", 75, 100, paint);
         canvas.drawText("PDFPDFPDF", 75, 125, paint);
 
+        // TODO: Ensure charts are positioned correctly
         lineChart.setDrawingCacheEnabled(true);
         lineChart.buildDrawingCache();
         Bitmap chartBitmap = Bitmap.createBitmap(lineChart.getWidth(), lineChart.getHeight(), Bitmap.Config.ARGB_8888);
@@ -344,14 +413,13 @@ public class ParentHomeActivity extends Fragment {
 
         report.finishPage(page);
 
-        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                + "/example.pdf";
+        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/report.pdf";
 
         File file = new File(path);
 
         try (OutputStream out = new FileOutputStream(file)) {
             report.writeTo(out);
-            Toast.makeText(context, "Saved to Downloads (legacy)", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Saved to Downloads", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -380,8 +448,8 @@ public class ParentHomeActivity extends Fragment {
                 return;
             }
 
-            if (!entries.isEmpty()) {
-                entries.clear();
+            if (!lineEntries.isEmpty()) {
+                lineEntries.clear();
             }
 
             DataSnapshot snapshot = task.getResult();
@@ -390,17 +458,17 @@ public class ParentHomeActivity extends Fragment {
                 DataSnapshot daySnapshot = snapshot.child("/" + date + "/zonePercentage");
                 Integer value = daySnapshot.getValue(Integer.class);
                 if (value != null) {
-                    entries.add(new Entry(numOfDays - 1 - i, value));
+                    lineEntries.add(new Entry(numOfDays - 1 - i, value));
                 } else {
-                    entries.add(new Entry(numOfDays - 1 - i, 0));
+                    lineEntries.add(new Entry(numOfDays - 1 - i, 0));
                 }
             }
 
-            Collections.reverse(entries);
+            Collections.reverse(lineEntries);
             Collections.reverse(daysOfMonth);
 
             // Sets up line information
-            LineDataSet dataSet = new LineDataSet(entries, "Sample Data");
+            LineDataSet dataSet = new LineDataSet(lineEntries, "Sample Data");
             dataSet.setColor(Color.parseColor("#0000FF"));
             dataSet.setValueTextColor(Color.parseColor("#000000"));
             dataSet.setLineWidth(2f);
@@ -417,6 +485,68 @@ public class ParentHomeActivity extends Fragment {
             // Generates chart
             lineChart.setData(new LineData(dataSet));
             lineChart.invalidate();
+        });
+    }
+
+    private void generatePieChart(int numOfDays, String childId) {
+        // List of last 7/30 days
+        List<String> dates = new ArrayList<>();
+        for (int i = 0; i < numOfDays; i++) {
+            String date = java.time.LocalDate.now().minusDays(i).toString();
+            dates.add(date);
+        }
+
+        zoneRef = db.getReference("children/" + childId + "/pefHistory");
+        zoneRef.get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Toast.makeText(getContext(), "Failed to generate chart", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!pieEntries.isEmpty()) {
+                pieEntries.clear();
+            }
+
+            int noZoneCounter = 0;
+            int badZoneCounter = 0;
+            int okayZoneCounter = 0;
+            int goodZoneCounter = 0;
+
+            DataSnapshot snapshot = task.getResult();
+            for (int i = 0; i < dates.size(); i++) {
+                String date = dates.get(i);
+                DataSnapshot daySnapshot = snapshot.child("/" + date + "/zonePercentage");
+                Integer value = daySnapshot.getValue(Integer.class);
+                if (value != null) {
+                    if (value < 50) {
+                        badZoneCounter++;
+                    } else if (value < 80) {
+                        okayZoneCounter++;
+                    } else {
+                        goodZoneCounter++;
+                    }
+                } else {
+                    noZoneCounter++;
+                }
+            }
+
+            pieEntries.add(new PieEntry(goodZoneCounter, "Good zone days"));
+            pieEntries.add(new PieEntry(okayZoneCounter, "Okay zone days"));
+            pieEntries.add(new PieEntry(badZoneCounter, "Bad zone days"));
+            pieEntries.add(new PieEntry(noZoneCounter, "Days not recorded"));
+
+            pieChart.setDrawEntryLabels(false);
+            Description description = new Description();
+            description.setText("Zone Distribution");
+            pieChart.setDescription(description);
+
+            PieDataSet dataSet = new PieDataSet(pieEntries, "Zones");
+            dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+            dataSet.setSliceSpace(2f);
+            dataSet.setValueTextSize(14f);
+
+            pieChart.setData(new PieData(dataSet));
+            pieChart.invalidate();
         });
     }
 
