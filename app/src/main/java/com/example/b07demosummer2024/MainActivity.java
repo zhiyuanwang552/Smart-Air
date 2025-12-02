@@ -29,9 +29,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
-        DatabaseReference myRef = db.getReference("testDemo");
-
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -56,14 +53,6 @@ public class MainActivity extends AppCompatActivity {
                 {
                     selectedFragment = new InventoryMenuFragment();
                 }
-                else if (itemId == R.id.navigation_medicine_inventory)
-                {
-                    selectedFragment = new AddItemFragment();
-                }
-                else if (itemId == R.id.navigation_technical_guide)
-                {
-                    selectedFragment = new AddItemFragment();
-                }
                     // If a fragment was selected, load it
                 if (selectedFragment != null) {
                     selectedFragment.setArguments(bundle);
@@ -74,12 +63,10 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-//        myRef.setValue("B07 Demo!");
-        myRef.child("movies").setValue("B07 Demo!");
 
-        if (savedInstanceState == null) {
-            loadFragment(new HomeFragment());
-        }
+//        if (savedInstanceState == null) {
+//            loadFragment(new ProfileFragment());
+//        }
     }
 
     private void loadFragment(Fragment fragment) {
@@ -88,5 +75,4 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
     }
-
 }

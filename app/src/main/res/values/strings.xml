@@ -9,6 +9,34 @@
     <string name="scroller">Scroller</string>
     <string name="spinner">Spinner</string>
     <string name="manage_items">Manage Items</string>
+    <string name="enter_email">Email/Username</string>
+    <string name="enter_password">Password</string>
+    <string name="login">Login</string>
+    <string name="child_sign_in">Child Sign In</string>
+    <string name="parent_sign_in">Parent Sign In</string>
+    <string name="provider_sign_up">Provider Sign Up</string>
+    <string name="parent_sign_up">Parent Sign Up</string>
+    <string name="provider_sign_in">Provider Sign In</string>
+    <string name="reset_link">Verify</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_password">Confirm Password"</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="password_security_requirements">*Password is not secure!\n
+        *A password must have\n
+        \t\t\t\t- Lowercase Character\n
+        \t\t\t\t- Uppercase Character\n
+        \t\t\t\t- Numeric Character\n
+        \t\t\t\t- Non-alphanumeric Character\n
+        \t\t\t\t- Minimum of 6 characters\n
+        \t\t\t\t- Maximum of 30 characters\n
+    </string>
+
+    <string name="email_already_in_use">Email is already in use!\nPlease visit the login page.</string>
+    <string name="incorrect_email_or_password">Incorrect email or password!</string>
+    <string name="verification_sent">Verification Code Sent!</string>
+    <string name="incorrect_verification">Incorrect Verification Code!</string>
+    <string name="reenter_password">Re-enter Password</string>
+
     <string name="medical_record_title">Medical Log</string>
     <string name="medicine_inventory_title">Inventory</string>
     <string name="technical_support_title">Tech Help</string>
@@ -49,8 +77,6 @@
         <item>Normal</item>
         <item>Expire Soon</item>
     </string-array>
-
-
 
 
 </resources>
