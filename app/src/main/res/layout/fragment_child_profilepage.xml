@@ -112,6 +112,38 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <!-- NEW BUTTON: Daily Check-In -->
+    <Button
+        android:id="@+id/buttonDailyCheckIn"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:text="Daily Check-In"
+        android:textSize="14sp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        app:cornerRadius="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageButton5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonCheckInHistory"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp" />
+
+    <!-- NEW BUTTON: Check-In History -->
+    <Button
+        android:id="@+id/buttonCheckInHistory"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:text="Symptom History"
+        android:textSize="14sp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        app:cornerRadius="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageButton5"
+        app:layout_constraintStart_toEndOf="@+id/buttonDailyCheckIn"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="8dp" />
+
     <ImageButton
         android:id="@+id/imageButton5"
         android:layout_width="271dp"

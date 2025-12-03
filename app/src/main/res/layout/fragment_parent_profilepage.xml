@@ -5,22 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- MANAGE CHILDREN BUTTON (follows sign-in button) -->
     <Button
         android:id="@+id/manageChildrenButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:backgroundTint="@color/grey"
         android:text="Manage Children and Provider Permissions"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:cornerRadius="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonDailyCheckIn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:cornerRadius="4dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="32dp" />
+
+    <!-- DAILY CHECK-IN (Square) -->
+    <Button
+        android:id="@+id/buttonDailyCheckIn"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:text="Daily Check-In"
+        android:textSize="14sp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        app:cornerRadius="8dp"
+        app:layout_constraintBottom_toTopOf="@id/imageButton13"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonCheckInHistory"
+        android:layout_marginEnd="8dp" />
+
+    <!-- CHECK-IN HISTORY (Square) -->
+    <Button
+        android:id="@+id/buttonCheckInHistory"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:text="Symptom History"
+        android:textSize="14sp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        app:cornerRadius="8dp"
+        app:layout_constraintBottom_toTopOf="@id/imageButton13"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintStart_toEndOf="@id/buttonDailyCheckIn"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp" />
 
     <ImageButton
         android:id="@+id/imageButton10"
