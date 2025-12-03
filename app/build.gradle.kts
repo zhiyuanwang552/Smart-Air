@@ -30,6 +30,8 @@ android {
 }
 
 dependencies {
+    testImplementation("org.mockito:mockito-core:5.20.0")
+    testImplementation(libs.junit)
     implementation(libs.firebase.auth)
     implementation(libs.appcompat)
     implementation(libs.material)
