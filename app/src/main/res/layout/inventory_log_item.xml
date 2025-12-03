@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+
+        <Button
+            android:id="@+id/btDeleteMed"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="@string/delete_item"
+            android:textColor="#DE1010"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:strokeWidth="0dp" />
+
+        <TextView
+            android:id="@+id/tv_medicine_id_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medicine ID:"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvMedicineId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textSize="18sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_medicine_id_label"
+            app:layout_constraintStart_toEndOf="@id/tv_medicine_id_label"
+            tools:text="RX12345" />
+
+        <TextView
+            android:id="@+id/tv_brand_name_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Brand:"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_medicine_id_label" />
+
+        <TextView
+            android:id="@+id/tvBrandNameValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_brand_name_label"
+            app:layout_constraintStart_toEndOf="@id/tv_brand_name_label"
+            tools:text="Ventolin" />
+
+        <TextView
+            android:id="@+id/tv_puffs_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Remaining:"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_brand_name_label" />
+
+        <TextView
+            android:id="@+id/tvPuffsValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_puffs_label"
+            app:layout_constraintStart_toEndOf="@id/tv_puffs_label"
+            tools:text="150 puffs" />
+
+        <TextView
+            android:id="@+id/tv_purchase_date_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Purchased:"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_puffs_label" />
+
+        <TextView
+            android:id="@+id/tvPurchaseDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_purchase_date_label"
+            app:layout_constraintStart_toEndOf="@id/tv_purchase_date_label"
+            tools:text="2024-10-28" />
+
+        <TextView
+            android:id="@+id/tv_expire_date_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Expires:"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_purchase_date_label" />
+
+        <TextView
+            android:id="@+id/tvExpireDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_expire_date_label"
+            app:layout_constraintStart_toEndOf="@id/tv_expire_date_label"
+            tools:text="2026-10-28" />
+
+        <TextView
+            android:id="@+id/tv_cost_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Cost:"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_expire_date_label" />
+
+        <TextView
+            android:id="@+id/tvCostValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_cost_label"
+            app:layout_constraintStart_toEndOf="@id/tv_cost_label"
+            tools:text="$45.99" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

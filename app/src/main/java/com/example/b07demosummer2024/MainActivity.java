@@ -1,8 +1,10 @@
 package com.example.b07demosummer2024;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -14,6 +16,8 @@ import android.widget.Button;
 import android.view.View;
 import android.content.Intent;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -26,14 +30,62 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
-        DatabaseReference myRef = db.getReference("testDemo");
+        SharedPreferences myPrefs = getSharedPreferences("local_info", MODE_PRIVATE);
+        String userType = myPrefs.getString("loginType", null);
 
-//        myRef.setValue("B07 Demo!");
-        myRef.child("movies").setValue("B07 Demo!");
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull android.view.MenuItem item) {
+                Fragment selectedFragment = null;
+                Bundle bundle = new Bundle();
+                bundle.putString("userType", "children");
+                bundle.putString("userName", "testUser");
+                bundle.putString("parentUserId", "testParent");
+
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.navigation_profile)
+                {
+                    selectedFragment = findProfileFragment(userType);
+                }
+                else if (itemId == R.id.navigation_record)
+                {
+                    selectedFragment = new LogRecyclerViewFragment();
+                }
+                else if (itemId == R.id.navigation_dashboard)
+                {
+                    selectedFragment = new ParentHomeActivity();
+                }
+                    // If a fragment was selected, load it
+                if (selectedFragment != null) {
+                    selectedFragment.setArguments(bundle);
+                    loadFragment(selectedFragment);
+                    return true;
+                }
+
+                return false;
+            }
+        });
 
         if (savedInstanceState == null) {
-            loadFragment(new HomeFragment());
+            loadFragment(findProfileFragment(userType));
+        }
+    }
+
+    public Fragment findProfileFragment(String userType){
+        switch (userType) {
+            case "child_profile":
+                return new ChildProfilePageFragment();
+            case "parents":
+                return new ParentProfilePageFragment();
+            case "children":
+                return new ChildProfilePageFragment();
+            case "providers":
+                return new ProviderProfilePageFragment();
+            default:
+                return null;
         }
     }
 
@@ -42,14 +94,5 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            getSupportFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
-        }
     }
 }

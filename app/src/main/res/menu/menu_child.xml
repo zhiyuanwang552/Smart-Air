@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/baseline_account_box_24"
+        android:title="@string/profile_title" />
+
+    <item
+        android:id="@+id/navigation_record"
+        android:icon="@drawable/outline_clinical_notes_24"
+        android:title="@string/medical_record_title" />
+
+    <item
+        android:id="@+id/navigation_technical_guide"
+        android:icon="@drawable/outline_cast_for_education_24"
+        android:title="@string/technical_support_title" />
+
+    <item
+        android:id="@+id/navigation_dashboard"
+        android:icon="@drawable/outline_dashboard_24"
+        android:title="@string/dashboard_title" />
+
+</menu>
