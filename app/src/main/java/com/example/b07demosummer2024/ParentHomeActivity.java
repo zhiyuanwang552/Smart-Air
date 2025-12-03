@@ -498,8 +498,12 @@ public class ParentHomeActivity extends Fragment {
 
     private void exportReport(Context context, String childId) {
         PdfDocument report = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(595, 842, 1).create();
-        PdfDocument.Page page = report.startPage(pageInfo);
+        PdfDocument.PageInfo page1Info = new PdfDocument.PageInfo.Builder(595, 842, 1).create();
+        PdfDocument.Page page1 = report.startPage(page1Info);
+
+        Canvas canvas1 = page1.getCanvas();
+        Paint paint = new Paint();
+        paint.setTextSize(16);
 
         FirebaseUser user = myAuth.getCurrentUser();
         String parentId = user.getUid();
@@ -517,8 +521,7 @@ public class ParentHomeActivity extends Fragment {
                         }
                     }
                 }
-                // COUNT IS THE 3 MONTH RESCUE TOTAL .
-                weeklyRescues.setText("Weekly Rescue Count: " + String.valueOf(count));
+                canvas1.drawText("Number of Recent Rescue Attempts: " + count, 75, 100, paint);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -526,29 +529,53 @@ public class ParentHomeActivity extends Fragment {
             }
         });
 
-        Canvas canvas = page.getCanvas();
-        Paint paint = new Paint();
-        paint.setTextSize(16);
+        db.getReference("children/" + childId + "/personalBest").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String pb = dataSnapshot.getValue(String.class);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(), "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        /*
-        Rescue logs - Idk what this one is (did anbo log this to the database?)
-                      R6 says rescue frequency, so just a number? how do we quantify this?
-                      EZ (quantify)
-        Symptoms - R6 describes this as the number of problem days (we count in the past 3-6 months?)
-        Triggers - Glossary describes this as things that trigger symptoms (like dust)
-                   Is this just a list of triggers then? Is this saved anywhere?
-        Peak-flow - Personal best lmao (THIS ONE)
-        Triage incidents - We saved this information, we just access it and then read to the pdf
-        Summary charts - R2 describes this as dashboard/report visuals
-                         Related to the provider home and not the report (THIS ONE)
-        */
+        db.getReference("children/" + childId + "/incidentLogHistory").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String logData = "Triage Incident Log:\n";
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String guidanceShown = snapshot.child("guidanceShown").getValue(String.class);
+                    boolean chestRetractionToggle = snapshot.child("chestRetractionToggle").getValue(Boolean.class);
+                    boolean chestPainToggle = snapshot.child("chestPainToggle").getValue(Boolean.class);
+                    boolean breathingToggle = snapshot.child("breathingToggle").getValue(Boolean.class);
+                    boolean speakingToggle = snapshot.child("speakingToggle").getValue(Boolean.class);
+                    boolean blueSkinToggle = snapshot.child("blueSkinToggle").getValue(Boolean.class);
+                    Date date = new Date(snapshot.child("timeStamp").getValue(long.class));
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.getDefault());
+                    String dateString = sdf.format(date);
+                    logData = logData + dateString + " | Guidance Shown: " + guidanceShown + " | Flags: |";
+                    if (chestRetractionToggle) {logData = logData + "Chest Retractions | ";}
+                    if (chestPainToggle) {logData = logData + "Chest Pain | ";}
+                    if (breathingToggle) {logData = logData + "Difficulty Breathing | ";}
+                    if (speakingToggle) {logData = logData + "Difficulty Speaking | ";}
+                    if (blueSkinToggle) {logData = logData + "Blue/Grey Lips/Nails | ";}
+                    logData = logData + "\n";
+                }
+                canvas1.drawText(logData, 75, 125, paint);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(), "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
+        report.finishPage(page1);
 
+        PdfDocument.PageInfo page2Info = new PdfDocument.PageInfo.Builder(595, 842, 2).create();
+        PdfDocument.Page page2 = report.startPage(page2Info);
 
-        //"this part of the report: number\n something else "
-        // TODO: Remove this
-        canvas.drawText("SAMPLE TEXTTTTTTTTT", 75, 100, paint);
-        canvas.drawText("PDFPDFPDF", 75, 125, paint);
+        Canvas canvas2 = page2.getCanvas();
 
         // TODO: Ensure charts are positioned correctly
         lineChart.setDrawingCacheEnabled(true);
@@ -557,8 +584,15 @@ public class ParentHomeActivity extends Fragment {
         Canvas chartCanvas = new Canvas(chartBitmap);
         lineChart.draw(chartCanvas);
         Rect src = new Rect(0, 0, chartBitmap.getWidth(), chartBitmap.getHeight()); // original bitmap
-        Rect dst = new Rect(75, 150, 75 + 300, 150 + 150);
-        canvas.drawBitmap(chartBitmap, src, dst, null);
+        Rect dst = new Rect(75, 100, 75 + 300, 100 + 150);
+        canvas2.drawBitmap(chartBitmap, src, dst, null);
+
+        report.finishPage(page2);
+
+        PdfDocument.PageInfo page3Info = new PdfDocument.PageInfo.Builder(595, 842, 3).create();
+        PdfDocument.Page page3 = report.startPage(page3Info);
+
+        Canvas canvas3 = page3.getCanvas();
 
         pieChart.measure(View.MeasureSpec.makeMeasureSpec(600, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(600, View.MeasureSpec.EXACTLY));
         pieChart.layout(0, 0, pieChart.getMeasuredWidth(), pieChart.getMeasuredHeight());
@@ -566,9 +600,9 @@ public class ParentHomeActivity extends Fragment {
         Canvas pieChartCanvas = new Canvas(pieChartBitmap);
         pieChart.draw(pieChartCanvas);
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(pieChartBitmap, 300, 300, true);
-        canvas.drawBitmap(scaledBitmap, 75, 325, null);
+        canvas3.drawBitmap(scaledBitmap, 75, 100, null);
 
-        report.finishPage(page);
+        report.finishPage(page3);
 
         String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/report.pdf";
 

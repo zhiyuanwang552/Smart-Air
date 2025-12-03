@@ -66,6 +66,12 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.ChildViewHol
         else if (Objects.equals(alert.getAlertType(), "blueGreyLipsNailsFlag")){
             holder.alertText.setText("Discolored lips/nails logged in triage.");
         }
+        else if (Objects.equals(alert.getAlertType(), "lowRescueInventory")){
+            holder.alertText.setText("Running low on rescue medicine inventory.");
+        }
+        else if (Objects.equals(alert.getAlertType(), "lowRescueInventory")){
+            holder.alertText.setText("Running low on control medicine inventory.");
+        }
 
         Date date = new Date(alert.getTimeStamp());
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.getDefault());
