@@ -26,6 +26,11 @@
         android:icon="@drawable/outline_dashboard_24"
         android:title="@string/dashboard_title" />
 
+    <item
+        android:id="@+id/user_achievement"
+        android:icon="@drawable/outline_dashboard_24"
+        android:title="@string/achievement" />
+
 
 
 </menu>

@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.widget.Button;
 import android.view.View;
 import android.content.Intent;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -96,15 +97,56 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadFragmentWithBundle(int itemId, Bundle bundle)
     {
+        SharedPreferences myPrefs = getSharedPreferences("local_info", MODE_PRIVATE);
+        String userType = myPrefs.getString("loginType", null);
         Fragment fragment;
-        if (itemId == R.id.navigation_record) {
+        if (itemId == R.id.navigation_record)
+        {
             fragment = new LogRecyclerViewFragment();
-        } else if (itemId == R.id.navigation_dashboard) {
-            fragment = new InventoryMenuFragment();
-        } else {
-            fragment = new UserAchievementFragment();
+            fragment.setArguments(bundle);
         }
-        fragment.setArguments(bundle);
+        else if (itemId == R.id.navigation_medicine_inventory)
+        {
+            fragment = new InventoryMenuFragment();
+            fragment.setArguments(bundle);
+        } else if (itemId == R.id.navigation_profile)
+        {
+            if ("parents".equals(userType)) {
+                fragment = new ParentProfilePageFragment();
+            }
+            else if("children".equals(userType) || "child_profile".equals(userType))
+            {
+                fragment = new ChildProfilePageFragment();
+            }
+            else
+            {
+                fragment = new ProviderProfilePageFragment();
+            }
+        }
+        else if (itemId == R.id.navigation_technical_guide)
+        {
+            fragment = new TechHelpFragment();
+            fragment.setArguments(bundle);
+        }
+        else if (itemId == R.id.navigation_dashboard)
+        {
+            fragment = new ParentHomeActivity();
+            if (!"parents".equals(userType))
+            {
+                Toast.makeText(this, "Only parents can access dashboard!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        else
+        {
+            fragment = new UserAchievementFragment();
+            fragment.setArguments(bundle);
+            if (!"parents".equals(userType))
+            {
+                Toast.makeText(this, "Only child can access achievement!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
         loadFragment(fragment);
     }
 
