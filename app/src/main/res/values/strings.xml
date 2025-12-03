@@ -172,5 +172,8 @@
     <string name="save">Save</string>
     <string name="returnK">Return</string>
     <string name="back">Back</string>
+    <string name="did_you_use_any_high_quality_techniques">Did you use any high quality techniques?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 </resources>
