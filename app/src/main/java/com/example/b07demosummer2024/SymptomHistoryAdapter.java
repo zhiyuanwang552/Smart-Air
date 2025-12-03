@@ -32,6 +32,7 @@ public class SymptomHistoryAdapter extends RecyclerView.Adapter<SymptomHistoryAd
 
         h.date.setText("Date: " + m.timestamp);
         h.author.setText("Author: " + m.author);
+        h.techniquesUsed.setText("Techniques Used: " + m.techniquesUsed);
         h.symptoms.setText("Symptoms: " + m.symptoms.toString());
         h.triggers.setText("Triggers: " + m.triggers.toString());
         h.notes.setText("Notes: " + m.notes);
@@ -43,12 +44,13 @@ public class SymptomHistoryAdapter extends RecyclerView.Adapter<SymptomHistoryAd
     }
 
     static class Holder extends RecyclerView.ViewHolder {
-        TextView date, author, symptoms, triggers, notes;
+        TextView date, author, symptoms, triggers, notes, techniquesUsed;
 
         Holder(@NonNull View v) {
             super(v);
             date = v.findViewById(R.id.textViewDate);
             author = v.findViewById(R.id.textViewAuthor);
+            techniquesUsed = v.findViewById(R.id.textViewTechniquesUsed);
             symptoms = v.findViewById(R.id.textViewSymptoms);
             triggers = v.findViewById(R.id.textViewTriggers);
             notes = v.findViewById(R.id.textViewNotes);

@@ -32,6 +32,8 @@ public class DailyCheckinFragment extends Fragment {
     private MaterialCheckBox checkBoxTriggerExercise, checkBoxTriggerColdAir, checkBoxTriggerDustPets,
             checkBoxTriggerSmoke, checkBoxTriggerIllness, checkBoxTriggerOdors;
     private RadioGroup radioGroupAuthor;
+
+    private RadioGroup radioGroupTechniquesUsed;
     private TextInputEditText editTextNotes;
 
     private DatabaseReference databaseReference;
@@ -66,6 +68,9 @@ public class DailyCheckinFragment extends Fragment {
 
         // Author
         radioGroupAuthor = view.findViewById(R.id.radioGroupAuthor);
+
+        // Techniques Used
+        radioGroupTechniquesUsed = view.findViewById(R.id.radioGroupTechniquesUsed);
 
         // Note
         editTextNotes = view.findViewById(R.id.editTextNotes);
@@ -190,6 +195,16 @@ public class DailyCheckinFragment extends Fragment {
             checkInData.put("author", selectedRadioButton.getText().toString());
         } else {
             checkInData.put("author", "Not specified");
+        }
+
+        // Techniques Used
+        int selectedTechniquesId = radioGroupTechniquesUsed.getCheckedRadioButtonId();
+        if (selectedTechniquesId != -1) {
+            assert getView() != null;
+            RadioButton selectedRadioButton = getView().findViewById(selectedTechniquesId);
+            checkInData.put("techniquesUsed", selectedRadioButton.getText().toString());
+        } else {
+            checkInData.put("techniquesUsed", "Not specified");
         }
 
         // Notes
