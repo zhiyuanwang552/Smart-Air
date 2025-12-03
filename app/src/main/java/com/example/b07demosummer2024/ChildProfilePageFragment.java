@@ -55,6 +55,8 @@ public class ChildProfilePageFragment extends Fragment {
         ImageButton signOut = view.findViewById(R.id.imageButton5);
         zoneDisplay = view.findViewById(R.id.zoneDisplay);
         setZoneDisplay(childId);
+        Button dailyCheckInBtn = view.findViewById(R.id.buttonDailyCheckIn);
+        Button historyBtn = view.findViewById(R.id.buttonCheckInHistory);
 
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +80,21 @@ public class ChildProfilePageFragment extends Fragment {
                 loadFragment(new TriageFragment());
             }
         });
+
+        dailyCheckInBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new DailyCheckinFragment());
+            }
+        });
+
+        historyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new SymptomHistoryFragment());
+            }
+        });
+
         return view;
     }
 

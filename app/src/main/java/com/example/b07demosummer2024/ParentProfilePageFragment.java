@@ -22,6 +22,9 @@ public class ParentProfilePageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_parent_profilepage, container, false);
 
         Button manageChildren = view.findViewById(R.id.manageChildrenButton);
+        Button dailyCheckInBtn = view.findViewById(R.id.buttonDailyCheckIn);
+        Button historyBtn = view.findViewById(R.id.buttonCheckInHistory);
+
         ImageButton signOut = view.findViewById(R.id.imageButton10);
         ImageButton childSignIn = view.findViewById(R.id.imageButton13);
         signOut.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +49,21 @@ public class ParentProfilePageFragment extends Fragment {
                 loadFragment(new ManageChildrenFragment());
             }
         });
+
+        dailyCheckInBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new DailyCheckinFragment());
+            }
+        });
+
+        historyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new SymptomHistoryFragment());
+            }
+        });
+
         return view;
     }
     private void loadFragment(Fragment fragment) {
