@@ -67,6 +67,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ParentHomeActivity extends Fragment {
     private TextView zoneDisplay;
@@ -497,13 +498,11 @@ public class ParentHomeActivity extends Fragment {
     }
 
     private void exportReport(Context context, String childId) {
-        PdfDocument report = new PdfDocument();
-        PdfDocument.PageInfo page1Info = new PdfDocument.PageInfo.Builder(595, 842, 1).create();
-        PdfDocument.Page page1 = report.startPage(page1Info);
+        AtomicInteger tasksRemaining = new AtomicInteger(3);
 
-        Canvas canvas1 = page1.getCanvas();
-        Paint paint = new Paint();
-        paint.setTextSize(16);
+        final int[] rescueCount = {0};
+        final int[] pefPb = {0};
+        final StringBuilder logDataBuilder = new StringBuilder();
 
         FirebaseUser user = myAuth.getCurrentUser();
         String parentId = user.getUid();
@@ -521,7 +520,11 @@ public class ParentHomeActivity extends Fragment {
                         }
                     }
                 }
-                canvas1.drawText("Number of Recent Rescue Attempts: " + count, 75, 100, paint);
+
+                rescueCount[0] = count;
+                if (tasksRemaining.decrementAndGet() == 0) {
+                    generatePdf(context, rescueCount[0], pefPb[0], logDataBuilder.toString());
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -533,6 +536,10 @@ public class ParentHomeActivity extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String pb = dataSnapshot.getValue(String.class);
+                pefPb[0] = Integer.parseInt(pb);
+                if (tasksRemaining.decrementAndGet() == 0) {
+                    generatePdf(context, rescueCount[0], pefPb[0], logDataBuilder.toString());
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -554,21 +561,45 @@ public class ParentHomeActivity extends Fragment {
                     Date date = new Date(snapshot.child("timeStamp").getValue(long.class));
                     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.getDefault());
                     String dateString = sdf.format(date);
-                    logData = logData + dateString + " | Guidance Shown: " + guidanceShown + " | Flags: |";
-                    if (chestRetractionToggle) {logData = logData + "Chest Retractions | ";}
-                    if (chestPainToggle) {logData = logData + "Chest Pain | ";}
-                    if (breathingToggle) {logData = logData + "Difficulty Breathing | ";}
-                    if (speakingToggle) {logData = logData + "Difficulty Speaking | ";}
-                    if (blueSkinToggle) {logData = logData + "Blue/Grey Lips/Nails | ";}
-                    logData = logData + "\n";
+                    logData = logData + dateString + "\nGuidance Shown: " + guidanceShown + "\nFlags:";
+                    if (chestRetractionToggle) {logData = logData + "\nChest Retractions";}
+                    if (chestPainToggle) {logData = logData + "\nChest Pain";}
+                    if (breathingToggle) {logData = logData + "\nDifficulty Breathing";}
+                    if (speakingToggle) {logData = logData + "\nDifficulty Speaking";}
+                    if (blueSkinToggle) {logData = logData + "\nBlue/Grey Lips/Nails";}
+                    logData = logData + "\n" + "\n";
                 }
-                canvas1.drawText(logData, 75, 125, paint);
+                logDataBuilder.append(logData);
+                if (tasksRemaining.decrementAndGet() == 0) {
+                    generatePdf(context, rescueCount[0], pefPb[0], logDataBuilder.toString());
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(getContext(), "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void generatePdf(Context context, int rescueCount, int pb, String logData) {
+        PdfDocument report = new PdfDocument();
+        PdfDocument.PageInfo page1Info = new PdfDocument.PageInfo.Builder(595, 842, 1).create();
+        PdfDocument.Page page1 = report.startPage(page1Info);
+
+        Canvas canvas1 = page1.getCanvas();
+        Paint paint = new Paint();
+        paint.setTextSize(16);
+
+        canvas1.drawText("Number of Recent Rescue Attempts: " + rescueCount, 75, 100, paint);
+        canvas1.drawText("Personal Best Peak-Flow: " + pb, 75, 125, paint);
+        
+        Log.d("WHYYYYYYY", logData);
+        String[] logDataLines = logData.split("\n");
+            int y = 150;
+        for (String line : logDataLines) {
+            canvas1.drawText(line, 75, y, paint);
+            y += 25;
+        }
 
         report.finishPage(page1);
 
@@ -584,7 +615,7 @@ public class ParentHomeActivity extends Fragment {
         Canvas chartCanvas = new Canvas(chartBitmap);
         lineChart.draw(chartCanvas);
         Rect src = new Rect(0, 0, chartBitmap.getWidth(), chartBitmap.getHeight()); // original bitmap
-        Rect dst = new Rect(75, 100, 75 + 300, 100 + 150);
+        Rect dst = new Rect(75, 100, 75 + 500, 100 + 250);
         canvas2.drawBitmap(chartBitmap, src, dst, null);
 
         report.finishPage(page2);
@@ -599,7 +630,7 @@ public class ParentHomeActivity extends Fragment {
         Bitmap pieChartBitmap = Bitmap.createBitmap(pieChart.getMeasuredWidth(), pieChart.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
         Canvas pieChartCanvas = new Canvas(pieChartBitmap);
         pieChart.draw(pieChartCanvas);
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(pieChartBitmap, 300, 300, true);
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(pieChartBitmap, 500, 500, true);
         canvas3.drawBitmap(scaledBitmap, 75, 100, null);
 
         report.finishPage(page3);
