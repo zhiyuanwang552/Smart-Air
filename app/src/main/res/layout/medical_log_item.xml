@@ -8,7 +8,6 @@
     android:layout_margin="10dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp"
-    app:strokeColor="#121212"
     app:strokeWidth="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -137,9 +136,13 @@
             android:id="@+id/textViewSymptoms"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:maxLines="6"
+            app:layout_constraintEnd_toStartOf="@+id/buttonDeleteLog"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textViewSymptomsLabel"
-            tools:text="Slight headache and a stuffy nose." />
+            tools:text="I am Anbo Yuan" />
 
         <!-- Delete Button -->
         <Button

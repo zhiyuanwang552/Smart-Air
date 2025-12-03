@@ -19,9 +19,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class AddNewMedicineFragment extends Fragment {
     private Button btSave;
     private Button btCancel;
@@ -36,14 +33,14 @@ public class AddNewMedicineFragment extends Fragment {
     private TextInputEditText etShelfLifeInput;
     private final FirebaseDatabase db = FirebaseDatabase.getInstance("https://smart-air-8a892-default-rtdb.firebaseio.com/");
     private DatabaseReference dbRef;
-    private String accountType;
+    private String userType;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_add_inventory, container, false);
-        accountType = getArguments().getString("userType");
+        userType = getArguments().getString("userType");
 
         spNewMedicineType = view.findViewById(R.id.spNewMedicineType);
         estimatePuffsInlayout = view.findViewById(R.id.estimatePuffsInLayout);

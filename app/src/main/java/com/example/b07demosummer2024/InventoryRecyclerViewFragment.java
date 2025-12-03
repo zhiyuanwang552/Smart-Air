@@ -29,7 +29,6 @@ import java.util.List;
 
 public class InventoryRecyclerViewFragment extends Fragment implements DeleteListener
 {
-
     private String accountType;
     private RecyclerView InventoryRecyclerView;
     private MedicineAdapter medicineAdapter;
@@ -130,7 +129,16 @@ public class InventoryRecyclerViewFragment extends Fragment implements DeleteLis
     {
         String requiredMedicineType = getArguments().getString("requiredMedicineType");
         String selectedExpireState = spSortByExpireState.getSelectedItem().toString();
-        String selectedBrand = spSortByBrand.getSelectedItem().toString();
+        String selectedBrand;
+        try {
+            selectedBrand = spSortByBrand.getSelectedItem().toString();
+        }
+        catch (Exception e)
+        {
+            spSortByBrand.setSelection(0);
+            selectedBrand = spSortByBrand.getSelectedItem().toString();
+        }
+
         List<Medicine> filteredList = new ArrayList<>();
         for (Medicine currentMedicine : medicineList)
         {
@@ -159,6 +167,7 @@ public class InventoryRecyclerViewFragment extends Fragment implements DeleteLis
             brandNameList.addAll(newBrands);
             brandNameAdapter.notifyDataSetChanged();
         }
+
     }
 
     public void onDeleteClick(String medicineId)
@@ -171,6 +180,7 @@ public class InventoryRecyclerViewFragment extends Fragment implements DeleteLis
         DatabaseReference medRef;
         medRef = db.getReference("parents").
                 child(getArguments().getString("parentUserId")).child("medicines");
+
 
         medRef.child(medicineId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

@@ -10,12 +10,11 @@ public class MedicalLog extends GeneralLog{
     private String userName;
 
     private String linkedMedicineType;
-
+    private String userId;
     public MedicalLog(){}
-
     public MedicalLog(String logId, int logType, long logDate, String descriptions,
                       String linkedMedicineId, String reflection, int puffsUsed, String userName,
-                      String linkedMedicineType)
+                      String linkedMedicineType, String userId)
     {
         super(logId, logType, logDate, descriptions);
         this.linkedMedicineId = linkedMedicineId;
@@ -23,6 +22,7 @@ public class MedicalLog extends GeneralLog{
         this.puffsUsed =puffsUsed;
         this.userName = userName;
         this.linkedMedicineType = linkedMedicineType;
+        this.userId = userId;
     }
 
     public String getUserName()
@@ -74,5 +74,14 @@ public class MedicalLog extends GeneralLog{
         this.linkedMedicineType = linkedMedicineType;
     }
 
+    public String getUserId()
+    {
+        return userId;
+    }
+
+    public void setUserId(String userId)
+    {
+        this.userId = userId;
+    }
 
 }

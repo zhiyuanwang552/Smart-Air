@@ -38,7 +38,7 @@ public class AddNewLogFragment extends Fragment
     private TextInputEditText etDescriptionInput;
     private final FirebaseDatabase db = FirebaseDatabase.getInstance("https://smart-air-8a892-default-rtdb.firebaseio.com/");
     private DatabaseReference dbRef;
-    private String accountType;
+    private String userType;
     private ArrayAdapter<String> medicineIdAdapter;
     private List<String> medicineIdList;
 
@@ -47,7 +47,7 @@ public class AddNewLogFragment extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_add_log, container, false);
-        accountType = getArguments().getString("userType");
+        userType = getArguments().getString("userType");
         buttonSave = view.findViewById(R.id.btInventorySave);
         buttonCancel = view.findViewById(R.id.btInventoryCancel);
         spinnerReflectionType = view.findViewById(R.id.spinnerReflectionType);
@@ -143,7 +143,7 @@ public class AddNewLogFragment extends Fragment
             try
             {
                 int puffsValue = Integer.parseInt(puffs);
-                if (puffsValue <= 0) { // 用量通常是正数
+                if (puffsValue <= 0) { //Must be positive
                     puffsInlayout.setError("Used puffs must be positive!");
                     isValid = false;
                 }
@@ -167,17 +167,15 @@ public class AddNewLogFragment extends Fragment
             @Override
             public void onCallback(String medicineType)
             {
-                // 这个回调会在获取到 medicineType 后被执行
                 if (medicineType == null) {
-                    // 如果获取失败，可以给一个默认值或者提示错误
                     Toast.makeText(getContext(), "Could not find medicine type, saving with ID.", Toast.LENGTH_SHORT).show();
-                    medicineType = "Controller"; // 使用 Controller 作为备用值
+                    medicineType = "Controller";
                 }
 
-                // --- 在回调内部继续执行保存操作 ---
                 String reflectionType = spinnerReflectionType.getSelectedItem().toString();
                 String userName = getArguments().getString("userName");
                 String parentUserId = getArguments().getString("parentUserId");
+                String userId = getArguments().getString("userId");
 
                 if (parentUserId == null || parentUserId.isEmpty()) {
                     Toast.makeText(getContext(), "Error: User ID is missing. Cannot save.", Toast.LENGTH_SHORT).show();
@@ -190,9 +188,8 @@ public class AddNewLogFragment extends Fragment
                 String newLogId = userLogsRef.push().getKey();
 
                 long timestamp = System.currentTimeMillis();
-                // 现在使用真实的 medicineType
                 MedicalLog newLog = new MedicalLog(newLogId, GeneralLog.MedicalLogType, timestamp, description,
-                        medicineId, reflectionType, puffsValue, userName, medicineType);
+                        medicineId, reflectionType, puffsValue, userName, medicineType, userId);
 
                 if (newLogId != null)
                 {
@@ -218,7 +215,6 @@ public class AddNewLogFragment extends Fragment
             }
         };
 
-        // 调用异步方法来获取 medicineType
         getMedicineTypeUsingId(medicineId, callback, Integer.parseInt(puffs));
     }
 
@@ -230,31 +226,28 @@ public class AddNewLogFragment extends Fragment
             return;
         }
 
-        // 构造指向特定药品信息的绝对路径
+        //absolute path
         DatabaseReference medicineRef = db.getReference("parents")
                 .child(parentUserId)
                 .child("medicines")
                 .child(medicineId);
 
-        // 使用 addListenerForSingleValueEvent 进行一次性读取
         medicineRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     Medicine linkedMed = dataSnapshot.getValue(Medicine.class);
-                    int newRemainningPuffs = linkedMed.getRemainingPuffs() - puffsValue;
-                    medicineRef.child("remainingPuffs").setValue(newRemainningPuffs);
+                    int newRemainingPuffs = linkedMed.getRemainingPuffs() - puffsValue;
+                    medicineRef.child("remainingPuffs").setValue(newRemainingPuffs);
 
                     callback.onCallback(linkedMed.getMedicineType());
                 } else {
-                    // 路径不存在
                     callback.onCallback(null);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // 读取失败
                 Toast.makeText(getContext(), "Failed to get medicine type: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 callback.onCallback(null);
             }

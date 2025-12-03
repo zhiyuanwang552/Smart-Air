@@ -37,7 +37,7 @@ public class LogRecyclerViewFragment extends Fragment implements DeleteListener
     private Spinner spSortLogType;
     private ArrayAdapter<String> userNameAdapter;
     private List<String> childNameList;
-    private String accountType;
+    private String userType;
     private Button buttonAddLog;
     private final FirebaseDatabase db = FirebaseDatabase.getInstance("https://smart-air-8a892-default-rtdb.firebaseio.com/");
     private DatabaseReference dbRef;
@@ -50,7 +50,7 @@ public class LogRecyclerViewFragment extends Fragment implements DeleteListener
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_log_recycler_view, container, false);
-        accountType = getArguments().getString("userType");
+        userType = getArguments().getString("userType");
 
         // Initialize the RecyclerView
         recyclerView = view.findViewById(R.id.log_recyclerview);
@@ -70,6 +70,10 @@ public class LogRecyclerViewFragment extends Fragment implements DeleteListener
             @Override
             public void onClick(View v)
             {
+                if (userType.equals("parents")) {
+                    Toast.makeText(getContext(), "You cannot add a log as a parent!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Bundle bundle = getArguments();
                 Fragment fragment = new AddNewLogFragment();
                 fragment.setArguments(bundle);
@@ -88,7 +92,7 @@ public class LogRecyclerViewFragment extends Fragment implements DeleteListener
         spSortLogType.setAdapter(logTypeAdapter);
 
         this.childNameList = new ArrayList<>();
-        if (accountType.equals("parents")) this.childNameList.add("ALL");
+        if (userType.equals("parents")) this.childNameList.add("All");
         else this.childNameList.add(getArguments().getString("userName"));    //if it is child, only show his name
 
         this.userNameAdapter = new ArrayAdapter<>(getContext(),
@@ -116,13 +120,24 @@ public class LogRecyclerViewFragment extends Fragment implements DeleteListener
     private void filterLogs()
     {
         String selectedType = spSortLogType.getSelectedItem().toString();
-        String selectedUser = spSortByName.getSelectedItem().toString();
+        String selectedUser;
+        try {
+            selectedUser = spSortByName.getSelectedItem().toString();
+        }
+        catch (Exception e)
+        {
+            spSortByName.setSelection(0);
+            selectedUser = spSortByName.getSelectedItem().toString();
+        }
         List<MedicalLog> filteredList = new ArrayList<>();
 
         for (MedicalLog currentLog : logList) {
-            if (currentLog.getLinkedMedicineType().equals(selectedType)) {
-                if (selectedUser.equals("All") || currentLog.getUserName().equals(selectedUser)) {
-                    filteredList.add(currentLog);
+            if (currentLog.getLinkedMedicineType().equals(selectedType))
+            {
+                if (selectedUser.equals("All") || (currentLog.getUserName().equals(selectedUser)))
+                {
+                    if (getArguments().getString("userType").equals("parents") ||
+                            getArguments().getString("userID").equals(currentLog.getUserId())) filteredList.add(currentLog);
                 }
             }
         }
@@ -147,7 +162,7 @@ public class LogRecyclerViewFragment extends Fragment implements DeleteListener
                     childNameSet.add(log.getUserName());
                 }
 
-                if (accountType.equals("parents")) updateUserNameSpinner(new ArrayList<>(childNameSet));
+                if (userType.equals("parents")) updateUserNameSpinner(new ArrayList<>(childNameSet));
                 logAdapter.notifyDataSetChanged();
                 filterLogs();
             }

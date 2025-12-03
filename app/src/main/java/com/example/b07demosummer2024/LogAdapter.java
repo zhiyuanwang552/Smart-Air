@@ -37,7 +37,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.MedicalLogViewHo
     public void onBindViewHolder(@NonNull MedicalLogViewHolder holder, int position) {
         MedicalLog log = logList.get(position);
         String formattedDate = log.getFormattedDateTime("yyyy-MM-dd HH:mm:ss a");
-        String reflectionInfo = "Reflection after treatment: feeling " + log.getReflection();
+        String reflectionInfo ="Feeling " + log.getReflection().toLowerCase() + " after treatment";
         String currentMedId = log.getLogId();
         String puffsUsed = "" + log.getPuff();
 

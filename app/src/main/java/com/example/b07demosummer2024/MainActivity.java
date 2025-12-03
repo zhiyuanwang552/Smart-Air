@@ -18,54 +18,33 @@ import android.content.Intent;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
-    FirebaseDatabase db;
+    private final FirebaseDatabase db = FirebaseDatabase.getInstance("https://smart-air-8a892-default-rtdb.firebaseio.com/");
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        auth = FirebaseAuth.getInstance();
 
         SharedPreferences myPrefs = getSharedPreferences("local_info", MODE_PRIVATE);
         String userType = myPrefs.getString("loginType", null);
-
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull android.view.MenuItem item) {
-                Fragment selectedFragment = null;
-                Bundle bundle = new Bundle();
-                bundle.putString("userType", "children");
-                bundle.putString("userName", "testUser");
-                bundle.putString("parentUserId", "testParent");
-
-                int itemId = item.getItemId();
-
-                if (itemId == R.id.navigation_profile)
-                {
-                    selectedFragment = findProfileFragment(userType);
-                }
-                else if (itemId == R.id.navigation_record)
-                {
-                    selectedFragment = new LogRecyclerViewFragment();
-                }
-                else if (itemId == R.id.navigation_dashboard)
-                {
-                    selectedFragment = new ParentHomeActivity();
-                }
-                    // If a fragment was selected, load it
-                if (selectedFragment != null) {
-                    selectedFragment.setArguments(bundle);
-                    loadFragment(selectedFragment);
-                    return true;
-                }
-
-                return false;
+                handleNavigation(item.getItemId(), auth.getCurrentUser().getUid());
+                return true;
             }
         });
 
@@ -73,6 +52,61 @@ public class MainActivity extends AppCompatActivity {
             loadFragment(findProfileFragment(userType));
         }
     }
+
+    public void handleNavigation(int itemId, String UID)
+    {
+        SharedPreferences myPrefs = getSharedPreferences("local_info", MODE_PRIVATE);
+        String userType = myPrefs.getString("loginType", null);
+        if ("parents".equals(userType) || "providers".equals(userType)) {
+            Bundle bundle = new Bundle();
+            bundle.putString("userType", userType);
+            bundle.putString("userId", UID);
+            bundle.putString("userName", UID);
+            bundle.putString("parentUserId", UID);
+
+            loadFragmentWithBundle(itemId, bundle);
+        }
+        else if ("children".equals(userType))
+        {
+            DatabaseReference dbRef= db.getReference("children").child(UID);
+            dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                {
+                    if (dataSnapshot.exists()) {
+                        String parentUserId = dataSnapshot.child("parentId").getValue(String.class);
+                        String userName = dataSnapshot.child("childName").getValue(String.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userType", userType);
+                        bundle.putString("userId", UID);
+                        bundle.putString("userName", userName);
+                        bundle.putString("parentUserId", parentUserId);
+                        loadFragmentWithBundle(itemId, bundle);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+    }
+
+    private void loadFragmentWithBundle(int itemId, Bundle bundle)
+    {
+        Fragment fragment;
+        if (itemId == R.id.navigation_record) {
+            fragment = new LogRecyclerViewFragment();
+        } else if (itemId == R.id.navigation_dashboard) {
+            fragment = new InventoryMenuFragment();
+        } else {
+            fragment = new UserAchievementFragment();
+        }
+        fragment.setArguments(bundle);
+        loadFragment(fragment);
+    }
+
 
     public Fragment findProfileFragment(String userType){
         switch (userType) {
