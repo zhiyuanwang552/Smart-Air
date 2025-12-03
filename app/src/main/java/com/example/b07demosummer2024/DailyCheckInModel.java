@@ -9,6 +9,7 @@ public class DailyCheckInModel {
     public String email;
     public String userType;
     public String author;
+    public String techniquesUsed;
     public String notes;
     public long timestamp;
 
@@ -18,4 +19,6 @@ public class DailyCheckInModel {
     public String getUid() {
         return uid;
     }
+
+    public String getTechniquesUsed() {return techniquesUsed;}
 }

@@ -39,6 +39,8 @@ public class UserAchievementFragment extends Fragment
     private List<MedicalLog> controllerList;
     private List<MedicalLog> rescueList;
 
+    private List<DailyCheckInModel> checkInList;
+
     private final FirebaseDatabase db = FirebaseDatabase.getInstance("https://smart-air-8a892-default-rtdb.firebaseio.com/");
     private DatabaseReference dbRef;
 
@@ -57,6 +59,7 @@ public class UserAchievementFragment extends Fragment
         userType = getArguments().getString("userType");
         controllerList = new ArrayList<>();
         rescueList = new ArrayList<>();
+        checkInList = new ArrayList<>();
 
         dbRef = db.getReference("parents").child(getArguments().getString("parentUserId")).child("medicalLogs");
         dbRef.addValueEventListener(new ValueEventListener()
@@ -83,6 +86,33 @@ public class UserAchievementFragment extends Fragment
             {
             }
         });
+
+        dbRef = db.getReference("daily_check_ins");
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                checkInList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                {
+                    DailyCheckInModel model = snapshot.getValue(DailyCheckInModel.class);
+                    if (model!=null && model.getUid() != null && model.getTechniquesUsed()!=null) {
+                        if ((model.getUid()).equals(getArguments().getString("userId")) && model.getTechniquesUsed().equals("Yes")) {
+                            checkInList.add(model);
+                        }
+                    }
+                }
+                setTechRelated();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError)
+            {
+            }
+        });
+
+
 
         return view;
     }
@@ -184,5 +214,25 @@ public class UserAchievementFragment extends Fragment
 
     }
 
+    private void setTechRelated()
+    {
+        long[] checkInTimeStampList = new long[checkInList.size()];
+        for (int i = 0; i < checkInList.size(); i++)
+        {
+            checkInTimeStampList[i] = checkInList.get(i).timestamp;
+        }
 
-}
+        int consecutiveDate = getConsecutiveDate(checkInTimeStampList);
+
+        tvTechniqueCompletedDaysValue.setText(String.valueOf(consecutiveDate));
+        pbTechComplete.setProgress(consecutiveDate);
+        if (checkInList.size() >= 10)
+        {
+            ivHighTech.setAlpha(1.0f);
+        }
+        else ivHighTech.setAlpha(0.3f);
+        }
+
+
+    }
+
