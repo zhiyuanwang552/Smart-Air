@@ -9,7 +9,7 @@ public class DailyCheckInModel {
     public String email;
     public String userType;
     public String author;
-    public String techniquesUsed;
+    public String techniques_used;
     public String notes;
     public long timestamp;
 
