@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- MANAGE CHILDREN BUTTON (follows sign-in button) -->
     <Button
         android:id="@+id/manageChildrenButton"
         android:layout_width="wrap_content"
@@ -20,7 +19,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="32dp" />
 
-    <!-- DAILY CHECK-IN (Square) -->
     <Button
         android:id="@+id/buttonDailyCheckIn"
         android:layout_width="130dp"
@@ -36,7 +34,6 @@
         app:layout_constraintEnd_toStartOf="@+id/buttonCheckInHistory"
         android:layout_marginEnd="8dp" />
 
-    <!-- CHECK-IN HISTORY (Square) -->
     <Button
         android:id="@+id/buttonCheckInHistory"
         android:layout_width="130dp"
