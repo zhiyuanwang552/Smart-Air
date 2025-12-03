@@ -19,4 +19,8 @@ public class DailyCheckInModel {
     public String getUid() {
         return uid;
     }
+
+    public String getTechniquesUsed() {
+        return techniquesUsed;
+    }
 }
