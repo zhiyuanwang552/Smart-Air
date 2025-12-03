@@ -107,6 +107,11 @@ public class MainActivity extends AppCompatActivity {
         }
         else if (itemId == R.id.navigation_medicine_inventory)
         {
+            if (!"parents".equals(userType))
+            {
+                Toast.makeText(this, "Only parents can access inventory!", Toast.LENGTH_SHORT).show();
+                return;
+            }
             fragment = new InventoryMenuFragment();
             fragment.setArguments(bundle);
         } else if (itemId == R.id.navigation_profile)
@@ -141,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         {
             fragment = new UserAchievementFragment();
             fragment.setArguments(bundle);
-            if (!"parents".equals(userType))
+            if ("parents".equals(userType))
             {
                 Toast.makeText(this, "Only child can access achievement!", Toast.LENGTH_SHORT).show();
                 return;
