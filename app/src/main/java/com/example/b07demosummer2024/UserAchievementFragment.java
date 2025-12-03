@@ -38,6 +38,7 @@ public class UserAchievementFragment extends Fragment
 
     private List<MedicalLog> controllerList;
     private List<MedicalLog> rescueList;
+
     private final FirebaseDatabase db = FirebaseDatabase.getInstance("https://smart-air-8a892-default-rtdb.firebaseio.com/");
     private DatabaseReference dbRef;
 
@@ -151,7 +152,6 @@ public class UserAchievementFragment extends Fragment
         return longestStreak;
     }
 
-
     private void setLogRelated()
     {
         long[] plannedControllerTimeStampList = new long[controllerList.size()];
@@ -183,7 +183,6 @@ public class UserAchievementFragment extends Fragment
         pbPlannedController.setProgress(consecutiveController);
 
     }
-
 
 
 }

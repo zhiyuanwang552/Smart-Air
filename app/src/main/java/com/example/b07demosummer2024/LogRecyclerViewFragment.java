@@ -120,14 +120,24 @@ public class LogRecyclerViewFragment extends Fragment implements DeleteListener
     private void filterLogs()
     {
         String selectedType = spSortLogType.getSelectedItem().toString();
-        String selectedUser = spSortByName.getSelectedItem().toString();
+        String selectedUser;
+        try {
+            selectedUser = spSortByName.getSelectedItem().toString();
+        }
+        catch (Exception e)
+        {
+            spSortByName.setSelection(0);
+            selectedUser = spSortByName.getSelectedItem().toString();
+        }
         List<MedicalLog> filteredList = new ArrayList<>();
 
         for (MedicalLog currentLog : logList) {
-            if (currentLog.getLinkedMedicineType().equals(selectedType)) {
-                if (selectedUser.equals("All") || (currentLog.getUserName().equals(selectedUser)
-                && currentLog.getUserId().equals(getArguments().getString("userId")))) {
-                    filteredList.add(currentLog);
+            if (currentLog.getLinkedMedicineType().equals(selectedType))
+            {
+                if (selectedUser.equals("All") || (currentLog.getUserName().equals(selectedUser)))
+                {
+                    if (getArguments().getString("userType").equals("parents") ||
+                            getArguments().getString("userID").equals(currentLog.getUserId())) filteredList.add(currentLog);
                 }
             }
         }
