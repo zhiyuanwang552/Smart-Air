@@ -1,12 +1,9 @@
 package com.example.b07demosummer2024;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +13,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,15 +27,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import android.content.Intent;
+import android.net.Uri;
+import android.app.Activity;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+
 
 public class SymptomHistoryFragment extends Fragment {
 
-    private RecyclerView recyclerView;
     private SymptomHistoryAdapter adapter;
 
     private final List<DailyCheckInModel> allEntries = new ArrayList<>();
@@ -56,12 +55,9 @@ public class SymptomHistoryFragment extends Fragment {
     // Date pickers
     private TextInputEditText fromDateInput, toDateInput;
 
-    // Export buttons
-    private Button exportPdfBtn, exportCsvBtn;
-
-    // Firebase date-range bounds
-    private long minTimestamp = Long.MAX_VALUE;
-    private long maxTimestamp = Long.MIN_VALUE;
+    // SAF launchers
+    private ActivityResultLauncher<Intent> createCsvLauncher;
+    private ActivityResultLauncher<Intent> createPdfLauncher;
 
     private static final int STORAGE_PERMISSION_CODE = 100;
 
@@ -76,14 +72,41 @@ public class SymptomHistoryFragment extends Fragment {
     public SymptomHistoryFragment() {}
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        createCsvLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        assert result.getData() != null;
+                        Uri uri = result.getData().getData();
+                        saveCsvToUri(uri);
+                    }
+                }
+        );
+
+        createPdfLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        assert result.getData() != null;
+                        Uri uri = result.getData().getData();
+                        savePdfToUri(uri);
+                    }
+                }
+        );
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_symptom_history, container, false);
 
-        recyclerView = view.findViewById(R.id.recyclerSymptomHistory);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerSymptomHistory);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new SymptomHistoryAdapter(filteredEntries);
+        adapter = new SymptomHistoryAdapter(filteredEntries, this::formatDatabaseValues);
         recyclerView.setAdapter(adapter);
 
         autoCompleteSymptoms = view.findViewById(R.id.autoCompleteSymptoms);
@@ -95,21 +118,54 @@ public class SymptomHistoryFragment extends Fragment {
         fromDateInput = view.findViewById(R.id.textFromDate);
         toDateInput   = view.findViewById(R.id.textToDate);
 
-        exportPdfBtn = view.findViewById(R.id.buttonExportPdf);
-        exportCsvBtn = view.findViewById(R.id.buttonExportCsv);
+        // Export buttons
+        Button exportPdfBtn = view.findViewById(R.id.buttonExportPdf);
+        Button exportCsvBtn = view.findViewById(R.id.buttonExportCsv);
 
         setupMultiSelectFilters();
 
         fromDateInput.setOnClickListener(v -> showDatePicker(true));
         toDateInput.setOnClickListener(v -> showDatePicker(false));
 
-        exportCsvBtn.setOnClickListener(v -> exportCSV());
-        exportPdfBtn.setOnClickListener(v -> exportPDF());
+        exportCsvBtn.setOnClickListener(v -> openCsvCreator());
+        exportPdfBtn.setOnClickListener(v -> openPdfCreator());
 
         loadFirebaseData();
 
         return view;
     }
+
+    private boolean notesValidation(String notes) {
+        if (notes == null) return true;
+        int words = notes.trim().split("\\s+").length;
+        if (words > 500) {
+            Toast.makeText(getContext(),
+                    "Notes over 500 words are not allowed.\nPlease shorten them.",
+                    Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
+
+    private String formatDatabaseValues(Map<String, Boolean> map) {
+        if (map == null) return "None";
+
+        List<String> trueKeys = new ArrayList<>();
+
+        for (Map.Entry<String, Boolean> entry : map.entrySet()) {
+            if (Boolean.TRUE.equals(entry.getValue())) {
+                // Replace underscores with spaces for display
+                trueKeys.add(entry.getKey().replace("_", " "));
+            }
+        }
+
+        if (trueKeys.isEmpty()) {
+            return "None";
+        }
+
+        return String.join(", ", trueKeys);
+    }
+
     private void loadFirebaseData() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return;
@@ -127,7 +183,7 @@ public class SymptomHistoryFragment extends Fragment {
 
                         for (DataSnapshot child : snapshot.getChildren()) {
                             DailyCheckInModel model = child.getValue(DailyCheckInModel.class);
-                            if (model != null && model.getUid().equals(uid)) {
+                            if (model != null && model.getUid().equals(uid) && notesValidation(model.notes)) {
                                 allEntries.add(model);
                             }
                         }
@@ -248,14 +304,12 @@ public class SymptomHistoryFragment extends Fragment {
         long fromTime = fromDateInput.getTag() instanceof Long ? (Long) fromDateInput.getTag() : Long.MIN_VALUE;
         long toTime   = toDateInput.getTag()   instanceof Long ? (Long) toDateInput.getTag()   : Long.MAX_VALUE;
 
-        // Collect selected symptoms
         Set<String> selSymptoms = new HashSet<>();
         for (int i = 0; i < chipGroupSymptoms.getChildCount(); i++) {
             Chip c = (Chip) chipGroupSymptoms.getChildAt(i);
             selSymptoms.add(c.getText().toString());
         }
 
-        // Collect selected triggers
         Set<String> selTriggers = new HashSet<>();
         for (int i = 0; i < chipGroupTriggers.getChildCount(); i++) {
             Chip c = (Chip) chipGroupTriggers.getChildAt(i);
@@ -287,77 +341,105 @@ public class SymptomHistoryFragment extends Fragment {
             }
             if (!triggerOk) continue;
 
-            // Passed all filters
+            // Passed filters
             filteredEntries.add(e);
         }
 
         adapter.notifyDataSetChanged();
     }
 
-    // Export CSV & PDF
-    private void exportCSV() {
-        if (!checkPermission()) return;
+    // SAF — User chooses CSV location
+    private void openCsvCreator() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/csv");
+        intent.putExtra(Intent.EXTRA_TITLE, "symptom_history.csv");
+        createCsvLauncher.launch(intent);
+    }
 
-        File file = new File(Environment.getExternalStorageDirectory(), "symptom_history.csv");
-        try (FileWriter writer = new FileWriter(file)) {
-            writer.write("timestamp,email,author,notes,symptoms,triggers\n");
+    // SAF — Save CSV
+    private void saveCsvToUri(Uri uri) {
+        try (OutputStream os = requireContext().getContentResolver().openOutputStream(uri);
+             OutputStreamWriter writer = new OutputStreamWriter(os)) {
+
+            writer.write("Date,Author,Notes,Symptoms,Triggers\n");
+
             for (DailyCheckInModel e : filteredEntries) {
-                writer.write(e.timestamp + "," +
-                        e.email + "," +
-                        e.author + "," +
-                        "\"" + e.notes + "\"," +
-                        e.symptoms + "," +
-                        e.triggers + "\n");
+
+                String dateStr = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                        .format(new Date(e.timestamp));
+
+                String symptomsStr = formatDatabaseValues(e.symptoms).replace(",", ";");
+                String triggersStr = formatDatabaseValues(e.triggers).replace(",", ";");
+
+                writer.write(dateStr + "," +
+                        "\"" + e.author + "\"," +
+                        "\"" + e.notes.replace("\"", "'") + "\"," +
+                        "\"" + symptomsStr + "\"," +
+                        "\"" + triggersStr + "\"\n");
             }
-            Toast.makeText(getContext(), "CSV exported!", Toast.LENGTH_LONG).show();
-        } catch (IOException ex) {
+
+            Toast.makeText(getContext(), "CSV saved!", Toast.LENGTH_LONG).show();
+
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    private void exportPDF() {
-        if (!checkPermission()) return;
+    // SAF — User chooses PDF location
+    private void openPdfCreator() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/pdf");
+        intent.putExtra(Intent.EXTRA_TITLE, "symptom_history.pdf");
+        createPdfLauncher.launch(intent);
+    }
+
+    // SAF — Save PDF
+    private void savePdfToUri(Uri uri) {
+
         PdfDocument pdf = new PdfDocument();
         Paint paint = new Paint();
-        paint.setTextSize(30);
+        paint.setTextSize(28);
 
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(1200, 1800, 1).create();
         PdfDocument.Page page = pdf.startPage(pageInfo);
         Canvas canvas = page.getCanvas();
 
         int y = 80;
-        canvas.drawText("Symptom History Report", 40, y, paint);
-        y += 60;
+        canvas.drawText("Symptom History Report", 50, y, paint);
+        y += 70;
 
         for (DailyCheckInModel e : filteredEntries) {
-            canvas.drawText("Date: " + e.timestamp, 40, y, paint); y += 40;
-            canvas.drawText("Author: " + e.author, 40, y, paint); y += 40;
-            canvas.drawText("Notes: " + e.notes, 40, y, paint); y += 40;
-            canvas.drawText("Symptoms: " + e.symptoms, 40, y, paint); y += 40;
-            canvas.drawText("Triggers: " + e.triggers, 40, y, paint); y += 60;
+
+            String dateStr = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    .format(new Date(e.timestamp));
+
+            canvas.drawText("Date: " + dateStr, 50, y, paint); y += 40;
+            canvas.drawText("Author: " + e.author, 50, y, paint); y += 40;
+
+            canvas.drawText("Notes: " + e.notes, 50, y, paint); y += 40;
+
+            canvas.drawText("Symptoms: " + formatDatabaseValues(e.symptoms), 50, y, paint); y += 40;
+            canvas.drawText("Triggers: " + formatDatabaseValues(e.triggers), 50, y, paint); y += 60;
+
+            if (y > 1600) {
+                pdf.finishPage(page);
+                page = pdf.startPage(pageInfo);
+                canvas = page.getCanvas();
+                y = 80;
+            }
         }
 
         pdf.finishPage(page);
 
-        File pdfFile = new File(Environment.getExternalStorageDirectory(), "symptom_history.pdf");
-        try {
-            pdf.writeTo(new java.io.FileOutputStream(pdfFile));
-            Toast.makeText(getContext(), "PDF exported!", Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            e.printStackTrace();
+        try (OutputStream os = requireContext().getContentResolver().openOutputStream(uri)) {
+            pdf.writeTo(os);
+            Toast.makeText(getContext(), "PDF saved!", Toast.LENGTH_LONG).show();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
+
         pdf.close();
-    }
-
-    private boolean checkPermission() {
-        if (ContextCompat.checkSelfPermission(getContext(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    STORAGE_PERMISSION_CODE);
-            return false;
-        }
-        return true;
     }
 }
