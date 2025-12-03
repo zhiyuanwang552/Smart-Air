@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/formContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="32dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/formCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            app:cardBackgroundColor="@color/grey"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/contentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="One-Tap Triage"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="How are you feeling?" />
+
+                <LinearLayout
+                    android:id="@+id/accountTypeSelector"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/goodButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:backgroundTint="#BBE7A8"
+                        android:text="Good"
+                        android:textColor="@color/black"
+                        app:cornerRadius="4dp"
+                        app:strokeColor="#FFFFFF"
+                        app:strokeWidth="0dp" />
+
+                    <Space
+                        android:layout_width="12dp"
+                        android:layout_height="wrap_content" />
+
+                    <Button
+                        android:id="@+id/okayButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:backgroundTint="#D7D7D7"
+                        android:text="Okay"
+                        android:textColor="@color/black"
+                        app:cornerRadius="4dp"
+                        app:strokeColor="#FFFFFF"
+                        app:strokeWidth="0dp" />
+
+                    <Space
+                        android:layout_width="12dp"
+                        android:layout_height="wrap_content" />
+
+                    <Button
+                        android:id="@+id/badButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:backgroundTint="#D7D7D7"
+                        android:text="Bad"
+                        android:textColor="@color/black"
+                        app:cornerRadius="4dp"
+                        app:strokeColor="#FFFFFF"
+                        app:strokeWidth="0dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Select all that apply" />
+
+                <ToggleButton
+                    android:id="@+id/difficultySpeakingButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="Difficulty Speaking"
+                    android:textColor="@color/black"
+                    android:textOff="Difficulty Speaking"
+                    android:textOn="Difficulty Speaking"
+                    android:textAllCaps="false"
+                    app:cornerRadius="4dp"
+                    app:strokeColor="#8C8989"
+                    app:strokeWidth="0dp" />
+
+                <ToggleButton
+                    android:id="@+id/difficultyBreathingButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="Severe Difficulty Breathing"
+                    android:textColor="@color/black"
+                    android:textOff="Severe Difficulty Breathing"
+                    android:textOn="Severe Difficulty Breathing"
+                    android:textAllCaps="false"
+                    app:cornerRadius="4dp"
+                    app:strokeColor="#8C8989"
+                    app:strokeWidth="0dp" />
+
+                <ToggleButton
+                    android:id="@+id/chestIssueButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="Chest Pulling In/Chest Retractions"
+                    android:textColor="@color/black"
+                    android:textOff="Chest Pulling In/Chest Retractions"
+                    android:textOn="Chest Pulling In/Chest Retractions"
+                    android:textAllCaps="false"
+                    app:cornerRadius="4dp"
+                    app:strokeColor="#8C8989"
+                    app:strokeWidth="0dp" />
+
+                <ToggleButton
+                    android:id="@+id/chestPainButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="Severe or Persistent Chest Pain"
+                    android:textColor="@color/black"
+                    android:textOff="Severe or Persistent Chest Pain"
+                    android:textOn="Severe or Persistent Chest Pain"
+                    android:textAllCaps="false"
+                    app:cornerRadius="4dp"
+                    app:strokeColor="#8C8989"
+                    app:strokeWidth="0dp" />
+
+                <ToggleButton
+                    android:id="@+id/blueGreyLipsNailsButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="Blue/Grey lips or nails"
+                    android:textColor="@color/black"
+                    android:textOff="Blue/Grey lips or nails"
+                    android:textOn="Blue/Grey lips or nails"
+                    android:textAllCaps="false"
+                    app:cornerRadius="4dp"
+                    app:strokeColor="#8C8989"
+                    app:strokeWidth="0dp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/formeCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:layout_marginTop="100dp"
+            app:cardBackgroundColor="@color/grey"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/formCard">
+
+            <LinearLayout
+                android:id="@+id/eee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="Decision Card"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp" />
+
+                <TextView
+                    android:id="@+id/decisionCardText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="- Sample Text\n- Sample Text\n- Sample Text"
+                    android:textColor="@color/black"
+                    app:cornerRadius="4dp"
+                    app:strokeColor="#8C8989"
+                    app:strokeWidth="0dp" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="12dp" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="This is guidance, NOT a diagnosis.\nIf in doubt, call emergency"
+                    android:textColor="#FF0000"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/foeeeeCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            app:cardBackgroundColor="@color/grey"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.666"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/formeCard">
+
+            <LinearLayout
+                android:id="@+id/eew3e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/f2reaf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="Enter PEF (Optional)"
+                    android:textColor="@color/black"
+                    app:cornerRadius="4dp"
+                    app:strokeColor="#8C8989"
+                    app:strokeWidth="0dp" />
+
+                <EditText
+                    android:id="@+id/pefEntry"
+                    android:inputType="number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="1234567890"
+                    android:background="@android:drawable/edit_text"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/foeeeeeeCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            app:cardBackgroundColor="@color/grey"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.666"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/foeeeeCard">
+
+            <LinearLayout
+                android:id="@+id/eew323e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/f232reaf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="Enter Recent Rescue Attempts (Optional)"
+                    android:textColor="@color/black"
+                    app:cornerRadius="4dp"
+                    app:strokeColor="#8C8989"
+                    app:strokeWidth="0dp" />
+
+                <EditText
+                    android:id="@+id/rescueEntry"
+                    android:inputType="number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="1234567890"
+                    android:background="@android:drawable/edit_text"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <Button
+            android:id="@+id/endSessionButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/grey"
+            android:text="End Session"
+            android:textColor="@color/black"
+            app:cornerRadius="4dp"
+            app:strokeColor="#807E7E"
+            app:strokeWidth="0dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.666"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/foeeeeeeCard"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -91,9 +91,6 @@ public class ScreenPresenter implements LoginContract.Presenter {
                 callback.onFalse(message);
             }
         });
-
-//                model.sendVerificationCodeCreate(username,password);
-
     }
     @Override
     public void resetPassword(String email, Communication callback) {
@@ -111,6 +108,5 @@ public class ScreenPresenter implements LoginContract.Presenter {
                 callback.onFalse(message);
             }
         });
-
     }
 }

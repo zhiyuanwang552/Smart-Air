@@ -30,15 +30,19 @@ android {
 }
 
 dependencies {
+    testImplementation("org.mockito:mockito-core:5.20.0")
+    testImplementation(libs.junit)
     implementation(libs.firebase.auth)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
-    implementation(libs.constraintlayout)
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation(libs.firebase.database)
     implementation(libs.fragment)
     implementation(libs.cardview)
+    implementation(libs.google.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }

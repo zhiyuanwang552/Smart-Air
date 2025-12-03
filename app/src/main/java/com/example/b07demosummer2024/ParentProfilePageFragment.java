@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ public class ParentProfilePageFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_parent_profilepage, container, false);
 
+        Button manageChildren = view.findViewById(R.id.manageChildrenButton);
         ImageButton signOut = view.findViewById(R.id.imageButton10);
         ImageButton childSignIn = view.findViewById(R.id.imageButton13);
         signOut.setOnClickListener(new View.OnClickListener() {
@@ -35,6 +37,13 @@ public class ParentProfilePageFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 loadFragment(new ChildProfileSignInFragment());
+            }
+        });
+
+        manageChildren.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new ManageChildrenFragment());
             }
         });
         return view;

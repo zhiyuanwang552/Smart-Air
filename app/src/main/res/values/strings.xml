@@ -4,7 +4,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="delete_item">Delete</string>
     <string name="add_item">Add Item</string>
-    <string name="back">Back</string>
     <string name="recyclerview">RecyclerView</string>
     <string name="scroller">Scroller</string>
     <string name="spinner">Spinner</string>
@@ -49,7 +48,6 @@
     <string name="select_reflection_type">How do you feel now?</string>
     <string name="add_new_medical_log">Add New Medical Log</string>
     <string name="medicine_id">Medicine ID:</string>
-    <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="write_something_here">Write something here!</string>
     <string name="add_sypmtom_description_title">Add Sypmtom Description</string>
@@ -59,6 +57,32 @@
     <string name="number_of_puffs_title">Number of puffs:</string>
     <string name="select_a_profile">Select a Profile</string>
     <string name="sign_in">Sign In</string>
+    <string name="save_daily_check_in">Save daily check-in</string>
+    <string name="daily_asthma_check_in">Daily asthma check-in: 📝😁😊😐😔🤒</string>
+    <string name="what_where_your_symptoms_today">What where your symptoms today?</string>
+    <string name="night_waking">Night waking</string>
+    <string name="activity_limits">Activity limits</string>
+    <string name="cough_wheeze">Cough / wheeze</string>
+    <string name="none">None</string>
+    <string name="what_were_the_symptom_triggers_select_all_that_apply">What were the symptom triggers?</string>
+    <string name="exercise">Exercising</string>
+    <string name="cold_air">Cold air</string>
+    <string name="dust_pets">Dust / pets</string>
+    <string name="smoke">Smoke</string>
+    <string name="illness">Illness</string>
+    <string name="perfume_cleaners_strong_odors">Perfume / cleaners / strong odors</string>
+    <string name="who_is_filling_this_in">Who is filling this in?</string>
+    <string name="child">Child</string>
+    <string name="parent">Parent</string>
+    <string name="optional_note_e_g_what_was_happening_today">Optional note (e.g. What happened today?)</string>
+    <string name="filters">Filters</string>
+    <string name="symptom">Symptom</string>
+    <string name="trigger">Trigger</string>
+    <string name="from_date">From Date</string>
+    <string name="to_date">To Date</string>
+    <string name="export">Export</string>
+    <string name="export_pdf">Export PDF</string>
+    <string name="export_csv">Export CSV</string>
 
     <string-array name="categories_array">
         <item>Books</item>
@@ -80,5 +104,73 @@
         <item>Expire Soon</item>
     </string-array>
 
+    <!-- For all of dylan files -->
+    <string name="add_child">Add Child</string>
+    <string name="remove_child">Remove Child</string>
+    <string name="add_a_child">Add a Child</string>
+    <string name="child_name">Child Name</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="month">Month</string>
+    <string name="day">Day</string>
+    <string name="year">Year</string>
+    <string name="additional_notes">Additional Notes</string>
+    <string name="account_type">Account Type</string>
+    <string name="child_profile">Child Profile</string>
+    <string name="child_account">Child Account</string>
+    <string name="username">Username</string>
+    <string name="password_warning">Password (Case Sensitive!)</string>
+    <string name="reconfirm_password">Reconfirm Password</string>
+    <string name="create_account">Create Account</string>
+
+    <string name="remove_a_child">Remove a Child</string>
+    <string name="child_selected">Child Selected</string>
+    <string name="confirm_removal">Confirm Removal</string>
+    <string name="manage_providers">Manage Providers</string>
+    <string name="provider_name">Provider Name</string>
+    <string name="remaining_time">Time Left</string>
+
+    <!-- For activity_manage_providers -->
+    <string name="manage_invite_codes">Manage Invite Codes</string>
+
+    <!-- For fragment_provider -->
+    <string name="manage_permissions">Manage Permissions</string>
+
+    <!-- For fragment_manage_invite_codes -->
+    <string name="generate_invite">Generate New Invite Code</string>
+
+    <!-- For fragment_invite_code -->
+    <string name="invite_link">Invite Link/Code</string>
+    <string name="copy">Copy to Clipboard</string>
+    <string name="revoke">Revoke</string>
+
+    <!-- For fragment_manage_schedule -->
+    <string name="manage_medicine_schedule">Manage Medicine Schedule</string>
+    <string name="manage_schedule">Manage Schedule</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+
+    <!-- For activity_provider_permissions.xml -->
+    <string name="provider_permissions">Provider Permissions</string>
+    <string name="rescue_logs">Rescue logs</string>
+    <string name="controller_adherence">Controller adherence</string>
+    <string name="symptoms">Symptoms</string>
+    <string name="triggers">Triggers</string>
+    <string name="peak_flow">Peak-flow (PEF)</string>
+    <string name="triage_incidents">Triage incidents</string>
+    <string name="summary_charts">Summary charts</string>
+
+    <!-- For fragment_provider_permissions -->
+    <string name="delete_provider">Delete Provider</string>
+
+    <!-- General buttons -->
+    <string name="next">Next</string>
+    <string name="save">Save</string>
+    <string name="returnK">Return</string>
+    <string name="back">Back</string>
 
 </resources>
