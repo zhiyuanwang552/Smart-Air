@@ -45,13 +45,12 @@ public class PbEntryFragment extends Fragment {
         returnButton = view.findViewById(R.id.returnButton);
         pbEntryButton = view.findViewById(R.id.pbEntryButton);
 
-        String pbEntered = pbEntry.getText().toString().trim();
-
         db = FirebaseDatabase.getInstance("https://smart-air-8a892-default-rtdb.firebaseio.com/");
 
         pbEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String pbEntered = pbEntry.getText().toString().trim();
                 String childId = null;
                 if (getArguments() != null) {
                     childId = getArguments().getString("childId");
