@@ -16,7 +16,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class TechHelpFragment extends Fragment {
 
-    // 1. 将成员变量改为 VideoView
     private VideoView vvTechHelp;
 
     @Nullable

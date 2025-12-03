@@ -232,7 +232,5 @@ public class UserAchievementFragment extends Fragment
         }
         else ivHighTech.setAlpha(0.3f);
         }
-
-
     }
 
