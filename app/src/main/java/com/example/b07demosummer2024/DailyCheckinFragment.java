@@ -202,9 +202,9 @@ public class DailyCheckinFragment extends Fragment {
         if (selectedTechniquesId != -1) {
             assert getView() != null;
             RadioButton selectedRadioButton = getView().findViewById(selectedTechniquesId);
-            checkInData.put("techniques_used", selectedRadioButton.getText().toString());
+            checkInData.put("techniquesUsed", selectedRadioButton.getText().toString());
         } else {
-            checkInData.put("techniques_used", "Not specified");
+            checkInData.put("techniquesUsed", "Not specified");
         }
 
         // Notes
