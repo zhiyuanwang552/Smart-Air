@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
             loadFragmentWithBundle(itemId, bundle);
         }
-        else if ("children".equals(userType) || "child_profile".equals(userType))
+        else if ("children".equals(userType))
         {
             DatabaseReference dbRef= db.getReference("children").child(UID);
             dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -92,6 +92,33 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
+        }
+        else if ("child_profile".equals(userType))
+        {
+            String childProfileID = myPrefs.getString("curr_uid", null);
+            DatabaseReference dbRef= db.getReference("children").child(childProfileID);
+            dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                {
+                    if (dataSnapshot.exists()) {
+                        String userName = dataSnapshot.child("childName").getValue(String.class);
+                        String parentUserId = dataSnapshot.child("parentId").getValue(String.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userType", "children");
+                        bundle.putString("userId", childProfileID);
+                        bundle.putString("userName", userName);
+                        bundle.putString("parentUserId", parentUserId);
+                        loadFragmentWithBundle(itemId, bundle);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
         }
     }
 

@@ -136,8 +136,7 @@ public class LogRecyclerViewFragment extends Fragment implements DeleteListener
             {
                 if (selectedUser.equals("All") || (currentLog.getUserName().equals(selectedUser)))
                 {
-                    if (getArguments().getString("userType").equals("parents") ||
-                            getArguments().getString("userID").equals(currentLog.getUserId())) filteredList.add(currentLog);
+                    filteredList.add(currentLog);
                 }
             }
         }
