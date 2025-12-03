@@ -112,7 +112,6 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- NEW BUTTON: Daily Check-In -->
     <Button
         android:id="@+id/buttonDailyCheckIn"
         android:layout_width="120dp"
@@ -128,7 +127,6 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp" />
 
-    <!-- NEW BUTTON: Check-In History -->
     <Button
         android:id="@+id/buttonCheckInHistory"
         android:layout_width="120dp"
