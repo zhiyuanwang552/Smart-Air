@@ -38,12 +38,13 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences myPrefs = getSharedPreferences("local_info", MODE_PRIVATE);
         String userType = myPrefs.getString("loginType", null);
+        String curr_uid = myPrefs.getString("curr_uid", null);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull android.view.MenuItem item) {
-                handleNavigation(item.getItemId(), auth.getCurrentUser().getUid());
+                handleNavigation(item.getItemId(), curr_uid);
                 return true;
             }
         });
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
             loadFragmentWithBundle(itemId, bundle);
         }
-        else if ("children".equals(userType))
+        else if ("children".equals(userType) || "child_profile".equals(userType))
         {
             DatabaseReference dbRef= db.getReference("children").child(UID);
             dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                         String parentUserId = dataSnapshot.child("parentId").getValue(String.class);
                         String userName = dataSnapshot.child("childName").getValue(String.class);
                         Bundle bundle = new Bundle();
-                        bundle.putString("userType", userType);
+                        bundle.putString("userType", "children");
                         bundle.putString("userId", UID);
                         bundle.putString("userName", userName);
                         bundle.putString("parentUserId", parentUserId);
