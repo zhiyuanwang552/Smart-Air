@@ -78,7 +78,7 @@ public class PefEntryFragment extends Fragment {
     private void logPefEntry(String pefEntered) {
         String childId;
         SharedPreferences prefs = requireContext().getSharedPreferences("local_info", Context.MODE_PRIVATE);
-        if (Objects.equals(prefs.getString("loginType", null), "childProfile")){
+        if (Objects.equals(prefs.getString("loginType", null), "child_profile")){
             childId = prefs.getString("curr_uid", null);
         } else {
             FirebaseUser user = myAuth.getCurrentUser();
