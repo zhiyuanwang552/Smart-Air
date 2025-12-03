@@ -9,6 +9,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -114,7 +117,36 @@ public class DailyCheckinFragment extends Fragment {
         });
 
         // Save button click listener
-        buttonSaveCheckIn.setOnClickListener(v -> saveCheckInData());
+        buttonSaveCheckIn.setOnClickListener(v -> validateBeforeSave());
+    }
+
+    private void validateBeforeSave() {
+
+        // Author exist
+        if (radioGroupAuthor.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(getContext(), "Please select who is completing this check-in.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // One symptom must be selected
+        boolean anySymptomSelected =
+                checkBoxNightWaking.isChecked() ||
+                        checkBoxActivityLimits.isChecked() ||
+                        checkBoxCoughWheeze.isChecked() ||
+                        checkBoxNone.isChecked();
+
+        if (!anySymptomSelected) {
+            Toast.makeText(getContext(), "Please select at least one symptom or choose None.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Techniques Used MUST be either Yes or No
+        if (radioGroupTechniquesUsed.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(getContext(), "Please select whether you used good inhaler technique today.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        saveCheckInData();
     }
 
     private void saveCheckInData() {
@@ -217,8 +249,39 @@ public class DailyCheckinFragment extends Fragment {
         String checkInId = databaseReference.push().getKey();
         if (checkInId != null) {
             databaseReference.child(checkInId).setValue(checkInData)
-                    .addOnSuccessListener(aVoid -> Toast.makeText(getContext(), "Check-in saved successfully!", Toast.LENGTH_SHORT).show())
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(getContext(), "Check-in saved successfully!", Toast.LENGTH_SHORT).show();
+                        // Read userType from SharedPreferences
+                        SharedPreferences prefs = requireContext().getSharedPreferences("local_info", Context.MODE_PRIVATE);
+                        String userType = prefs.getString("loginType", null);
+
+                        // Get correct fragment
+                        Fragment profileFragment = findProfileFragment(userType);
+
+                        // Load
+                        if (profileFragment != null && getActivity() != null) {
+                            getActivity().getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.fragment_container, profileFragment)
+                                    .commit();
+                        }
+                    })
                     .addOnFailureListener(e -> Toast.makeText(getContext(), "Failed to save check-in.", Toast.LENGTH_SHORT).show());
         }
     }
+
+    private Fragment findProfileFragment(String userType) {
+        switch (userType) {
+            case "child_profile":
+            case "children":
+                return new ChildProfilePageFragment();
+            case "parents":
+                return new ParentProfilePageFragment();
+            case "providers":
+                return new ProviderProfilePageFragment();
+            default:
+                return null;
+        }
+    }
+
 }
