@@ -26,6 +26,13 @@
             android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         <TextView
+            android:id="@+id/textViewTechniquesUsed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
+
+        <TextView
             android:id="@+id/textViewSymptoms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
